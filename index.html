@@ -1,8 +1,9 @@
-html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HAMID CYBER TECH </title>
+  <title>HAMID CYBER TECH</title>
   <style>
     body {
       margin: 0;
@@ -28,7 +29,7 @@ html lang="en">
       animation: fadeIn 1s ease-in-out;
     }
 
-.top-title {
+    .top-title {
       color: #0f0;
       text-shadow: 0 0 10px #0f0;
       font-size: 16px;
@@ -92,6 +93,7 @@ html lang="en">
       padding: 15px;
       border-radius: 10px;
       text-align: left;
+      white-space: pre-line;
     }
 
     @keyframes fadeIn {
@@ -110,62 +112,56 @@ html lang="en">
     <div id="responseBox"></div>
 
     <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
-    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze ', '_blank')">📢 Join WhatsApp GROUP</button>
+    <button class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze', '_blank')">📢 Join WhatsApp GROUP</button>
   </div>
 
   <script>
-  async function fetchData() {
-    const number = document.getElementById("number").value.trim();
-    const responseBox = document.getElementById("responseBox");
-    const shareButton = document.getElementById("shareButton");
+    async function fetchData() {
+      const number = document.getElementById("number").value.trim();
+      const responseBox = document.getElementById("responseBox");
+      const shareButton = document.getElementById("shareButton");
 
-    if (!number) {
-      alert("Please enter a phone number.");
-      return;
-    }
-
-    // Use AllOrigins to bypass CORS
-    const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
-
-    try {
-      const res = await fetch(proxyURL);
-      const json = await res.json();
-
-      // Parse the original JSON inside the contents
-      const apiData = JSON.parse(json.contents);
-
-      // Optional Debug:
-      console.log("API Response:", apiData);
-
-      if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
-        const user = apiData.data[0];
-        const content = `
-📞 Mobile: ${user.Mobile || "Not found"}
-👤 Name: ${user.Name || "Not found"}
-🆔 CNIC: ${user.CNIC || "Not found"}
-📍 Address: ${user.Address || "Not found"}
-📶 Operator: ${user.Operator || "Not found"}
-        `;
-        responseBox.innerText = content;
-        responseBox.style.display = "block";
-        shareButton.style.display = "inline-block";
-      } else {
-        responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">Data Not Found</p>`;
-        responseBox.style.display = "block";
-        shareButton.style.display = "none";
-      }
-    } catch (e) {
-      console.error("Error:", e);
-      responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">Error fetching data. Please try again later.</p>`;
+      responseBox.innerHTML = "Loading... ⏳";
       responseBox.style.display = "block";
       shareButton.style.display = "none";
-    }
-  }
 
-  function shareWhatsApp() {
-    const responseBox = document.getElementById("responseBox");
-    const text = encodeURIComponent(responseBox.innerText);
-    const url = `https://wa.me/?text=${text}`;
-    window.open(url, '_blank');
-  }
-</script>
+      if (!/^\d{10,15}$/.test(number)) {
+        responseBox.innerHTML = `<span style="color: orange;">⚠️ Invalid number. Please enter 10 to 15 digits.</span>`;
+        return;
+      }
+
+      const apiURL = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
+
+      try {
+        const response = await fetch(apiURL);
+        const data = await response.json();
+        const parsed = JSON.parse(data.contents);
+
+        if (parsed.status === "success" && Array.isArray(parsed.data) && parsed.data.length > 0) {
+          const user = parsed.data[0];
+          const output = `
+📞 Mobile: ${user.Mobile || "N/A"}
+👤 Name: ${user.Name || "N/A"}
+🆔 CNIC: ${user.CNIC || "N/A"}
+📍 Address: ${user.Address || "N/A"}
+📶 Operator: ${user.Operator || "N/A"}
+          `;
+          responseBox.innerText = output;
+          shareButton.style.display = "inline-block";
+        } else {
+          responseBox.innerHTML = `<span style="color: yellow;">⚠️ No data found.</span>`;
+        }
+      } catch (err) {
+        console.error(err);
+        responseBox.innerHTML = `<span style="color: red;">❌ Error fetching data. Please try again later.</span>`;
+      }
+    }
+
+    function shareWhatsApp() {
+      const responseText = document.getElementById("responseBox").innerText;
+      const url = `https://wa.me/?text=${encodeURIComponent(responseText)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
