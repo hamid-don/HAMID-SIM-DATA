@@ -120,49 +120,22 @@
       const responseBox = document.getElementById("responseBox");
       const shareButton = document.getElementById("shareButton");
 
-      if (!/^[0-9]{10,15}$/.test(number)) {
+      if (!/^\d{10,15}$/.test(number)) {
         alert("Please enter a valid phone number (10 to 15 digits).");
         return;
       }
 
-      const url = `https://corsproxy.io/?https://shadowtools.site/shadowapi/api.php?number=${number}`;
+      const proxyURL = `https://api.codetabs.com/v1/proxy/?quest=https://shadowtools.site/shadowapi/api.php?number=${number}`;
 
       try {
-        const res = await fetch(url);
+        const res = await fetch(proxyURL);
         const data = await res.json();
 
-        console.log(data); // for debugging in console
+        console.log(data); // For debug
 
         if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
           const user = data.data[0];
           const content = `
 📞 Mobile: ${user.Mobile || "Not found"}
 👤 Name: ${user.Name || "Not found"}
-🆔 CNIC: ${user.CNIC || "Not found"}
-📍 Address: ${user.Address || "Not found"}
-📶 Operator: ${user.Operator || "Not found"}
-          `;
-          responseBox.innerText = content;
-          responseBox.style.display = "block";
-          shareButton.style.display = "inline-block";
-        } else {
-          responseBox.innerHTML = '<p style="color: yellow; font-size: 18px; font-weight: bold;">⚠️ Data Not Found</p>';
-          responseBox.style.display = "block";
-          shareButton.style.display = "none";
-        }
-      } catch (e) {
-        console.error("Error fetching data:", e);
-        responseBox.innerHTML = '<p style="color: red; font-size: 18px; font-weight: bold;">❌ Error fetching data. Please try again later.</p>';
-        responseBox.style.display = "block";
-        shareButton.style.display = "none";
-      }
-    }
-
-    function shareWhatsApp() {
-      const data = document.getElementById("responseBox").innerText;
-      const link = `https://wa.me/?text=${encodeURIComponent("📞 SIM Info:\\n" + data)}`;
-      window.open(link, '_blank');
-    }
-  </script>
-</body>
-</html>
+🆔
