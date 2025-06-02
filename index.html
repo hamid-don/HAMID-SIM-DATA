@@ -1,38 +1,117 @@
-<input type="text" id="number" placeholder="Enter Phone Number" />
-<button onclick="fetchData()">Get Details</button>
-<div id="responseBox"></div>
-
-<script>
-async function fetchData() {
-  const number = document.getElementById("number").value.trim();
-  const responseBox = document.getElementById("responseBox");
-
-  if (!/^\d{10,15}$/.test(number)) {
-    responseBox.innerText = "Please enter a valid number (10-15 digits).";
-    return;
-  }
-
-  responseBox.innerText = "Loading...";
-
-  try {
-    const res = await fetch(`proxy.php?number=${number}`);
-    const data = await res.json();
-
-    if (data.status === "success" && data.data.length > 0) {
-      const user = data.data[0];
-      responseBox.innerText = `
-Mobile: ${user.Mobile || "Not found"}
-Name: ${user.Name || "Not found"}
-CNIC: ${user.CNIC || "Not found"}
-Address: ${user.Address || "Not found"}
-Operator: ${user.Operator || "Not found"}
-      `;
-    } else {
-      responseBox.innerText = "Data not found.";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HAMID CYBER TECH | VIP Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #000000, #1a0000);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-  } catch (error) {
-    responseBox.innerText = "Error fetching data.";
-    console.error(error);
-  }
-}
-</script>
+
+    .container {
+      background: #111;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px red;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    h1 {
+      color: red;
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input {
+      background: #222;
+      color: #fff;
+      box-shadow: inset 0 0 8px red;
+    }
+
+    button {
+      background: linear-gradient(to right, #ff0000, #990000);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #990000, #660000);
+    }
+
+    #responseBox {
+      margin-top: 20px;
+      background: #000;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #0f0;
+      white-space: pre-line;
+      text-align: left;
+      font-family: monospace;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 SIM Info Dashboard</h1>
+    <input type="text" id="number" placeholder="Enter Phone Number" />
+    <button onclick="fetchData()">Get Details</button>
+    <div id="responseBox"></div>
+  </div>
+
+  <script>
+    async function fetchData() {
+      const number = document.getElementById("number").value.trim();
+      const responseBox = document.getElementById("responseBox");
+
+      if (!/^\d{10,15}$/.test(number)) {
+        responseBox.innerText = "⚠️ Please enter a valid number (10–15 digits).";
+        return;
+      }
+
+      responseBox.innerText = "⏳ Loading...";
+
+      try {
+        const res = await fetch(`proxy.php?number=${number}`);
+        const data = await res.json();
+
+        if (data.status === "success" && data.data.length > 0) {
+          const user = data.data[0];
+          responseBox.innerText = `
+📞 Mobile: ${user.Mobile || "Not found"}
+👤 Name: ${user.Name || "Not found"}
+🆔 CNIC: ${user.CNIC || "Not found"}
+📍 Address: ${user.Address || "Not found"}
+📶 Operator: ${user.Operator || "Not found"}
+          `;
+        } else {
+          responseBox.innerText = "⚠️ Data not found.";
+        }
+      } catch (error) {
+        responseBox.innerText = "❌ Error fetching data. Please try again later.";
+        console.error("Error:", error);
+      }
+    }
+  </script>
+</body>
+</html>
