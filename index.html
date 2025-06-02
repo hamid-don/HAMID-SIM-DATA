@@ -2,140 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HAMID CYBER TECH</title>
   <style>
-    body {
+    /* Reset some default styling */
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background: #000;
-      font-family: Arial, sans-serif;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      animation: fadeIn 1s ease-in-out;
+      min-height: 100vh;
+      padding: 20px;
     }
 
-    .box {
-      background: #111;
-      border: 2px solid red;
-      box-shadow: 0 0 25px red;
-      padding: 30px 20px;
-      border-radius: 15px;
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      padding: 30px 25px;
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
     }
 
-    .top-title {
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-      font-size: 16px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      letter-spacing: 2px;
+    h2 {
+      color: #222;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
     }
 
-    .box h2 {
-      color: red;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .box input {
+    input[type="text"] {
       width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
+      padding: 14px 16px;
       margin-bottom: 20px;
+      border: 1.8px solid #cbd5e1;
+      border-radius: 8px;
       font-size: 16px;
-      background: #333;
-      color: white;
-      box-shadow: inset 0 0 5px red;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+      outline-color: transparent;
+    }
+    input[type="text"]:focus {
+      border-color: #3b82f6;
+      outline-color: #3b82f6;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
     }
 
-    .box button {
+    button {
       width: 100%;
-      padding: 12px;
+      padding: 14px 16px;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
       border: none;
       border-radius: 8px;
-      margin: 10px 0;
-      font-size: 16px;
-      font-weight: bold;
       cursor: pointer;
-      color: white;
-      background: linear-gradient(90deg, #c00000, #ff0000);
-      box-shadow: 0 0 15px red;
-      transition: 0.3s;
+      transition: background 0.3s ease;
+      user-select: none;
     }
-
-    .box button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(90deg, #ff0000, #c00000);
+    button:hover {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
     }
-
-    .whatsapp-btn {
-      background: linear-gradient(90deg, #25D366, #128C7E);
-      box-shadow: 0 0 15px #25D366;
-      color: white;
+    button:disabled {
+      background: #93c5fd;
+      cursor: not-allowed;
     }
 
     #responseBox {
-      color: white;
-      margin-top: 20px;
-      font-size: 16px;
-      display: none;
-      animation: fadeIn 1s ease-in-out;
-      background: #222;
-      border: 1px solid #444;
-      padding: 15px;
-      border-radius: 10px;
+      margin-top: 25px;
       text-align: left;
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+      white-space: pre-line;
+      color: #1e293b; /* Darker text */
+      font-weight: 500;
+      font-size: 15px;
+      min-height: 80px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <div class="top-title">HAMID CYBER TECH</div>
+  <div class="container">
     <h2>🔍 Search SIM Details</h2>
-    <input type="text" id="number" placeholder="Enter phone number" required />
-    <button onclick="fetchData()">🔎 Get Details</button>
-
+    <input type="text" id="number" placeholder="Enter Phone Number" />
+    <button onclick="fetchData()">Get Details</button>
     <div id="responseBox"></div>
-
-    <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
-    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze', '_blank')">📢 Join WhatsApp GROUP</button>
   </div>
 
   <script>
     async function fetchData() {
-      const number = document.getElementById("number").value.trim();
+      const numberInput = document.getElementById("number");
       const responseBox = document.getElementById("responseBox");
-      const shareButton = document.getElementById("shareButton");
+      const button = document.querySelector("button");
+      const number = numberInput.value.trim();
 
+      responseBox.innerText = "";
       if (!/^\d{10,15}$/.test(number)) {
-        alert("Please enter a valid phone number (10 to 15 digits).");
+        responseBox.innerText = "⚠️ Please enter a valid number (10-15 digits).";
         return;
       }
 
-      const proxyURL = `https://api.codetabs.com/v1/proxy/?quest=https://shadowtools.site/shadowapi/api.php?number=${number}`;
+      button.disabled = true;
+      responseBox.innerText = "⏳ Loading...";
 
       try {
+        const apiURL = `https://shadowtools.site/shadowapi/api.php?number=${number}`;
+        const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
         const res = await fetch(proxyURL);
-        const data = await res.json();
-
-        console.log(data); // For debug
+        const result = await res.json();
+        const data = JSON.parse(result.contents);
 
         if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
           const user = data.data[0];
-          const content = `
+          responseBox.innerText = `
 📞 Mobile: ${user.Mobile || "Not found"}
 👤 Name: ${user.Name || "Not found"}
-🆔
+🆔 CNIC: ${user.CNIC || "Not found"}
+📍 Address: ${user.Address || "Not found"}
+📶 Operator: ${user.Operator || "Not found"}
+          `;
+        } else {
+          responseBox.innerText = "⚠️ Data not found.";
+        }
+      } catch (error) {
+        responseBox.innerText = "❌ Error fetching data. Try again later.";
+        console.error(error);
+      } finally {
+        button.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
