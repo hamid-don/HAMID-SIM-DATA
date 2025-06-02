@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HAMID CYBER TECH</title>
+  <title>HAMID CYBER TECH </title>
   <style>
     body {
       margin: 0;
@@ -29,7 +28,7 @@
       animation: fadeIn 1s ease-in-out;
     }
 
-    .top-title {
+.top-title {
       color: #0f0;
       text-shadow: 0 0 10px #0f0;
       font-size: 16px;
@@ -111,57 +110,48 @@
     <div id="responseBox"></div>
 
     <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
-    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze', '_blank')">📢 Join WhatsApp GROUP</button>
+    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze ', '_blank')">📢 Join WhatsApp GROUP</button>
   </div>
 
   <script>
     async function fetchData() {
-      const number = document.getElementById("number").value.trim();
-      const responseBox = document.getElementById("responseBox");
-      const shareButton = document.getElementById("shareButton");
+  const number = document.getElementById("number").value.trim();
+  const responseBox = document.getElementById("responseBox");
+  const shareButton = document.getElementById("shareButton");
 
-      if (!/^\d{10,15}$/.test(number)) {
-        alert("Please enter a valid phone number (10 to 15 digits).");
-        return;
-      }
+  if (!/^\d{10,15}$/.test(number)) {
+    alert("Please enter a valid phone number (10 to 15 digits).");
+    return;
+  }
 
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
 
-      try {
-        const res = await fetch(url);
-        const apiData = await res.json();
+  try {
+    const res = await fetch(proxyUrl);
+    const json = await res.json();
+    const apiData = JSON.parse(json.contents);
 
-        if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
-          const user = apiData.data[0];
-          const content = `
+    if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
+      const user = apiData.data[0];
+      const content = `
 📞 Mobile: ${user.Mobile || "Not found"}
 👤 Name: ${user.Name || "Not found"}
 🆔 CNIC: ${user.CNIC || "Not found"}
 📍 Address: ${user.Address || "Not found"}
 📶 Operator: ${user.Operator || "Not found"}
-          `;
-          responseBox.innerText = content;
-          responseBox.style.display = "block";
-          shareButton.style.display = "inline-block";
-        } else {
-          responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">Data Not Found</p>`;
-          responseBox.style.display = "block";
-          shareButton.style.display = "none";
-        }
-      } catch (e) {
-        console.error("Fetch error:", e);
-        responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">Error fetching data. Please try again later.</p>`;
-        responseBox.style.display = "block";
-        shareButton.style.display = "none";
-      }
+      `;
+      responseBox.innerText = content;
+      responseBox.style.display = "block";
+      shareButton.style.display = "inline-block";
+    } else {
+      responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">Data Not Found</p>`;
+      responseBox.style.display = "block";
+      shareButton.style.display = "none";
     }
-
-    function shareWhatsApp() {
-      const responseBox = document.getElementById("responseBox");
-      const text = encodeURIComponent(responseBox.innerText);
-      const url = `https://wa.me/?text=${text}`;
-      window.open(url, '_blank');
-    }
-  </script>
-</body>
-</html>
+  } catch (e) {
+    console.error("Error fetching data:", e);
+    responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">Error fetching data. Please try again later.</p>`;
+    responseBox.style.display = "block";
+    shareButton.style.display = "none";
+  }
+}
