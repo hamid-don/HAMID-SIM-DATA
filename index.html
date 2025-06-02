@@ -125,7 +125,7 @@
         return;
       }
 
-      const url = `https://shadowtools.site/shadowapi/api.php?number=${number}`;
+      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
 
       try {
         const res = await fetch(url);
