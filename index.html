@@ -1,130 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HAMID CYBER TECH</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .container {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 420px;
-      padding: 30px 25px;
-      text-align: center;
-    }
-    h2 {
-      color: #222;
-      margin-bottom: 25px;
-      font-weight: 700;
-      font-size: 1.8rem;
-      letter-spacing: 0.05em;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 20px;
-      border: 1.8px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: border-color 0.3s ease;
-      outline-offset: 2px;
-      outline-color: transparent;
-    }
-    input[type="text"]:focus {
-      border-color: #3b82f6;
-      outline-color: #3b82f6;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
-    }
-    button {
-      width: 100%;
-      padding: 14px 16px;
-      background: linear-gradient(90deg, #3b82f6, #2563eb);
-      color: #fff;
-      font-size: 18px;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      user-select: none;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #2563eb, #1d4ed8);
-    }
-    button:disabled {
-      background: #93c5fd;
-      cursor: not-allowed;
-    }
-    #responseBox {
-      margin-top: 25px;
-      text-align: left;
-      white-space: pre-line;
-      color: #1e293b;
-      font-weight: 500;
-      font-size: 15px;
-      min-height: 80px;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>🔍 Search SIM Details</h2>
-    <input type="text" id="number" placeholder="Enter Phone Number" />
-    <button onclick="fetchData()">Get Details</button>
-    <div id="responseBox"></div>
-  </div>
+<input type="text" id="number" placeholder="Enter Phone Number" />
+<button onclick="fetchData()">Get Details</button>
+<div id="responseBox"></div>
 
-  <script>
-    async function fetchData() {
-  const numberInput = document.getElementById("number");
+<script>
+async function fetchData() {
+  const number = document.getElementById("number").value.trim();
   const responseBox = document.getElementById("responseBox");
-  const button = document.querySelector("button");
-  const number = numberInput.value.trim();
 
-  responseBox.innerText = "";
   if (!/^\d{10,15}$/.test(number)) {
-    responseBox.innerText = "⚠️ Please enter a valid number (10-15 digits).";
+    responseBox.innerText = "Please enter a valid number (10-15 digits).";
     return;
   }
 
-  button.disabled = true;
-  responseBox.innerText = "⏳ Loading...";
+  responseBox.innerText = "Loading...";
 
   try {
     const res = await fetch(`proxy.php?number=${number}`);
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     const data = await res.json();
 
-    if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
+    if (data.status === "success" && data.data.length > 0) {
       const user = data.data[0];
       responseBox.innerText = `
-📞 Mobile: ${user.Mobile || "Not found"}
-👤 Name: ${user.Name || "Not found"}
-🆔 CNIC: ${user.CNIC || "Not found"}
-📍 Address: ${user.Address || "Not found"}
-📶 Operator: ${user.Operator || "Not found"}
+Mobile: ${user.Mobile || "Not found"}
+Name: ${user.Name || "Not found"}
+CNIC: ${user.CNIC || "Not found"}
+Address: ${user.Address || "Not found"}
+Operator: ${user.Operator || "Not found"}
       `;
     } else {
-      responseBox.innerText = "⚠️ Data not found.";
+      responseBox.innerText = "Data not found.";
     }
   } catch (error) {
-    responseBox.innerText = "❌ Error fetching data. Please try again later.";
-    console.error("Fetch error:", error);
-  } finally {
-    button.disabled = false;
+    responseBox.innerText = "Error fetching data.";
+    console.error(error);
   }
 }
+</script>
