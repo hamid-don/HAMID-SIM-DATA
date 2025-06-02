@@ -93,7 +93,12 @@
       padding: 15px;
       border-radius: 10px;
       text-align: left;
-      white-space: pre-line;
+    }
+
+    #loader {
+      color: yellow;
+      margin-top: 10px;
+      display: none;
     }
 
     @keyframes fadeIn {
@@ -109,10 +114,12 @@
     <input type="text" id="number" placeholder="Enter phone number" required />
     <button onclick="fetchData()">🔎 Get Details</button>
 
+    <div id="loader">⏳ Please wait... Fetching data...</div>
+
     <div id="responseBox"></div>
 
     <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
-    <button class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze', '_blank')">📢 Join WhatsApp GROUP</button>
+    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze', '_blank')">📢 Join WhatsApp GROUP</button>
   </div>
 
   <script>
@@ -120,47 +127,60 @@
       const number = document.getElementById("number").value.trim();
       const responseBox = document.getElementById("responseBox");
       const shareButton = document.getElementById("shareButton");
+      const loader = document.getElementById("loader");
 
-      responseBox.innerHTML = "Loading... ⏳";
-      responseBox.style.display = "block";
+      responseBox.style.display = "none";
       shareButton.style.display = "none";
+      loader.style.display = "block";
 
       if (!/^\d{10,15}$/.test(number)) {
-        responseBox.innerHTML = `<span style="color: orange;">⚠️ Invalid number. Please enter 10 to 15 digits.</span>`;
+        alert("Please enter a valid phone number (10 to 15 digits).");
+        loader.style.display = "none";
         return;
       }
 
-      const apiURL = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
+      const originalUrl = `https://shadowtools.site/shadowapi/api.php?number=${number}`;
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(originalUrl)}`;
 
       try {
-        const response = await fetch(apiURL);
-        const data = await response.json();
-        const parsed = JSON.parse(data.contents);
+        const res = await fetch(proxyUrl);
+        const json = await res.json();
 
-        if (parsed.status === "success" && Array.isArray(parsed.data) && parsed.data.length > 0) {
-          const user = parsed.data[0];
-          const output = `
-📞 Mobile: ${user.Mobile || "N/A"}
-👤 Name: ${user.Name || "N/A"}
-🆔 CNIC: ${user.CNIC || "N/A"}
-📍 Address: ${user.Address || "N/A"}
-📶 Operator: ${user.Operator || "N/A"}
+        if (!json || !json.contents) {
+          throw new Error("Empty response");
+        }
+
+        const apiData = JSON.parse(json.contents);
+
+        if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
+          const user = apiData.data[0];
+          const content = `
+📞 Mobile: ${user.Mobile || "Not found"}
+👤 Name: ${user.Name || "Not found"}
+🆔 CNIC: ${user.CNIC || "Not found"}
+📍 Address: ${user.Address || "Not found"}
+📶 Operator: ${user.Operator || "Not found"}
           `;
-          responseBox.innerText = output;
+          responseBox.innerText = content;
+          responseBox.style.display = "block";
           shareButton.style.display = "inline-block";
         } else {
-          responseBox.innerHTML = `<span style="color: yellow;">⚠️ No data found.</span>`;
+          responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">⚠️ Data Not Found</p>`;
+          responseBox.style.display = "block";
         }
-      } catch (err) {
-        console.error(err);
-        responseBox.innerHTML = `<span style="color: red;">❌ Error fetching data. Please try again later.</span>`;
+      } catch (error) {
+        console.error("Error:", error);
+        responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">❌ Error fetching data. Please try again later.</p>`;
+        responseBox.style.display = "block";
+      } finally {
+        loader.style.display = "none";
       }
     }
 
     function shareWhatsApp() {
-      const responseText = document.getElementById("responseBox").innerText;
-      const url = `https://wa.me/?text=${encodeURIComponent(responseText)}`;
-      window.open(url, '_blank');
+      const data = document.getElementById("responseBox").innerText;
+      const link = `https://wa.me/?text=${encodeURIComponent("📞 SIM Info:\n" + data)}`;
+      window.open(link, '_blank');
     }
   </script>
 </body>
