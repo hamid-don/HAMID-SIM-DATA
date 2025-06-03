@@ -6,55 +6,55 @@
   <title>HAMID CYBER TECH</title>
   <style>
     body {
-      background: linear-gradient(135deg, #000000, #1a1a1a);
+      background: #000;
       color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
+
     .box {
       background: #111;
-      border: 2px solid #ff0055;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 25px #ff0055, 0 0 10px #ff0055 inset;
+      border: 2px solid red;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px red;
       text-align: center;
       width: 90%;
-      max-width: 420px;
+      max-width: 400px;
     }
+
     input, button {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
       border: none;
-      border-radius: 7px;
+      border-radius: 5px;
       font-size: 16px;
-      font-weight: bold;
     }
+
     input {
       background: #222;
       color: #fff;
-      box-shadow: 0 0 10px #ff0055 inset;
+      box-shadow: inset 0 0 5px red;
     }
+
     button {
-      background: linear-gradient(90deg, #ff0055, #ff6600);
+      background: linear-gradient(90deg, red, darkred);
       color: #fff;
       cursor: pointer;
-      transition: transform 0.2s ease-in-out;
     }
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #ff6600;
-    }
+
     #responseBox {
       margin-top: 20px;
       text-align: left;
       white-space: pre-line;
       color: #0f0;
     }
+
     .contact-button {
       background: linear-gradient(90deg, #00ffcc, #00ccff);
       color: black;
@@ -62,11 +62,23 @@
       margin-top: 10px;
       text-decoration: none;
       display: inline-block;
+      padding: 10px;
+      border-radius: 5px;
     }
-    .contact-button:hover {
-      background: linear-gradient(90deg, #00ccff, #00ffcc);
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #00ccff;
+
+    .typing {
+      display: inline-block;
+      font-weight: bold;
+      font-size: 20px;
+      min-height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .typing span {
+      opacity: 0;
+      transition: opacity 0.2s ease-in;
+      padding: 0 2px;
+      font-family: monospace;
     }
   </style>
 </head>
@@ -74,7 +86,8 @@
 
   <!-- Login Form -->
   <div class="box" id="loginBox">
-    <h2>🔐 VIP Login Access</h2>
+    <div class="typing" id="typingText"></div>
+
     <input type="text" id="username" placeholder="Enter Username" />
     <input type="password" id="password" placeholder="Enter Password" />
     <button onclick="login()">Login</button>
@@ -140,6 +153,32 @@
         console.error(error);
       }
     }
+
+    // Typing effect: "This tool is Created by Hamid"
+    const text = "This tool is Created by Hamid";
+    const words = text.split(" ");
+    const colors = ["#ff0000", "#00ffcc", "#ffff00", "#00ff00", "#ff6600", "#00ccff", "#ff00ff"];
+    const container = document.getElementById("typingText");
+
+    words.forEach((word, index) => {
+      const span = document.createElement("span");
+      span.textContent = word + " ";
+      span.style.color = colors[index % colors.length];
+      container.appendChild(span);
+    });
+
+    let i = 0;
+    const spans = container.querySelectorAll("span");
+
+    function revealNext() {
+      if (i < spans.length) {
+        spans[i].style.opacity = 1;
+        i++;
+        setTimeout(revealNext, 400);
+      }
+    }
+
+    revealNext();
   </script>
 </body>
 </html>
