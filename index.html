@@ -1,157 +1,747 @@
-html lang="en">
+<?php
+session_start();
+
+// Check if user is already logged in, if yes, redirect to index.php
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: index.php");
+    exit;
+}
+
+// Check if login form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if username and password are correct
+    if ($_POST["username"] === "Tajammal" && $_POST["password"] === "2580") {
+        // Store session data
+        $_SESSION["loggedin"] = true;
+        
+        // Redirect to admin file
+        header("location: index.html");
+    } else {
+        $login_err = "Invalid username or password";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HAMID CYBER TECH </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="error"><?php if(isset($login_err)) { echo $login_err; } ?></div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    
+    
+    <h4 style="text-align: center;"><strong>Developed By : <a href="https://whatsapp.com/channel/0029VaVFGy5ISTkS0xRQNW0l" target="_blank">Tajammal Mods </a></strong>@TajammalMods</h4>
+    
+    
+    
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="title" content="Hamid Tools">
+  <meta name="description" content="Hamid Tool Is A premium Tool TO Get Sim Owner Details. Trace any phone Number For Free.">
+  <meta name="keywords" content="Jazz Fresh data,pak sim owner details , Sim owner details ,live tracker, Pak sim ga, db center, All sims data free , Hamid mods, Hamid tools, Hamid mods whatsapp">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Hamid Mods">
+  <title>Hamid Tools</title>
+  <link rel="icon" href="https://tajammaltools.top/logo.jpeg">
+  <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
       background: #000;
-      font-family: Arial, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 20px 20px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      border-bottom: 3px solid #00ffcc;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+      z-index: 1000;
+    }
+
+    .profile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(45deg, #00ffcc, #ff00cc);
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid #00ffcc;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+    }
+
+    .username {
+      color: #00ffcc;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0, 255, 204, 0.8);
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      padding: 10px 0;
+      display: none;
+      z-index: 1001;
+    }
+
+    .profile:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 10px 20px;
+      color: #333;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .dropdown-item.username-display {
+      color: #333;
+      font-weight: bold;
+      border-bottom: 1px solid #eee;
+      pointer-events: none;
+    }
+
+    .dropdown-item.join-channel {
+      color: #666;
+    }
+
+    .dropdown-item.sign-out {
+      color: #ff0000;
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown-item.sign-out::before {
+      content: "←";
+      margin-right: 5px;
+      font-size: 1.2rem;
+    }
+
+    .dropdown-item:hover {
+      background: #f0f0f0;
+    }
+
+    .channel-link-btn {
+      background: #1e90ff;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.4);
+    }
+
+    .channel-link-btn:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
+      transform: scale(1.05);
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+      background: rgba(0, 0, 0, 0.85);
+      border: 3px solid #00ffcc;
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 0 40px rgba(0, 255, 204, 0.6);
+      text-align: center;
+      max-width: 800px;
+      width: 100%;
+      animation: fadeIn 1.5s ease-in-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-container h1 {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00ffcc, #ff00cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
+      animation: glowText 2s infinite alternate;
+    }
+
+    .dashboard-container p {
+      font-size: 1.2rem;
+      color: #cccccc;
+      margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    /* Notification Container */
+    .notification-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      margin-bottom: 30px;
+      z-index: 1;
+    }
+
+    .notification-box {
+      background: rgba(0, 0, 0, 0.85);
+      border: 4px solid #00ffcc;
+      border-radius: 15px;
+      padding: 15px 25px;
+      color: #cccccc;
+      font-size: 1.3rem;
+      line-height: 1.3;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+      transition: all 0.4s ease;
+      animation: fadeIn 1.5s ease-in-out;
+      text-align: center;
+    }
+
+    .notification-box:hover {
+      box-shadow: 0 0 25px #00ffcc, 0 0 60px #00ffcc;
+      transform: scale(1.03);
+    }
+
+    .notification-box span {
+      color: #ff0000;
+      font-weight: bold;
+    }
+
+    /* Login Form */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .login-form input {
+      padding: 15px 25px;
+      background: #111;
+      border: 3px solid #00ffcc;
+      color: #00ffcc;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 12px;
+      width: 100%;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+      animation: slideIn 0.8s forwards;
+      opacity: 0;
+    }
+
+    .login-form input:nth-child(1) { animation-delay: 0.3s; }
+    .login-form input:nth-child(2) { animation-delay: 0.4s; }
+
+    .login-form input:hover,
+    .login-form input:focus {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+      transform: scale(1.1);
+      outline: none;
+    }
+
+    .login-form button,
+    .login-form a {
+      padding: 15px 30px;
+      background: #111;
+      border: 3px solid #00ffcc;
+      color: #00ffcc;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 12px;
+      width: 100%;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+      animation: slideIn 0.8s forwards;
+      opacity: 0;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .login-form button { animation-delay: 0.5s; }
+    .login-form a { animation-delay: 0.6s; }
+
+    .login-form button:hover,
+    .login-form a:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    /* Alert Messages */
+    .alert {
+      background: rgba(0, 0, 0, 0.85);
+      border: 3px solid #00ffcc;
+      border-radius: 12px;
+      padding: 15px 25px;
+      color: #cccccc;
+      font-size: 1.3rem;
+      line-height: 1.3;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .alert-success {
+      color: #00ff00;
+    }
+
+    .alert-danger {
+      color: #ff0000;
+    }
+
+    .alert-info {
+      color: #00ccff;
+    }
+
+    /* Footer Links */
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .footer a {
+      padding: 15px 30px;
+      background: #111;
+      border: 3px solid #00ffcc;
+      color: #00ffcc;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 12px;
+      width: 300px;
+      transition: all 0.4s ease;
+      animation: slideIn 0.8s forwards;
+      opacity: 0;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+      display: inline-block;
+    }
+
+    .footer a:nth-child(1) { animation-delay: 0.6s; }
+
+    .footer a:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    /* Social Media Links */
+    .social-links {
+      margin-top: 20px;
       display: flex;
       justify-content: center;
+      gap: 20px;
+    }
+
+    .social-links a {
+      width: 60px;
+      height: 60px;
+      display: flex;
       align-items: center;
-      height: 100vh;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .box {
+      justify-content: center;
       background: #111;
-      border: 2px solid red;
-      box-shadow: 0 0 25px red;
-      padding: 30px 20px;
-      border-radius: 15px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
+      border: 3px solid #00ffcc;
+      border-radius: 50%;
+      color: #00ffcc;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+      animation: slideIn 0.8s forwards;
+      opacity: 0;
     }
 
-.top-title {
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-      font-size: 16px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      letter-spacing: 2px;
+    .social-links a:nth-child(1) { animation-delay: 0.7s; }
+    .social-links a:nth-child(2) { animation-delay: 0.8s; }
+    .social-links a:nth-child(3) { animation-delay: 0.9s; }
+
+    .social-links a:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+      transform: scale(1.1);
     }
 
-    .box h2 {
-      color: red;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .box input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 20px;
-      font-size: 16px;
-      background: #333;
-      color: white;
-      box-shadow: inset 0 0 5px red;
-    }
-
-    .box button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      color: white;
-      background: linear-gradient(90deg, #c00000, #ff0000);
-      box-shadow: 0 0 15px red;
-      transition: 0.3s;
-    }
-
-    .box button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(90deg, #ff0000, #c00000);
-    }
-
-    .whatsapp-btn {
-      background: linear-gradient(90deg, #25D366, #128C7E);
-      box-shadow: 0 0 15px #25D366;
-      color: white;
-    }
-
-    #responseBox {
-      color: white;
-      margin-top: 20px;
-      font-size: 16px;
-      display: none;
-      animation: fadeIn 1s ease-in-out;
-      background: #222;
-      border: 1px solid #444;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: left;
-    }
-
+    /* Keyframes */
     @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-60px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 15px rgba(0, 255, 204, 0.8); }
+      to { text-shadow: 0 0 30px rgba(255, 0, 204, 0.8); }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 20px;
+        max-width: 90%;
+      }
+
+      .dashboard-container h1 {
+        font-size: 2.5rem;
+      }
+
+      .dashboard-container p {
+        font-size: 1rem;
+      }
+
+      .notification-container {
+        max-width: 90%;
+        gap: 15px;
+        margin: 0 auto;
+      }
+
+      .notification-box {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        border-radius: 12px;
+        line-height: 1.3;
+      }
+
+      .login-form input,
+      .login-form button,
+      .login-form a,
+      .footer a {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        width: 280px;
+      }
+
+      .social-links a {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+      }
+
+      .top-bar {
+        padding: 8px 15px;
+      }
+
+      .avatar {
+        width: 35px;
+        height: 35px;
+      }
+
+      .username {
+        font-size: 1rem;
+      }
+
+      .dropdown {
+        width: 180px;
+      }
+
+      .channel-link-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-container {
+        padding: 15px;
+      }
+
+      .dashboard-container h1 {
+        font-size: 2rem;
+      }
+
+      .dashboard-container p {
+        font-size: 0.9rem;
+      }
+
+      .notification-container {
+        max-width: 95%;
+        gap: 10px;
+        margin: 0 auto;
+      }
+
+      .notification-box {
+        font-size: 1rem;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border-width: 3px;
+        line-height: 1.3;
+      }
+
+      .login-form input,
+      .login-form button,
+      .login-form a,
+      .footer a {
+        font-size: 1rem;
+        padding: 10px 15px;
+        width: 250px;
+      }
+
+      .social-links a {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+
+      .top-bar {
+        padding: 6px 10px;
+      }
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+      }
+
+      .username {
+        font-size: 0.9rem;
+      }
+
+      .dropdown {
+        width: 160px;
+      }
+
+      .channel-link-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <div class="top-title">HAMID CYBER TECH</div>
-    <h2>🔍 Search SIM Details</h2>
-    <input type="text" id="number" placeholder="Enter phone number" required />
-    <button onclick="fetchData()">🔎 Get Details</button>
 
-    <div id="responseBox"></div>
+ <div id="particles-js"></div>
+ 
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <h1>Hamid Tools</h1>
+    <p>Developed by Hamid</p>
 
-    <button id="shareButton" class="whatsapp-btn" onclick="shareWhatsApp()" style="display: none;">📲 Share on WhatsApp</button>
-    <button id="channelButton" class="whatsapp-btn" onclick="window.open('https://chat.whatsapp.com/GCSgrrSY9ivCEzpxgz2Bze ', '_blank')">📢 Join WhatsApp GROUP</button>
+    
+
+    <!-- Login Form -->
+        <form class="login-form" method="POST" action="/login/index.php">
+      <input type="text" name="userff" id="userName" placeholder="Enter Your Username" required>
+      <input type="password" name="passff" id="pwd" placeholder="Enter Your Password" required>
+      <button type="submit" name="btn">Login Now</button>
+      <a href="https://tajammaltools.top/Register.php">Create Your Account</a>
+    </form>
+
+   
+
+    <!-- Social Media Links -->
+    <div class="social-links">
+      <a href="https://whatsapp.com/channel/0029ValH0yv6GcG8pM6AN432"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://youtube.com/@tajammalmodss"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.facebook.com/MR.TAJAMMAL.HUSSAIN"><i class="fab fa-facebook"></i></a>
+    </div>
   </div>
 
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    async function fetchData() {
-  const number = document.getElementById("number").value.trim();
-  const responseBox = document.getElementById("responseBox");
-  const shareButton = document.getElementById("shareButton");
-
-  if (!/^\d{10,15}$/.test(number)) {
-    alert("Please enter a valid phone number (10 to 15 digits).");
-    return;
-  }
-
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://shadowtools.site/shadowapi/api.php?number=${number}`)}`;
-
-  try {
-    const res = await fetch(proxyUrl);
-    const json = await res.json();
-    const apiData = JSON.parse(json.contents);
-
-    if (apiData.status === "success" && Array.isArray(apiData.data) && apiData.data.length > 0) {
-      const user = apiData.data[0];
-      const content = `
-📞 Mobile: ${user.Mobile || "Not found"}
-👤 Name: ${user.Name || "Not found"}
-🆔 CNIC: ${user.CNIC || "Not found"}
-📍 Address: ${user.Address || "Not found"}
-📶 Operator: ${user.Operator || "Not found"}
-      `;
-      responseBox.innerText = content;
-      responseBox.style.display = "block";
-      shareButton.style.display = "inline-block";
-    } else {
-      responseBox.innerHTML = `<p style="color: yellow; font-size: 18px; font-weight: bold;">Data Not Found</p>`;
-      responseBox.style.display = "block";
-      shareButton.style.display = "none";
-    }
-  } catch (e) {
-    console.error("Error fetching data:", e);
-    responseBox.innerHTML = `<p style="color: red; font-size: 18px; font-weight: bold;">Error fetching data. Please try again later.</p>`;
-    responseBox.style.display = "block";
-    shareButton.style.display = "none";
-  }
-}
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#00ffcc"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": {
+            "enable": true,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#00ffcc",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>
