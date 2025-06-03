@@ -13,6 +13,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
     .box {
       background: #111;
@@ -51,7 +52,17 @@
   </style>
 </head>
 <body>
-  <div class="box">
+  <!-- Login Form -->
+  <div class="box" id="loginBox">
+    <h2>🔐 Login</h2>
+    <input type="text" id="username" placeholder="Enter Username" />
+    <input type="password" id="password" placeholder="Enter Password" />
+    <button onclick="login()">Login</button>
+    <div id="loginError" style="color:red; margin-top:10px;"></div>
+  </div>
+
+  <!-- SIM Details Box (Hidden initially) -->
+  <div class="box" id="mainBox" style="display: none;">
     <h2>🔍 Search SIM Details</h2>
     <input type="text" id="number" placeholder="Enter Phone Number" />
     <button onclick="fetchData()">Get Details</button>
@@ -59,10 +70,23 @@
   </div>
 
   <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorBox = document.getElementById("loginError");
+
+      if (username === "Hamid" && password === "1") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("mainBox").style.display = "block";
+      } else {
+        errorBox.innerText = "❌ Invalid username or password.";
+      }
+    }
+
     async function fetchData() {
       const number = document.getElementById("number").value.trim();
       const responseBox = document.getElementById("responseBox");
-      
+
       if (!/^\d{10,15}$/.test(number)) {
         alert("Please enter a valid number (10-15 digits).");
         return;
