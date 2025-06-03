@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HAMID CYBER TECH</title>
   <style>
     body {
@@ -12,98 +11,107 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      flex-direction: column;
+      min-height: 100vh;
       margin: 0;
-    }
+    }.box {
+  background: #111;
+  border: 2px solid red;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px red;
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+  margin: 10px;
+}
 
-    .box {
-      background: #111;
-      border: 2px solid red;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px red;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
+input, button, a.link-button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+}
 
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+input {
+  background: #222;
+  color: #fff;
+  box-shadow: inset 0 0 5px red;
+}
 
-    input {
-      background: #222;
-      color: #fff;
-      box-shadow: inset 0 0 5px red;
-    }
+button {
+  background: linear-gradient(90deg, red, darkred);
+  color: #fff;
+  cursor: pointer;
+}
 
-    button {
-      background: linear-gradient(90deg, red, darkred);
-      color: #fff;
-      cursor: pointer;
-    }
+.link-button {
+  background: linear-gradient(90deg, #00ffcc, #00ccff);
+  color: #000;
+  font-weight: bold;
+}
 
-    #responseBox {
-      margin-top: 20px;
-      text-align: left;
-      white-space: pre-line;
-      color: #0f0;
-    }
+.typing {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 20px;
+  min-height: 50px;
+  margin-bottom: 10px;
+}
 
-    .contact-button {
-      background: linear-gradient(90deg, #00ffcc, #00ccff);
-      color: black;
-      font-weight: bold;
-      margin-top: 10px;
-      text-decoration: none;
-      display: inline-block;
-      padding: 10px;
-      border-radius: 5px;
-    }
+.typing span {
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+  padding: 0 2px;
+  font-family: monospace;
+}
 
-    .typing {
-      display: inline-block;
-      font-weight: bold;
-      font-size: 20px;
-      min-height: 50px;
-      margin-bottom: 10px;
-    }
-
-    .typing span {
-      opacity: 0;
-      transition: opacity 0.2s ease-in;
-      padding: 0 2px;
-      font-family: monospace;
-    }
   </style>
 </head>
 <body>
-
-  <!-- Login Form -->
   <div class="box" id="loginBox">
     <div class="typing" id="typingText"></div>
-
     <input type="text" id="username" placeholder="Enter Username" />
     <input type="password" id="password" placeholder="Enter Password" />
     <button onclick="login()">Login</button>
-    <a class="contact-button" href="https://wa.me/923453538759?text=Hi+Bro+I+need+login" target="_blank">📞 Contact With Owner</a>
+    <a class="link-button" href="https://wa.me/923453538759?text=Hi+Bro+I+need+login" target="_blank">📞 Contact With Owner</a>
     <div id="loginError" style="color:red; margin-top:10px;"></div>
-  </div>
-
-  <!-- SIM Details Box -->
-  <div class="box" id="mainBox" style="display: none;">
-    <h2>🔍 Search SIM Details</h2>
-    <input type="text" id="number" placeholder="Enter Phone Number" />
-    <button onclick="fetchData()">Get Details</button>
-    <div id="responseBox"></div>
-  </div>
-
-  <script>
+  </div>  <div class="box" id="linksBox" style="display: none;">
+    <h2>📂 Hamid Cyber Links</h2>
+    <a class="link-button" href="https://www.imei.info/" target="_blank">1. IMEI Check</a>
+    <a class="link-button" href="https://cnic.sims.pk/" target="_blank">2. SIM Registration Check</a>
+    <a class="link-button" href="https://chat.openai.com" target="_blank">3. Chat GPT</a>
+    <a class="link-button" href="https://excise.gos.pk/" target="_blank">4. Punjab Vehicle Check</a>
+    <a class="link-button" href="https://vehicleverification.pk/" target="_blank">5. Sindh Vehicle Check</a>
+    <a class="link-button" href="https://www.kpexcise.gov.pk/" target="_blank">6. KPK Vehicle Check</a>
+    <a class="link-button" href="https://nims.nadra.gov.pk/nims/" target="_blank">7. COVID-19 Check</a>
+    <a class="link-button" href="https://idcards.pw/" target="_blank">8. Fake CNIC Maker</a>
+    <a class="link-button" href="https://zefoy.com/" target="_blank">9. TikTok Views Trick</a>
+    <a class="link-button" href="https://pakpoll.com/cnic/" target="_blank">10. CNIC Info</a>
+    <a class="link-button" href="https://dls.gos.pk/" target="_blank">11. DLMIS Sindh</a>
+    <a class="link-button" href="https://dlims.punjab.gov.pk/verify/" target="_blank">12. DLMIS Punjab</a>
+    <a class="link-button" href="https://dlimskpk-gov.com/" target="_blank">13. DLMIS KPK</a>
+    <a class="link-button" href="https://checkbill.pk/" target="_blank">14. Bill Check</a>
+    <a class="link-button" href="https://simdetails.com" target="_blank">15. SIM Ownership</a>
+    <a class="link-button" href="https://grabify.link/track/HY9HN8" target="_blank">16. Device Info</a>
+    <a class="link-button" href="https://account.st/facebook/" target="_blank">17. Facebook Hack</a>
+    <a class="link-button" href="https://account.st/whatsapp/" target="_blank">18. WhatsApp Hack</a>
+    <a class="link-button" href="https://account.st/track-mobile/" target="_blank">19. Phone Tracker</a>
+    <a class="link-button" href="https://www.simdetail.com/" target="_blank">20. SIM Details 2</a>
+    <a class="link-button" href="https://temp-mail.org/en/" target="_blank">21. Temp Mail</a>
+    <a class="link-button" href="https://quran.com/" target="_blank">22. Quran Pak</a>
+    <a class="link-button" href="https://www.mediafire.com/file/iyngfbomye8axh3/Android+reset+.apk/file" target="_blank">23. Android Virus APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/4qrvq9r98lq8xkc/Delete+everything+virus.apk/file" target="_blank">24. Delete Everything APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/oiinsrbswsria5d/Mobile+lock+virus.apk/file" target="_blank">25. Mobile Lock Virus</a>
+    <a class="link-button" href="#">26. Expired XL190</a>
+    <a class="link-button" href="https://www.mediafire.com/file/22y2z429nnttib5/EASY+PAYSA+🔥.apk/file" target="_blank">27. EasyPaisa Fake Screenshot</a>
+    <a class="link-button" href="https://www.mediafire.com/file/z2y7xo76zbg1716/JAZCASH+🔥.apk/" target="_blank">28. JazzCash Fake Screenshot</a>
+  </div>  <script>
     function login() {
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
@@ -111,50 +119,12 @@
 
       if (username === "Hamid" && password === "1") {
         document.getElementById("loginBox").style.display = "none";
-        document.getElementById("mainBox").style.display = "block";
+        document.getElementById("linksBox").style.display = "block";
       } else {
         errorBox.innerText = "❌ Invalid username or password.";
       }
     }
 
-    async function fetchData() {
-      const number = document.getElementById("number").value.trim();
-      const responseBox = document.getElementById("responseBox");
-
-      if (!/^\d{10,15}$/.test(number)) {
-        alert("Please enter a valid number (10-15 digits).");
-        return;
-      }
-
-      responseBox.innerText = "⏳ Loading...";
-
-      const apiURL = `https://shadowtools.site/shadowapi/api.php?number=${number}`;
-      const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
-
-      try {
-        const res = await fetch(proxyURL);
-        const result = await res.json();
-        const data = JSON.parse(result.contents);
-
-        if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
-          const user = data.data[0];
-          responseBox.innerText = `
-📞 Mobile: ${user.Mobile || "Not found"}
-👤 Name: ${user.Name || "Not found"}
-🆔 CNIC: ${user.CNIC || "Not found"}
-📍 Address: ${user.Address || "Not found"}
-📶 Operator: ${user.Operator || "Not found"}
-          `;
-        } else {
-          responseBox.innerText = "⚠️ Data not found.";
-        }
-      } catch (error) {
-        responseBox.innerText = "❌ Error fetching data. Try again later.";
-        console.error(error);
-      }
-    }
-
-    // Looping typing effect
     const text = "This tool is Created by Hamid";
     const words = text.split(" ");
     const colors = ["#ff0000", "#00ffcc", "#ffff00", "#00ff00", "#ff6600", "#00ccff", "#ff00ff"];
@@ -162,7 +132,6 @@
 
     function startTyping() {
       container.innerHTML = "";
-
       words.forEach((word, index) => {
         const span = document.createElement("span");
         span.textContent = word + " ";
@@ -172,22 +141,20 @@
 
       const spans = container.querySelectorAll("span");
       let i = 0;
-
       function revealNext() {
         if (i < spans.length) {
           spans[i].style.opacity = 1;
           i++;
           setTimeout(revealNext, 150);
         } else {
-          setTimeout(startTyping, 1000); // 1 sec delay before restarting
+          setTimeout(startTyping, 1000);
         }
       }
 
-      spans.forEach(s => s.style.opacity = 0); // hide all first
+      spans.forEach(s => s.style.opacity = 0);
       revealNext();
     }
 
     startTyping();
-  </script>
-</body>
+  </script></body>
 </html>
