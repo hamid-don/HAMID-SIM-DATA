@@ -154,31 +154,40 @@
       }
     }
 
-    // Typing effect: "This tool is Created by Hamid"
+    // Looping typing effect
     const text = "This tool is Created by Hamid";
     const words = text.split(" ");
     const colors = ["#ff0000", "#00ffcc", "#ffff00", "#00ff00", "#ff6600", "#00ccff", "#ff00ff"];
     const container = document.getElementById("typingText");
 
-    words.forEach((word, index) => {
-      const span = document.createElement("span");
-      span.textContent = word + " ";
-      span.style.color = colors[index % colors.length];
-      container.appendChild(span);
-    });
+    function startTyping() {
+      container.innerHTML = "";
 
-    let i = 0;
-    const spans = container.querySelectorAll("span");
+      words.forEach((word, index) => {
+        const span = document.createElement("span");
+        span.textContent = word + " ";
+        span.style.color = colors[index % colors.length];
+        container.appendChild(span);
+      });
 
-    function revealNext() {
-      if (i < spans.length) {
-        spans[i].style.opacity = 1;
-        i++;
-        setTimeout(revealNext, 400);
+      const spans = container.querySelectorAll("span");
+      let i = 0;
+
+      function revealNext() {
+        if (i < spans.length) {
+          spans[i].style.opacity = 1;
+          i++;
+          setTimeout(revealNext, 150);
+        } else {
+          setTimeout(startTyping, 1000); // 1 sec delay before restarting
+        }
       }
+
+      spans.forEach(s => s.style.opacity = 0); // hide all first
+      revealNext();
     }
 
-    revealNext();
+    startTyping();
   </script>
 </body>
 </html>
