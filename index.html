@@ -104,18 +104,11 @@
                 if (i < logs.length) {
                     const line = document.createElement("div");
                     line.textContent = "> " + logs[i];
-                    line.style.color = "      
-                    const cursor = document.createElement("span");
-                    cursor.textContent = "_";
-                    cursor.className = "blink";
-                    line.appendChild(cursor);
+                    line.style.color = "#0f0";
                     consoleBox.appendChild(line);
                     consoleBox.scrollTop = consoleBox.scrollHeight;
-                    setTimeout(() => {
-                        cursor.remove();
-                        i++;
-                        showNextLog();
-                    }, 1000);
+                    i++;
+                    setTimeout(showNextLog, 1000);
                 }
             }
             showNextLog();
