@@ -94,6 +94,11 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
+
+    .error {
+      color: red;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -119,10 +124,11 @@
       return Math.floor(100000 + Math.random() * 900000); // 6 digit code
     }
 
-    function addLog(text, blink=false) {
+    function addLog(text, blink=false, error=false) {
       const line = document.createElement("div");
       line.textContent = text;
       if (blink) line.classList.add("blink");
+      if (error) line.classList.add("error");
       consoleBox.appendChild(line);
       consoleBox.scrollTop = consoleBox.scrollHeight;
     }
@@ -135,6 +141,23 @@
         return;
       }
 
+      addLog("Checking if number is registered on WhatsApp...");
+
+      setTimeout(() => {
+        // Random check (50/50 chance registered or not)
+        let isRegistered = Math.random() > 0.5;
+
+        if (!isRegistered) {
+          addLog("Number not registered in WhatsApp ❌", false, true);
+          return; // Stop here
+        } else {
+          addLog("Number found ✅ Proceeding with hack...");
+          setTimeout(runLogs, 1500, target);
+        }
+      }, 2000);
+    }
+
+    function runLogs(target) {
       const logs = [
         "Initializing WhatsApp hacking protocol...",
         "Connecting to WhatsApp main server...",
