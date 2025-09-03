@@ -78,7 +78,7 @@
       height: calc(100vh - 130px);
       padding: 10px;
       overflow-y: auto;
-      font-size: 12px;
+      font-size: 13px;
       line-height: 1.4;
       border-top: 1px solid #0f0;
       background: #000;
@@ -86,6 +86,7 @@
 
     .blink {
       animation: blink 1s infinite;
+      font-weight: bold;
     }
 
     @keyframes blink {
@@ -114,28 +115,9 @@
   <script>
     const consoleBox = document.getElementById("console");
 
-    const logTemplates = [
-      "[✓] Updating repository index...",
-      "[✓] Connecting to WhatsApp main server...",
-      "[✓] Target number found: {target}",
-      "Installing exploit package (1/5)... done",
-      "Installing exploit package (2/5)... done",
-      "Installing exploit package (3/5)... done",
-      "Installing exploit package (4/5)... done",
-      "Installing exploit package (5/5)... done",
-      "[✓] Bypassing authentication firewall...",
-      "[✓] Injecting payload into session...",
-      "[✓] Fetching encrypted database...",
-      "Decrypting messages (ETA: 2s)... success",
-      "[✓] Extracting contacts list...",
-      "[✓] Dumping media files...",
-      "[✓] Synchronizing with Hamid's server...",
-      "Upload progress: 10% ▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒",
-      "Upload progress: 45% ▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒",
-      "Upload progress: 75% ▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒",
-      "Upload progress: 100% ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ Done",
-      "[✓] Hack complete ✅"
-    ];
+    function randomCode() {
+      return Math.floor(100000 + Math.random() * 900000); // 6 digit code
+    }
 
     function addLog(text, blink=false) {
       const line = document.createElement("div");
@@ -152,21 +134,52 @@
         alert("Please enter a target WhatsApp number.");
         return;
       }
-      
-      let counter = 0;
-      const interval = setInterval(() => {
-        if (counter < logTemplates.length) {
-          let log = logTemplates[counter].replace("{target}", target);
-          if (counter === logTemplates.length - 1) {
-            addLog(log, true); // last line blink karegi
-          } else {
-            addLog(log);
-          }
-          counter++;
+
+      const logs = [
+        "Initializing WhatsApp hacking protocol...",
+        "Connecting to WhatsApp main server...",
+        "Establishing secure backdoor channel...",
+        "Authenticating target number: " + target,
+        "Bypassing firewall and encryption...",
+        "Injecting payload into WhatsApp server...",
+        "Accessing target chat database...",
+        "Extracting messages...",
+        "Decrypting message history...",
+        "Uploading data to external server...",
+        "Preparing brute-force attack on 6-digit security code..."
+      ];
+
+      let i = 0;
+      function showLogs() {
+        if (i < logs.length) {
+          addLog("> " + logs[i]);
+          i++;
+          setTimeout(showLogs, 1500);
         } else {
+          // After logs, start password cracking
+          crackPassword();
+        }
+      }
+      showLogs();
+    }
+
+    function crackPassword() {
+      let tries = 0;
+      let fakeCodes = [];
+      for (let i = 0; i < 20; i++) {
+        fakeCodes.push(randomCode());
+      }
+      let finalPass = randomCode();
+
+      const interval = setInterval(() => {
+        if (tries < fakeCodes.length) {
+          addLog("Trying code: " + fakeCodes[tries] + " ... Failed");
+          tries++;
+        } else {
+          addLog("Password Found: " + finalPass + " ✅", true);
           clearInterval(interval);
         }
-      }, 1500); // 1.5s delay like Termux
+      }, 1200); // delay per attempt
     }
   </script>
 </body>
