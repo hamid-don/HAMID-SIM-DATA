@@ -3,7 +3,7 @@ html
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CyberOps | WhatsApp Breach Console</title>
+  <title>VIP WhatsApp Breach Console</title>
   <style>
     body {
       margin: 0;
@@ -11,45 +11,32 @@ html
       background-color: #000;
       color: #00ff00;
       font-family: 'Courier New', monospace;
-      overflow: hidden;
 }
 
-    #logo {
+    #header {
+      background-color: #111;
+      color: #ff0000;
       text-align: center;
       padding: 20px;
-      font-size: 32px;
-      color: #ff0000;
-      text-shadow: 0 0 10px #ff0000;
+      font-size: 28px;
       font-weight: bold;
+      text-shadow: 0 0 10px #ff0000;
       border-bottom: 2px solid #ff0000;
 }
 
-    #container {
-      padding: 20px;
-}
-
-    #console {
-      background-color: #111;
-      border: 1px solid #0f0;
-      padding: 15px;
-      height: 400px;
-      overflow-y: auto;
-      font-size: 14px;
-      line-height: 1.4;
-}
-
     #inputSection {
-      margin-top: 20px;
       text-align: center;
+      margin: 30px 0;
 }
 
     input {
       padding: 10px;
-      width: 60%;
+      width: 300px;
       background-color: #000;
       color: #0f0;
       border: 1px solid #0f0;
       border-radius: 4px;
+      font-size: 16px;
 }
 
     button {
@@ -60,28 +47,39 @@ html
       border-radius: 4px;
       margin-left: 10px;
       cursor: pointer;
+      font-size: 16px;
 }
 
     button:hover {
       background-color: darkred;
 }
+
+    #console {
+      background-color: #111;
+      border: 1px solid #0f0;
+      padding: 20px;
+      margin: 0 auto;
+      width: 80%;
+      height: 400px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.5;
+}
   </style>
 </head>
 <body>
-  <div id="logo">⚡ CYBEROPS // WHATSAPP BREACH TOOL</div>
+  <div id="header">⚡ VIP WhatsApp Breach Console</div>
 
-  <div id="container">
-    <div id="console"></div>
-
-    <div id="inputSection">
-      <input type="text" id="target" placeholder="Enter Target Number">
-      <button onclick="startPrank()">Start Breach</button>
-    </div>
+  <div id="inputSection">
+    <input type="text" id="targetNumber" placeholder="Enter Target Number">
+    <button onclick="startPrank()">Start Breach</button>
   </div>
+
+  <div id="console"></div>
 
   <script>
     function startPrank() {
-      const target = document.getElementById("target").value.trim();
+      const target = document.getElementById("targetNumber").value.trim();
       const consoleBox = document.getElementById("console");
       consoleBox.innerHTML = "";
 
@@ -91,52 +89,36 @@ html
 }
 
       const logs = [
-        `Reading config files...`,
-        `Initializing breach protocol...`,
-        `Target locked: ${target}`,
-        `Connecting to WhatsApp node...`,
-        `Fetching session tokens...`,
-        `Installing exploit package: whatsapp-core-breach`,
-        `Resolving dependencies...`,
-        `Downloading payload [██████████████████] 100%`,
-        `Injecting backdoor...`,
-        `Bypassing 2FA...`,
-        `Decrypting message logs...`,
-        `Extracting media files...`,
-        `Uploading data to secure vault...`,
-        `Finalizing breach...`,
-        `✔ Operation complete. Target compromised.`,
-        `⚠ PLEASE WAIT DATA COLLECTING.`
+        Reading config files...,
+        Initializing breach protocol...,
+        Target locked: ${target},
+        Connecting to WhatsApp node...,
+        Installing exploit package: whatsapp-core-breach,
+        Resolving dependencies...,
+        Downloading payload [██████████████████] 100%,
+        Injecting backdoor...,
+        Bypassing 2FA...,
+        Decrypting message logs...,
+        Extracting media files...,
+        Uploading data to secure vault...,
+        Finalizing breach...,
+        ✔ Operation complete. Target ${target} compromised.,
+        ✅ ALMOST DONE PLEASE WAIT......
       ];
 
       let i = 0;
       const interval = setInterval(() => {
         if (i < logs.length) {
-          consoleBox.innerHTML += `<div>> ${logs[i]}</div>`;
+          const line = document.createElement("div");
+          line.textContent = "> " + logs[i];
+          consoleBox.appendChild(line);
           consoleBox.scrollTop = consoleBox.scrollHeight;
           i++;
 } else {
           clearInterval(interval);
 }
-}, 1000);
+}, 10000); // 10 seconds per line
 }
-  </script>
-</body>
-</html>        "[✔] Operation completed successfully!",
-        "[!!!] WARNING: HACKING COMPLETE SUCCESSFUL "
-      ];
-
-      let i = 0;
-      let fakeProcess = setInterval(() => {
-        if (i < steps.length) {
-          consoleBox.innerHTML += "<p>" + steps[i] + "</p>";
-          consoleBox.scrollTop = consoleBox.scrollHeight;
-          i++;
-        } else {
-          clearInterval(fakeProcess);
-        }
-      }, 1500);
-    }
   </script>
 </body>
 </html>
