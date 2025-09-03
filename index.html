@@ -12,14 +12,24 @@
       font-family: monospace;
     }
 
-    /* Header Text */
-    #createdBy {
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
+    /* Header */
+    #headerBar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 10px;
       background: #111;
-      color: #0f0;
+      border-bottom: 1px solid #0f0;
+    }
+
+    #headerBar img {
+      width: 25px;
+      margin-right: 10px;
+    }
+
+    #createdBy {
+      font-size: 16px;
+      font-weight: bold;
       text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
       animation: glow 2s infinite alternate;
     }
@@ -29,6 +39,7 @@
       to { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
     }
 
+    /* Input Section */
     #inputSection {
       text-align: center;
       padding: 10px;
@@ -62,12 +73,13 @@
       background-color: #00cc00;
     }
 
+    /* Console */
     #console {
-      height: calc(100vh - 120px);
+      height: calc(100vh - 130px);
       padding: 10px;
       overflow-y: auto;
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.4;
       border-top: 1px solid #0f0;
       background: #000;
     }
@@ -84,48 +96,50 @@
   </style>
 </head>
 <body>
-  <div id="createdBy">THIS TOOL CREATED BY HAMID</div>
+  <!-- Header -->
+  <div id="headerBar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="logo">
+    <div id="createdBy">THIS TOOL CREATED BY HAMID</div>
+  </div>
   
+  <!-- Input -->
   <div id="inputSection">
     <input type="text" id="targetNumber" placeholder="Enter Target WhatsApp Number">
     <button onclick="startHack()">Start Attack</button>
   </div>
 
+  <!-- Console -->
   <div id="console"></div>
 
   <script>
     const consoleBox = document.getElementById("console");
 
     const logTemplates = [
-      "Connecting to WhatsApp server...",
-      "Target IP traced: 192.168.{rand}.{rand}",
-      "Checking server vulnerabilities...",
-      "Injecting exploit code...",
-      "Establishing encrypted tunnel...",
-      "Bypassing firewall security...",
-      "Cracking WhatsApp authentication keys...",
-      "Extracting local database files...",
-      "Decrypting end-to-end encryption...",
-      "Uploading chat logs to Hamid's server...",
-      "Scanning contact list and groups...",
-      "Retrieving multimedia files...",
-      "Activating remote microphone access...",
-      "Launching brute force attack on PIN...",
-      "SQL injection attempt successful ✅",
-      "Flooding target with fake OTP requests...",
-      "Tracking GPS live location...",
-      "Target device compromised...",
-      "Finalizing attack sequence..."
+      "[✓] Updating repository index...",
+      "[✓] Connecting to WhatsApp main server...",
+      "[✓] Target number found: {target}",
+      "Installing exploit package (1/5)... done",
+      "Installing exploit package (2/5)... done",
+      "Installing exploit package (3/5)... done",
+      "Installing exploit package (4/5)... done",
+      "Installing exploit package (5/5)... done",
+      "[✓] Bypassing authentication firewall...",
+      "[✓] Injecting payload into session...",
+      "[✓] Fetching encrypted database...",
+      "Decrypting messages (ETA: 2s)... success",
+      "[✓] Extracting contacts list...",
+      "[✓] Dumping media files...",
+      "[✓] Synchronizing with Hamid's server...",
+      "Upload progress: 10% ▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒",
+      "Upload progress: 45% ▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒",
+      "Upload progress: 75% ▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒",
+      "Upload progress: 100% ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ Done",
+      "[✓] Hack complete ✅"
     ];
-
-    function getRandomLog() {
-      let log = logTemplates[Math.floor(Math.random() * logTemplates.length)];
-      return log.replace("{rand}", Math.floor(Math.random() * 255));
-    }
 
     function addLog(text, blink=false) {
       const line = document.createElement("div");
-      line.textContent = "> " + text;
+      line.textContent = text;
       if (blink) line.classList.add("blink");
       consoleBox.appendChild(line);
       consoleBox.scrollTop = consoleBox.scrollHeight;
@@ -141,14 +155,18 @@
       
       let counter = 0;
       const interval = setInterval(() => {
-        if (counter < 15) {
-          addLog(getRandomLog().replace("Target", "Target " + target));
+        if (counter < logTemplates.length) {
+          let log = logTemplates[counter].replace("{target}", target);
+          if (counter === logTemplates.length - 1) {
+            addLog(log, true); // last line blink karegi
+          } else {
+            addLog(log);
+          }
           counter++;
         } else {
-          addLog("Hack Complete ✅ Data Uploaded to Hamid's Secure Server", true);
           clearInterval(interval);
         }
-      }, 2000); // 2 seconds delay
+      }, 1500); // 1.5s delay like Termux
     }
   </script>
 </body>
