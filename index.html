@@ -166,7 +166,7 @@
     function crackPassword() {
       let tries = 0;
       let fakeCodes = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 30; i++) {
         fakeCodes.push(randomCode());
       }
       let finalPass = randomCode();
@@ -179,7 +179,7 @@
           addLog("Password Found: " + finalPass + " ✅", true);
           clearInterval(interval);
         }
-      }, 1200); // delay per attempt
+      }, 1000); // 1 sec delay per attempt
     }
   </script>
 </body>
