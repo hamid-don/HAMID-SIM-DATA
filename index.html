@@ -1,124 +1,145 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>VIP WhatsApp Breach Console</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      color: #00ff00;
-      font-family: 'Courier New', monospace;
-}
+    <meta charset="UTF-8">
+    <title>VIP WhatsApp Breach Console</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS styles here */
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
 
-    #header {
-      background-color: #111;
-      color: #ff0000;
-      text-align: center;
-      padding: 20px;
-      font-size: 28px;
-      font-weight: bold;
-      text-shadow: 0 0 10px #ff0000;
-      border-bottom: 2px solid #ff0000;
-}
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
-    #inputSection {
-      text-align: center;
-      margin: 30px 0;
-}
+        #header {
+            background-color: #111;
+            color: #ff0000;
+            text-align: center;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 0 8px #ff0000;
+            border-bottom: 2px solid #ff0000;
+        }
 
-    input {
-      padding: 10px;
-      width: 300px;
-      background-color: #000;
-      color: #0f0;
-      border: 1px solid #0f0;
-      border-radius: 4px;
-      font-size: 16px;
-}
+        #inputSection {
+            text-align: center;
+            margin: 20px 10px;
+            position: relative;
+            z-index: 1;
+        }
 
-    button {
-      padding: 10px 20px;
-      background-color: #ff0000;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      margin-left: 10px;
-      cursor: pointer;
-      font-size: 16px;
-}
+        input {
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            border-radius: 4px;
+            font-size: 16px;
+        }
 
-    button:hover {
-      background-color: darkred;
-}
+        button {
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    #console {
-      background-color: #111;
-      border: 1px solid #0f0;
-      padding: 20px;
-      margin: 0 auto;
-      width: 80%;
-      height: 400px;
-      overflow-y: auto;
-      font-size: 14px;
-      line-height: 1.5;
-}
-  </style>
+        button:hover {
+            background-color: darkred;
+        }
+
+        #console {
+            background-color: #111;
+            border: 1px solid #0f0;
+            padding: 15px;
+            margin: 10px;
+            height: 300px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
-  <div id="header">⚡ VIP WhatsApp Breach Console</div>
+    <canvas id="matrix"></canvas>
+    <div id="header">⚡ VIP WhatsApp Breach Console</div>
+    <div id="inputSection">
+        <input type="text" id="targetNumber" placeholder="Enter Target Number"><br>
+        <button onclick="startPrank()">Start Breach</button>
+    </div>
+    <div id="console"></div>
 
-  <div id="inputSection">
-    <input type="text" id="targetNumber" placeholder="Enter Target Number">
-    <button onclick="startPrank()">Start Breach</button>
-  </div>
+    <script>
+        // JavaScript code here
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
 
-  <div id="console"></div>
+        function resizeCanvas() {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+        }
 
-  <script>
-    function startPrank() {
-      const target = document.getElementById("targetNumber").value.trim();
-      const consoleBox = document.getElementById("console");
-      consoleBox.innerHTML = "";
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-      if (!target) {
-        alert("Please enter a target number.");
-        return;
-}
+        const letters = "01";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
 
-      const logs = [
-        Reading config files...,
-        Initializing breach protocol...,
-        Target locked: ${target},
-        Connecting to WhatsApp node...,
-        Installing exploit package: whatsapp-core-breach,
-        Resolving dependencies...,
-        Downloading payload [██████████████████] 100%,
-        Injecting backdoor...,
-        Bypassing 2FA...,
-        Decrypting message logs...,
-        Extracting media files...,
-        Uploading data to secure vault...,
-        Finalizing breach...,
-        ✔ Operation complete. Target ${target} compromised.,
-        ✅ ALMOST DONE PLEASE WAIT......
-      ];
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "      
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
 
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < logs.length) {
-          const line = document.createElement("div");
-          line.textContent = "> " + logs[i];
-          consoleBox.appendChild(line);
-          consoleBox.scrollTop = consoleBox.scrollHeight;
-          i++;
-} else {
-          clearInterval(interval);
-}
-}, 10000); // 10 seconds per line
-}
-  </script>
-</body>
-</html>
+        setInterval(drawMatrix, 50);
+
+        function startPrank() {
+            const target = document.getElementById("targetNumber").value.trim();
+            const consoleBox = document.getElementById("console");
+            consoleBox.innerHTML = "";
+            if (!target) {
+                alert("Please enter a target number.");
+                return;
+            }
+            const logs = [
+                `Reading config files...`,
+                `Initializing breach protocol...`,
+                `Target locked: ${target}`,
+                `Connecting to WhatsApp node...`,
+                `Installing exploit package: whatsapp-core-breach`,
+                `Resolving dependencies...`,
+                `Downloading payload [██████████████████] 100%`,
+                `Injecting backdoor...`,
+                `Bypassing 2FA...`,
+                `Decrypting message logs
