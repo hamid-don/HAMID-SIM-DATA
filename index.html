@@ -1,39 +1,102 @@
-function startPrank() {
-    const target = document.getElementById("targetNumber").value.trim();
-    const consoleBox = document.getElementById("console");
-    consoleBox.innerHTML = "";
-    if (!target) {
-        alert("Please enter a target number.");
-        return;
-    }
-    const logs = [
-        `Reading config files...`,
-        `Initializing breach protocol...`,
-        `Target locked: ${target}`,
-        `Connecting to WhatsApp node...`,
-        `Installing exploit package: whatsapp-core-breach`,
-        `Resolving dependencies...`,
-        `Downloading payload [██████████████████] 100%`,
-        `Injecting backdoor...`,
-        `Bypassing 2FA...`,
-        `Decrypting message logs...`,
-        `Extracting media files...`,
-        `Uploading data to secure vault...`,
-        `Finalizing breach...`,
-        `✔ Operation complete. Target ${target} compromised.`,
-        `⚠ This is a prank simulation. No real data accessed.`
-    ];
-    let i = 0;
-    function showNextLog() {
-        if (i < logs.length) {
-            const line = document.createElement("div");
-            line.textContent = "> " + logs[i];
-            line.style.color = "#0f0"; // Green color
-            consoleBox.appendChild(line);
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-            i++;
-            setTimeout(showNextLog, 1000);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhatsApp Hacking Simulation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            padding: 20px;
         }
-    }
-    showNextLog();
-}
+
+        #console {
+            background-color: #111;
+            border: 1px solid #0f0;
+            padding: 15px;
+            margin: 10px;
+            height: 500px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        #header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #inputSection {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 50%;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">WhatsApp Hacking Simulation</div>
+    <div id="inputSection">
+        <input type="text" id="targetNumber" placeholder="Enter Target Number">
+        <button onclick="startHack()">Start Hack</button>
+    </div>
+    <div id="console"></div>
+
+    <script>
+        function startHack() {
+            const target = document.getElementById("targetNumber").value.trim();
+            const consoleBox = document.getElementById("console");
+            consoleBox.innerHTML = "";
+            if (!target) {
+                alert("Please enter a target number.");
+                return;
+            }
+            const logs = [
+                `Initializing WhatsApp hacking protocol...`,
+                `Connecting to WhatsApp server...`,
+                `Authenticating target number: ${target}`,
+                `Bypassing security measures...`,
+                `Installing hacking package...`,
+                `Extracting WhatsApp data...`,
+                `Decrypting messages...`,
+                `Uploading data to server...`,
+                `Hack complete!`
+            ];
+            let i = 0;
+            function showNextLog() {
+                if (i < logs.length) {
+                    const line = document.createElement("div");
+                    line.textContent = "> " + logs[i];
+                    line.style.color = "#0f0";
+                    consoleBox.appendChild(line);
+                    consoleBox.scrollTop = consoleBox.scrollHeight;
+                    i++;
+                    setTimeout(showNextLog, 1000);
+                }
+            }
+            showNextLog();
+        }
+    </script>
+</body>
+</html>
