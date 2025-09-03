@@ -1,206 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hamid Cyber </title>
+  <meta charset="UTF-8">
+  <title>WhatsApp Hack Simulator [PRANK]</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
-
     body {
-      background: linear-gradient(to right, #000000, #1a1a1a);
-      color: white;
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: #00ff00;
+      font-family: "Courier New", monospace;
+      overflow: hidden;
+    }
+
+    /* Matrix background */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    #container {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 700px;
       text-align: center;
-      padding: 20px;
     }
 
-    .title {
-      font-size: 26px;
-      margin: 20px 0;
-      font-weight: 600;
-      color: #ff0033;
+    h1 {
+      color: red;
       text-shadow: 0 0 10px red;
-    }
-
-    .center-image {
-      width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid #ff0033;
-      box-shadow: 0 0 20px #ff0033;
       margin-bottom: 20px;
     }
 
-    .login-box {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      padding: 30px 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-      width: 90%;
-      max-width: 400px;
-      margin: 0 auto 30px auto;
-      border: 1px solid #ff0033;
-    }
-
     input, button {
-      width: 100%;
       padding: 12px;
-      margin: 12px 0;
-      border: none;
-      border-radius: 8px;
       font-size: 16px;
-      font-family: 'Poppins', sans-serif;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
     }
 
     input {
-      background: #1a1a1a;
-      color: #fff;
-      box-shadow: inset 0 0 5px #ff0033;
+      width: 60%;
+      background: #111;
+      color: #0f0;
+      border: 1px solid #0f0;
     }
 
     button {
-      background: linear-gradient(90deg, #ff0033, #990000);
+      background: red;
       color: white;
-      font-weight: bold;
-      transition: 0.3s;
-      box-shadow: 0 0 12px #ff0033;
       cursor: pointer;
+      transition: 0.2s;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #990000, #ff0033);
-      transform: scale(1.03);
+      background: darkred;
     }
 
-    #createdBy {
-      margin: 15px 0;
-      font-size: 18px;
-      font-weight: bold;
-      min-height: 24px;
-      text-shadow: 0 0 5px red;
-    }
-
-    .link-button {
-      display: block;
-      width: 80%;
-      margin: 10px auto;
-      padding: 15px;
-      font-size: 18px;
-      background: linear-gradient(90deg, #cc0000, #660000);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 0 12px #ff0033;
-      transition: 0.3s;
-    }
-
-    .link-button:hover {
-      background: linear-gradient(90deg, #660000, #cc0000);
-      transform: scale(1.02);
-    }
-
-    .contact-button {
-      margin-top: 15px;
-      background: #00cc66;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: 500;
-      box-shadow: 0 0 10px #00cc66;
-      transition: 0.3s;
-    }
-
-    .contact-button:hover {
-      background: #00994d;
+    #console {
+      text-align: left;
+      border: 1px solid #0f0;
+      background: rgba(0,0,0,0.8);
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      margin-top: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <div class="login-box" id="loginPage">
-    <div id="createdBy"></div>
-    <input type="text" id="username" placeholder="Enter Username" />
-    <input type="password" id="password" placeholder="Enter Password" />
-    <button onclick="checkLogin()">Login</button>
-    <a class="contact-button" href="https://wa.me/923453538759?text=Hi+Bro+I+need+login" target="_blank">Contact with Owner</a>
-  </div>
-
-  <div id="mainContent" style="display:none;">
-    <img src="https://i.ibb.co/TMFxrLPv/3214.jpg" alt="Hamid Logo" class="center-image" />
-    <div class="title">Hamid Cyber 💻</div>
-    <a class="link-button" href="https://www.imei.info/">IMEI Check</a>
-    <a class="link-button" href="https://cnic.sims.pk/">SIM Registration Check</a>
-    <a class="link-button" href="https://chat.openai.com">ChatGPT</a>
-    <a class="link-button" href="https://excise.gos.pk/">Punjab Vehicle Check</a>
-    <a class="link-button" href="https://vehicleverification.pk/">Sindh Vehicle Check</a>
-    <a class="link-button" href="https://www.kpexcise.gov.pk/">KPK Vehicle Check</a>
-    <a class="link-button" href="https://nims.nadra.gov.pk/nims/">COVID-19 Check</a>
-    <a class="link-button" href="https://idcards.pw/">Fake CNIC Maker</a>
-    <a class="link-button" href="https://zefoy.com/">TikTok Views Trick</a>
-    <a class="link-button" href="https://pakpoll.com/cnic/">CNIC Info</a>
-    <a class="link-button" href="https://dls.gos.pk/">DLIMS Sindh Check</a>
-    <a class="link-button" href="https://dlims.punjab.gov.pk/verify/">DLIMS Punjab Verification</a>
-    <a class="link-button" href="https://dlimskpk-gov.com/">DLIMS KPK Verification</a>
-    <a class="link-button" href="https://checkbill.pk/">All Bill Check Online</a>
-    <a class="link-button" href="https://simdetails.com">SIM Ownership</a>
-    <a class="link-button" href="https://grabify.link/track/HY9HN8">Device Information</a>
-    <a class="link-button" href="https://account.st/facebook/">Facebook Hack</a>
-    <a class="link-button" href="https://account.st/whatsapp/">WhatsApp Hack</a>
-    <a class="link-button" href="https://account.st/track-mobile/">Trace Phone</a>
-    <a class="link-button" href="https://www.simdetail.com/">SIM Details 2</a>
-    <a class="link-button" href="https://temp-mail.org/en/">Temp Mail</a>
-    <a class="link-button" href="https://quran.com/">Quran Pak</a>
-    <a class="link-button" href="https://www.mediafire.com/file/iyngfbomye8axh3/Android+reset+.apk/file">Android Virus APK</a>
-    <a class="link-button" href="https://www.mediafire.com/file/4qrvq9r98lq8xkc/Delete+everything+virus.apk/file">Delete Everything APK</a>
-    <a class="link-button" href="https://www.mediafire.com/file/oiinsrbswsria5d/Mobile+lock+virus.apk/file">Mobile Lock Virus APK</a>
-    <a class="link-button" href="https://www.mediafire.com/file/22y2z429nnttib5/EASY+PAYSA+🔥.apk/file">Easy Paisa Fake Screenshot APK</a>
-    <a class="link-button" href="https://www.mediafire.com/file/z2y7xo76zbg1716/JAZCASH+🔥.apk/">Jazz Cash Fake Screenshot APK</a>
-    <a class="link-button" href="https://drive.google.com/file/d/1XUfR8LP8MPkBp5Kr1dOaHMpIKnryzEat/view?usp=drivesdk">TikTok 100% ForYou Trick</a>
-    <a class="link-button" href="https://drive.google.com/file/d/1uhR2OaHDt5Gf9NjZYnn2sPZY7O4jQph7/view?usp=drivesdk">TikTok Viral Method</a>
-    <a class="link-button" href="https://drive.google.com/drive/folders/1FUhjQqgUlhnL48E5hCjhwjKsEn3XMT2T">YouTube Short Video Viral Method</a>
-    <a class="link-button" href="https://drive.google.com/drive/folders/1tW47PkqEeioNde3pup8FhDJssCK3meiv">YouTube Long Video Viral Method</a>
+  <canvas id="matrix"></canvas>
+  
+  <div id="container">
+    <h1>WhatsApp Hack Tool [PRANK]</h1>
+    <input type="text" id="number" placeholder="Enter Target Number">
+    <button onclick="startHack()">Start Attack</button>
+    <div id="console"></div>
   </div>
 
   <script>
-    function checkLogin() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      if (username === "Hamid" && password === "1") {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-      } else {
-        alert("Incorrect username or password!");
+    // Matrix background effect
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
       }
     }
+    setInterval(drawMatrix, 50);
 
-    const text = "This tool is Created by Hamid";
-    let index = 0;
-    function typeWriter() {
-      const el = document.getElementById("createdBy");
-      el.innerHTML = '';
-      index = 0;
-      const interval = setInterval(() => {
-        if (index < text.length) {
-          const span = document.createElement("span");
-          span.style.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-          span.textContent = text[index];
-          el.appendChild(span);
-          index++;
+    // Fake hacking console
+    function startHack() {
+      const num = document.getElementById("number").value;
+      const consoleBox = document.getElementById("console");
+      consoleBox.innerHTML = "";
+
+      if(num.trim() === "") {
+        alert("Enter a target number!");
+        return;
+      }
+
+      let steps = [
+        "[*] Initializing connection to WhatsApp servers...",
+        "[*] Target number detected: " + num,
+        "[*] Establishing secure backdoor...",
+        "[*] Bypassing end-to-end encryption...",
+        "[*] Injecting malicious payload...",
+        "[*] Extracting chat database...",
+        "[*] Downloading media files...",
+        "[*] Cracking security tokens...",
+        "[*] Attack in progress...",
+        "[✔] Operation completed successfully!",
+        "[!!!] WARNING: HACKING COMPLETE SUCCESSFUL "
+      ];
+
+      let i = 0;
+      let fakeProcess = setInterval(() => {
+        if (i < steps.length) {
+          consoleBox.innerHTML += "<p>" + steps[i] + "</p>";
+          consoleBox.scrollTop = consoleBox.scrollHeight;
+          i++;
         } else {
-          clearInterval(interval);
-          setTimeout(typeWriter, 1000);
+          clearInterval(fakeProcess);
         }
-      }, 100);
+      }, 1500);
     }
-    typeWriter();
   </script>
 </body>
 </html>
