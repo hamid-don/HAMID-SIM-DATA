@@ -1,460 +1,309 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Multi-Platform Recon Simulator — Mock Only</title>
-<style>
-  :root{
-    --bg:#03060a; --panel:#05141a; --accent:#39ff94; --muted:#7aa7b8;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;background:linear-gradient(180deg,#021018 0%,var(--bg) 100%);color:#cfffe3;padding:18px}
-  .wrap{max-width:1100px;margin:0 auto}
-  .card{background:linear-gradient(180deg, rgba(57,255,148,0.02), rgba(255,255,255,0.003));border-radius:12px;padding:16px;border:1px solid rgba(57,255,148,0.05);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-  h1{margin:0;font-size:18px;font-weight:700;letter-spacing:0.3px}
-  .muted{color:var(--muted);font-size:13px}
-  .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-  select,input{padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;font-family:var(--mono);font-size:13px}
-  button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:800;background:var(--accent);color:#031617}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:700}
-  .panel{display:flex;gap:12px}
-  .left{flex:1}
-  .console{background:#021217;border-radius:10px;padding:14px;height:520px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.45;color:#9ef4d2;box-shadow:inset 0 0 40px rgba(57,255,148,0.02)}
-  .result{width:380px;flex-shrink:0;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.002));border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.02)}
-  .chip{display:inline-block;padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);font-size:13px;color:var(--muted)}
-  .progress{height:12px;background:rgba(255,255,255,0.02);border-radius:10px;overflow:hidden;margin-top:10px}
-  .bar{height:100%;width:0%;background:linear-gradient(90deg,#aaffc9,#39ff94);box-shadow:0 6px 18px rgba(57,255,148,0.06)}
-  .small{font-size:12px;color:var(--muted)}
-  .warn{color:#ffd36b}
-  .error{color:#ff8080}
-  .ok{color:#a7ffd9}
-  /* consent modal */
-  .modal{position:fixed;inset:0;background:linear-gradient(rgba(2,6,23,0.85), rgba(2,6,23,0.85));display:flex;align-items:center;justify-content:center;z-index:9999}
-  .modalCard{width:640px;background:linear-gradient(180deg,#02151a,#041b20);padding:18px;border-radius:12px;border:1px solid rgba(57,255,148,0.06)}
-  .modalCard h2{margin:0 0 8px 0;color:var(--accent);font-family:var(--mono)}
-  .label{display:block;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:8px}
-  .kbd{background:rgba(255,255,255,0.02);padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.02);font-family:var(--mono)}
-  .tag{font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .inline{display:inline-block;vertical-align:middle}
-  footer{margin-top:10px;color:var(--muted);font-size:13px}
-</style>
+  <meta charset="UTF-8">
+  <title>Fake Hack Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+    }
+
+    /* Header */
+    #headerBar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background: #111;
+      border-bottom: 1px solid #0f0;
+    }
+
+    #headerBar img {
+      width: 25px;
+      margin-right: 10px;
+    }
+
+    #createdBy {
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ff00; }
+      to { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+    }
+
+    /* Input Section */
+    #inputSection {
+      text-align: center;
+      padding: 10px;
+      background: #000;
+    }
+
+    input, select {
+      padding: 10px;
+      width: 65%;
+      font-size: 14px;
+      border: 1px solid #0f0;
+      background: #111;
+      color: #0f0;
+      outline: none;
+      margin-bottom: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-left: 10px;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    button:hover {
+      background-color: #00cc00;
+    }
+
+    /* Console */
+    #console {
+      height: calc(100vh - 150px);
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.4;
+      border-top: 1px solid #0f0;
+      background: #000;
+    }
+
+    .blink {
+      animation: blink 1s infinite;
+      font-weight: bold;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <header>
-      <div>
-        <h1>Multi-Platform Recon Simulator — MOCK ONLY</h1>
-        <div class="muted">WhatsApp • Facebook • Instagram • TikTok • Snapchat • Twitter (X)</div>
-      </div>
-      <div class="chip">Local / No network</div>
-    </header>
-
-    <div class="controls">
-      <select id="platform" aria-label="Platform selector">
-        <option value="">-- Select Platform --</option>
-        <option value="whatsapp">WhatsApp</option>
-        <option value="facebook">Facebook</option>
-        <option value="instagram">Instagram</option>
-        <option value="tiktok">TikTok</option>
-        <option value="snapchat">Snapchat</option>
-        <option value="twitter">Twitter (X)</option>
-      </select>
-
-      <div id="fieldsContainer" style="flex:1;min-width:260px"></div>
-
-      <button id="runBtn" class="ghost">Run</button>
-      <button id="resetBtn" class="ghost">Reset</button>
-      <div style="margin-left:auto" class="small">Type <span class="kbd">I CONSENT</span> to unlock</div>
-    </div>
-
-    <div class="panel">
-      <div class="left">
-        <div class="console" id="console" aria-live="polite">/* Console offline — provide consent to unlock. */</div>
-        <div class="progress" aria-hidden="true"><div id="bar" class="bar"></div></div>
-      </div>
-
-      <div class="result" id="result">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>Snapshot</strong>
-          <div class="chip" id="selService">—</div>
-        </div>
-
-        <div id="reportBody" style="margin-top:10px;color:var(--muted);font-size:13px">
-          No run yet.
-        </div>
-
-        <div style="margin-top:12px">
-          <button id="copyBtn" class="ghost">Copy Console (local only)</button>
-        </div>
-      </div>
-    </div>
-
-    <footer>Warning: This is a mock simulator for demos and films. Do not use for harassment or unlawful activity.</footer>
+  <!-- Header -->
+  <div id="headerBar">
+    <img src="https://cdn-icons-png.flaticon.com/512/106/106853.png" alt="logo">
+    <div id="createdBy">FAKE HACK SIMULATOR BY HAMID</div>
   </div>
-</div>
-
-<!-- Consent modal -->
-<div id="consent" class="modal" role="dialog" aria-modal="true">
-  <div class="modalCard">
-    <h2>Explicit Consent Required</h2>
-    <p class="small">This simulator is local-only and generates mock outputs. Type <strong>I CONSENT</strong> to unlock. Do not use to deceive, harass, or collect others' private information.</p>
-
-    <label class="label">Type confirmation:</label>
-    <input id="consentInput" class="kbd" style="width:100%;padding:8px;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit" placeholder="I CONSENT" />
-
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-      <button id="openBtn" disabled>Open Simulator</button>
-      <button id="closeBtn" class="ghost">Close</button>
-    </div>
+  
+  <!-- Input -->
+  <div id="inputSection">
+    <select id="platform">
+      <option value="whatsapp">WhatsApp</option>
+      <option value="facebook">Facebook</option>
+      <option value="instagram">Instagram</option>
+      <option value="tiktok">TikTok</option>
+      <option value="gmail">Gmail</option>
+      <option value="snapchat">Snapchat</option>
+      <option value="telegram">Telegram</option>
+      <option value="youtube">YouTube</option>
+      <option value="twitter">Twitter/X</option>
+    </select><br>
+    <input type="text" id="targetInput" placeholder="Enter Target ID / Number / Username">
+    <button onclick="startHack()">Start Attack</button>
   </div>
-</div>
 
-<script>
-/* Multi-Platform Recon Simulator — MOCK ONLY
-   - Each platform has a unique flow (different steps, timings, and possible outcomes).
-   - No network calls. All data is generated locally and masked.
-   - Consent required (type I CONSENT).
-*/
+  <!-- Console -->
+  <div id="console"></div>
 
-/* ----------------- Utilities ----------------- */
-const $ = id => document.getElementById(id);
-const consoleEl = $('console');
-const barEl = $('bar');
-const selServiceEl = $('selService');
-const reportBody = $('reportBody') || document.getElementById('reportBody');
-const platformSelect = $('platform');
-const fieldsContainer = $('fieldsContainer');
-const runBtn = $('runBtn');
-const resetBtn = $('resetBtn');
-const copyBtn = $('copyBtn');
+  <script>
+    const consoleBox = document.getElementById("console");
 
-let running = false;
-let progress = 0;
-let flowTimer = null;
-let audioCtx = null;
-
-/* Safe fake generators */
-function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
-function randHex(len){ const s='abcdef0123456789'; let r=''; for(let i=0;i<len;i++) r+=s[randInt(0,s.length-1)]; return r; }
-function fakeIP(){ return `${randInt(10,230)}.${randInt(0,255)}.${randInt(0,255)}.${randInt(0,255)}`; }
-function fakePass(){ const w=['matrix','orbit','nebula','shadow','quantum','tiger']; return w[randInt(0,w.length-1)]+randInt(10,99); }
-function maskPhone(p){ if(!p) return '(none)'; const d=p.replace(/[^0-9+]/g,''); if(d.length<6) return '***masked***'; return d.slice(0,3)+'•••'+d.slice(-2); }
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
-/* Typewriter logger with auto scroll */
-function appendLog(text, opts={type:'info',typed:true,blink:false}){
-  const line = document.createElement('div');
-  line.className = opts.type === 'warn' ? 'warn' : (opts.type==='error' ? 'error' : (opts.type==='ok' ? 'ok' : ''));
-  if(opts.blink) line.classList.add('blink');
-  if(opts.typed){
-    let i=0;
-    function typeChar(){
-      line.textContent = line.textContent + text.charAt(i);
-      i++;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-      if(i < text.length) setTimeout(typeChar, randInt(14,28));
+    function randomCode() {
+      return Math.floor(100000 + Math.random() * 900000);
     }
-    typeChar();
-  } else {
-    line.textContent = text;
-    consoleEl.scrollTop = consoleEl.scrollHeight;
-  }
-  consoleEl.appendChild(line);
-}
 
-/* beep (low volume) */
-function beep(freq=420, t=0.03, vol=0.01){
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-    o.type = 'sine'; o.frequency.value = freq; g.gain.value = vol;
-    o.connect(g); g.connect(audioCtx.destination); o.start(); setTimeout(()=>o.stop(), t*1000);
-  }catch(e){}
-}
+    function addLog(text, blink=false, error=false) {
+      const line = document.createElement("div");
+      line.textContent = text;
+      if (blink) line.classList.add("blink");
+      if (error) line.classList.add("error");
+      consoleBox.appendChild(line);
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
 
-/* progress update */
-function setProgress(p){
-  progress = Math.max(0, Math.min(100, p));
-  barEl.style.width = progress + '%';
-}
+    function startHack() {
+      const target = document.getElementById("targetInput").value.trim();
+      const platform = document.getElementById("platform").value;
+      consoleBox.innerHTML = "";
+      if (!target) {
+        alert("Please enter target details.");
+        return;
+      }
 
-/* clear console & report */
-function clearAll(){
-  if(flowTimer){ clearInterval(flowTimer); flowTimer=null; }
-  running = false;
-  progress = 0;
-  setProgress(0);
-  consoleEl.textContent = '/* Console ready. Select a platform and provide consent to run. */';
-  selServiceEl.textContent = '—';
-  reportBody.innerHTML = 'No run yet.';
-}
+      addLog("Launching " + platform.toUpperCase() + " hack on target: " + target);
 
-/* ----------------- Consent Modal ----------------- */
-const consentModal = document.getElementById('consent');
-const consentInput = document.getElementById('consentInput');
-const openBtn = document.getElementById('openBtn');
-const closeBtn = document.getElementById('closeBtn');
+      setTimeout(() => {
+        runLogs(platform, target);
+      }, 1500);
+    }
 
-consentInput.addEventListener('input', ()=> {
-  openBtn.disabled = consentInput.value.trim().toLowerCase() !== 'i consent';
-});
-openBtn.addEventListener('click', ()=> {
-  consentModal.style.display = 'none';
-  appendLog('/* Consent provided — simulator unlocked (mock only). */',{typed:false});
-});
-closeBtn.addEventListener('click', ()=> {
-  consentModal.style.display = 'none';
-  appendLog('/* Consent modal closed. */',{typed:false});
-});
+    function runLogs(platform, target) {
+      let logs = [];
 
-/* ----------------- Dynamic fields per platform ----------------- */
-function renderFieldsFor(platform){
-  const map = {
-    whatsapp: `<input id="target" placeholder="WhatsApp number (e.g. +92300...)">`,
-    facebook: `<input id="target" placeholder="Facebook username or email"> <input id="fbEmail" placeholder="Recovery email (optional)">`,
-    instagram: `<input id="target" placeholder="Instagram handle (e.g. user.name)">`,
-    tiktok: `<input id="target" placeholder="TikTok handle (e.g. @user)"> <select id="device"><option value="android">Android</option><option value="ios">iOS</option></select>`,
-    snapchat: `<input id="target" placeholder="Snapchat username">`,
-    twitter: `<input id="target" placeholder="Twitter/X handle or email"> <input id="twTokenHint" placeholder="Token hint (optional)">`
-  };
-  fieldsContainer.innerHTML = map[platform] || '';
-}
+      switch(platform) {
+        case "whatsapp":
+          logs = [
+            "Connecting to WhatsApp server...",
+            "Checking number registration...",
+            "Bypassing end-to-end encryption...",
+            "Extracting chat history...",
+            "Decrypting message database...",
+            "Preparing brute-force attack on 6-digit code..."
+          ];
+          break;
 
-/* attach change */
-platformSelect.addEventListener('change', ()=> {
-  renderFieldsFor(platformSelect.value);
-  consoleEl.textContent = `/* Selected: ${platformSelect.value || '—'} */`;
-});
+        case "facebook":
+          logs = [
+            "Connecting to Facebook datacenter...",
+            "Fetching user profile: " + target,
+            "Bypassing 2FA authentication...",
+            "Accessing private photos...",
+            "Extracting Messenger conversations...",
+            "Injecting admin panel exploit..."
+          ];
+          break;
 
-/* ----------------- Platform-specific flows ----------------- */
+        case "instagram":
+          logs = [
+            "Connecting to Instagram API...",
+            "Scanning user: " + target,
+            "Bypassing login security...",
+            "Extracting private stories...",
+            "Downloading DM conversations...",
+            "Fetching saved reels & posts..."
+          ];
+          break;
 
-/*
- Each flow is an array of step objects:
- { text: '...', delay: ms, action: optional function returning { outcome } }
- Actions can add logs or influence final outcome.
-*/
+        case "tiktok":
+          logs = [
+            "Connecting to TikTok main server...",
+            "Analyzing username: " + target,
+            "Bypassing captcha firewall...",
+            "Extracting draft videos...",
+            "Decrypting private messages...",
+            "Dumping follower database..."
+          ];
+          break;
 
-const FLOWS = {
-  whatsapp: [
-    { text: 'Resolving WhatsApp gateway endpoints...', delay: 700 },
-    { text: 'Checking registration status for target...', delay: 900 },
-    { action: (ctx)=>{ /* simulate registered / not */ ctx.registered = Math.random() > 0.12; appendLog(ctx.registered ? '[+] Number registered (mock)' : '[X] Number not found (mock)', {type: ctx.registered? 'ok':'error', typed:true}); }, delay: 600 },
-    { text: 'Querying recent backup meta (mock)...', delay: 800 },
-    { text: 'Attempting backup key derivation (PBKDF-sim)...', delay: 1000 },
-    { action: (ctx)=>{ if(!ctx.registered){ ctx.abort='NotRegistered'; } else ctx.backupFound = Math.random() < 0.55; } , delay: 700 },
-    { text: 'Launching local PIN brute-force (mock) — 6-digit space...', delay: 900 },
-    { action: (ctx)=>{ if(ctx.abort){ appendLog('Abort condition met — stopping flow.', {type:'warn'}); } else { ctx.pinFound = Math.random() < 0.45; } }, delay: 900 },
-    { text: 'Finalizing snapshot and masking output...', delay: 600 }
-  ],
+        case "gmail":
+          logs = [
+            "Connecting to Google authentication server...",
+            "Fetching Gmail account: " + target,
+            "Bypassing OAuth verification...",
+            "Extracting inbox emails...",
+            "Scanning attachments for data...",
+            "Dumping full mailbox..."
+          ];
+          break;
 
-  facebook: [
-    { text: 'Opening connection to Facebook data center (mock)...', delay: 600 },
-    { text: 'Fetching account public metadata...', delay: 700 },
-    { text: 'Enumerating recent login locations & devices...', delay: 900 },
-    { action:(ctx)=>{ ctx.recoveryVec = Math.random() < 0.6 ? 'email' : 'phone'; appendLog(`[i] Recovery vector detected (mock): ${ctx.recoveryVec}`, {type:'warn'}); }, delay: 600 },
-    { text: 'Crafting password-reset exploit (simulated)...', delay: 900 },
-    { action:(ctx)=>{ ctx.tokenHarvest = Math.random() < 0.35; if(ctx.tokenHarvest) appendLog('[+] Session token harvested (mock).', {type:'ok'}); }, delay: 800 },
-    { text: 'Attempting session injection (mock)...', delay: 900 },
-    { text: 'Extracting friends & hidden messages (mock)...', delay: 900 }
-  ],
+        case "snapchat":
+          logs = [
+            "Connecting to Snapchat servers...",
+            "Analyzing username: " + target,
+            "Bypassing snap token security...",
+            "Extracting private snaps...",
+            "Decrypting memory storage...",
+            "Recovering deleted snaps..."
+          ];
+          break;
 
-  instagram: [
-    { text: 'Connecting to Instagram API endpoint (mock)...', delay: 600 },
-    { text: 'Enumerating user media and story archives...', delay: 900 },
-    { action:(ctx)=>{ ctx.checkpoint = Math.random() < 0.5; if(ctx.checkpoint) appendLog('[!] Login checkpoint present (mock) — applying challenge bypass routine', {type:'warn'}); }, delay: 800 },
-    { text: 'Running challenge-bypass photo meta trick (simulated)...', delay: 1000 },
-    { action:(ctx)=>{ ctx.dmsAccess = Math.random() < 0.42; }, delay: 800 },
-    { text: 'Dumping saved passwords hash (mock) and attempting crack...', delay: 900 },
-    { action:(ctx)=>{ ctx.cracked = ctx.dmsAccess && Math.random() < 0.4; }, delay: 900 }
-  ],
+        case "telegram":
+          logs = [
+            "Connecting to Telegram global server...",
+            "Fetching user ID: " + target,
+            "Bypassing MTProto encryption...",
+            "Accessing secret chats...",
+            "Extracting group messages...",
+            "Dumping sticker and media database..."
+          ];
+          break;
 
-  tiktok: [
-    { text: 'Resolving CDN edges for TikTok...', delay: 600 },
-    { text: 'Enumerating device fingerprints and drafts (mock)...', delay: 900 },
-    { action:(ctx)=>{ ctx.draftFound = Math.random() < 0.6; if(ctx.draftFound) appendLog('[+] Draft videos indexed (mock).', {type:'ok'}); }, delay: 800 },
-    { text: 'Simulating cookie extraction & decrypt...', delay: 900 },
-    { action:(ctx)=>{ ctx.analytics = {followers: randInt(100,12000), likes: randInt(10,8000)}; }, delay: 600 },
-    { text: 'Packaging analytics & media snapshot (mock)...', delay: 700 }
-  ],
+        case "youtube":
+          logs = [
+            "Connecting to YouTube datacenter...",
+            "Fetching channel: " + target,
+            "Bypassing Google security...",
+            "Extracting private playlists...",
+            "Dumping monetization reports...",
+            "Downloading unlisted videos..."
+          ];
+          break;
 
-  snapchat: [
-    { text: 'Contacting Snapchat ephemeral-store (mock)...', delay: 700 },
-    { text: 'Attempting memory-dump via simulated exploit...', delay: 1100 },
-    { action:(ctx)=>{ ctx.snapshots = Math.random() < 0.5; if(ctx.snapshots) appendLog('[+] Snap memory segments recovered (mock).', {type:'ok'}); }, delay: 900 },
-    { text: 'Decrypting saved media & reconciling TTLs (mock)...', delay: 900 },
-    { action:(ctx)=>{ ctx.privacyInterruption = Math.random() < 0.35; if(ctx.privacyInterruption) appendLog('[!] Screenshot protection triggered — limited recovery (mock).', {type:'warn'}); }, delay: 700 },
-    { text: 'Finalizing memory artifacts (mock)...', delay: 700 }
-  ],
+        case "twitter":
+          logs = [
+            "Connecting to Twitter/X API...",
+            "Fetching handle: " + target,
+            "Bypassing email verification...",
+            "Extracting private tweets...",
+            "Dumping DM history...",
+            "Injecting botnet access..."
+          ];
+          break;
+      }
 
-  twitter: [
-    { text: 'Connecting to Twitter (X) API gateways (mock)...', delay: 600 },
-    { text: 'Enumerating OAuth clients and app tokens...', delay: 800 },
-    { action:(ctx)=>{ ctx.oauthFound = Math.random() < 0.4; if(ctx.oauthFound) appendLog('[+] OAuth token replay possible (mock).', {type:'ok'}); }, delay: 900 },
-    { text: 'Extracting private DMs and bookmarks (simulated)...', delay: 900 },
-    { action:(ctx)=>{ ctx.rateLimited = Math.random() < 0.25; if(ctx.rateLimited) appendLog('[!] Rate limit encountered (mock) — escalating via proxy simulation', {type:'warn'}); }, delay: 700 },
-    { text: 'Packaging session takeover payload (mock)...', delay: 800 }
-  ]
-};
+      let i = 0;
+      function showLogs() {
+        if (i < logs.length) {
+          addLog("> " + logs[i]);
+          i++;
+          setTimeout(showLogs, 1500);
+        } else {
+          finishHack(platform);
+        }
+      }
+      showLogs();
+    }
 
-/* ----------------- Runner ----------------- */
-
-function gatherContext(platform){
-  const ctx = { platform };
-  // fetch target fields safely (mock)
-  const t = document.getElementById('target');
-  ctx.targetRaw = t ? t.value.trim() : '(none)';
-  // platform specific extras
-  if(platform === 'whatsapp') ctx.maskPhone = maskPhone(ctx.targetRaw);
-  if(platform === 'facebook') ctx.recoveryEmail = document.getElementById('fbEmail')?.value.trim() || '';
-  if(platform === 'tiktok') ctx.device = document.getElementById('device')?.value || 'android';
-  if(platform === 'twitter') ctx.tokenHint = document.getElementById('twTokenHint')?.value.trim() || '';
-  return ctx;
-}
-
-async function runFlow(platform){
-  if(running) return;
-  if(!document.getElementById('consentInput') || document.getElementById('consentInput').value.trim().toLowerCase() !== 'i consent'){
-    alert('Please provide explicit consent by typing "I CONSENT".');
-    return;
-  }
-  const flow = FLOWS[platform];
-  if(!flow){ alert('Select a valid platform.'); return; }
-  const ctx = gatherContext(platform);
-
-  // initialize console & UI
-  consoleEl.textContent = '';
-  setProgress(2);
-  selServiceEl.textContent = platform.toUpperCase();
-  running = true;
-  appendLog(`/* MOCK RUN START — ${platform.toUpperCase()} */`, {typed:false});
-  await sleep(300);
-
-  // process each step
-  for(let i=0;i<flow.length;i++){
-    const step = flow[i];
-    if(!running) { appendLog('/* Run aborted by user. */',{typed:false}); break; }
-    // if step has a text, log it
-    if(step.text) {
-      appendLog(`[>] ${step.text}`);
-      // small variable-driven lines: insert target if needed
-      if(step.text.includes('target') && ctx.targetRaw) {
-        appendLog(`    -> target: ${escapeHtml(ctx.targetRaw)}`, {typed:false});
+    function finishHack(platform) {
+      if (platform === "whatsapp") {
+        crackPassword();
+      } else {
+        addLog("Data extraction completed successfully ✅", true);
       }
     }
-    // if action exists, execute it (can mutate ctx and add logs)
-    if(typeof step.action === 'function'){
-      try{ step.action(ctx); } catch(e){ appendLog('[!] Step action error (ignored)',{type:'warn'}); }
+
+    function crackPassword() {
+      let tries = 0;
+      let fakeCodes = [];
+      for (let i = 0; i < 20; i++) {
+        fakeCodes.push(randomCode());
+      }
+      let finalPass = randomCode();
+
+      const interval = setInterval(() => {
+        if (tries < fakeCodes.length) {
+          addLog("Trying code: " + fakeCodes[tries] + " ... Failed");
+          tries++;
+        } else {
+          addLog("Password Found: " + finalPass + " ✅", true);
+          clearInterval(interval);
+        }
+      }, 800);
     }
-    // update progress moderately
-    setProgress(Math.min(98, progress + randInt(6,12)));
-    // Wait step.delay (simulate processing) but add small jitter
-    await sleep(step.delay + randInt(-120,220));
-  }
-
-  // Finalization and platform-specific outcomes
-  await finalizeRun(platform, ctx);
-  running = false;
-}
-
-/* Platform-specific finalization: show different endings/outcomes */
-async function finalizeRun(platform, ctx){
-  setProgress(96);
-  appendLog('/* Finalizing & masking snapshot (mock)... */',{typed:false});
-  await sleep(700);
-
-  // platform-specific result creation
-  let snapshot = { platform, target: ctx.targetRaw || '(none)', notes: [] };
-
-  switch(platform){
-    case 'whatsapp':
-      if(ctx.abort === 'NotRegistered'){ appendLog('[X] Target number is not registered — aborting (mock).',{type:'error'}); snapshot.notes.push('Number not registered (mock)'); break; }
-      if(ctx.pinFound){ appendLog('[✔] Mock PIN discovered (local simulation).',{type:'ok',blink:true}); snapshot.mockPassword = fakePass(); snapshot.notes.push('PIN recovered (mock)'); }
-      else if(ctx.backupFound){ appendLog('[i] Backup metadata present — partial recovery (mock).',{type:'warn'}); snapshot.notes.push('Backup metadata found (mock)'); }
-      else { appendLog('[!] No recoverable artifacts — limited mock result.',{type:'warn'}); snapshot.notes.push('No recoverable artifacts (mock)'); }
-      snapshot.masked = ctx.maskPhone || maskPhone(ctx.targetRaw);
-      break;
-
-    case 'facebook':
-      if(ctx.tokenHarvest){ appendLog('[✔] Mock session token obtained — session hijack simulated.',{type:'ok',blink:true}); snapshot.notes.push('Session token (mock)'); snapshot.token = 'tok_'+randHex(12); }
-      else { appendLog('[!] No tokens — forced password-reset vector only (mock).',{type:'warn'}); snapshot.notes.push('No token — password-reset simulated'); }
-      snapshot.recovery = ctx.recoveryVec || 'unknown';
-      break;
-
-    case 'instagram':
-      if(ctx.cracked){ appendLog('[✔] Password hash cracked (mock) — DMs accessible.',{type:'ok',blink:true}); snapshot.notes.push('DMs accessible (mock)'); snapshot.password = fakePass(); }
-      else if(ctx.dmsAccess){ appendLog('[i] DMs partially indexed (mock).',{type:'warn'}); snapshot.notes.push('Partial DM index (mock)'); }
-      else { appendLog('[!] Checkpoint blocked deeper access (mock).',{type:'warn'}); snapshot.notes.push('Checkpoint blocked (mock)'); }
-      break;
-
-    case 'tiktok':
-      if(ctx.draftFound){ appendLog('[✔] Draft media extracted (mock).',{type:'ok'}); snapshot.notes.push(`Drafts: ${randInt(1,6)} videos (mock)`); snapshot.analytics = ctx.analytics; }
-      else { appendLog('[!] No drafts — public content only (mock).',{type:'warn'}); snapshot.notes.push('No drafts (mock)'); }
-      break;
-
-    case 'snapchat':
-      if(ctx.snapshots && !ctx.privacyInterruption){ appendLog('[✔] Snaps recovered from memory dump (mock).',{type:'ok'}); snapshot.notes.push('Snaps recovered (mock)'); }
-      else if(ctx.snapshots && ctx.privacyInterruption){ appendLog('[i] Partial snaps recovered — screenshot guard limited output (mock).',{type:'warn'}); snapshot.notes.push('Partial snaps (mock)'); }
-      else { appendLog('[!] Memory dump failed — insufficient artifacts (mock).',{type:'warn'}); snapshot.notes.push('Memory dump failed (mock)'); }
-      break;
-
-    case 'twitter':
-      if(ctx.oauthFound){ appendLog('[✔] OAuth replay possible — session takeover simulated (mock).',{type:'ok'}); snapshot.notes.push('OAuth replay (mock)'); snapshot.token = 'x_'+randHex(10); }
-      else if(ctx.rateLimited){ appendLog('[i] Rate-limited — only metadata recovered (mock).',{type:'warn'}); snapshot.notes.push('Rate-limited; metadata only (mock)'); }
-      else { appendLog('[!] No takeover path found — metadata snapshot only (mock).',{type:'warn'}); snapshot.notes.push('Metadata only (mock)'); }
-      break;
-  }
-
-  // final progress
-  setProgress(100);
-  appendLog('/* MOCK RUN COMPLETE — no real data transmitted */',{typed:false});
-  await sleep(250);
-  // update snapshot UI (masked)
-  showSnapshot(snapshot);
-}
-
-/* Render snapshot box on the right */
-function showSnapshot(snap){
-  selServiceEl.textContent = snap.platform.toUpperCase();
-  const rows = [];
-  rows.push(`<div style="font-size:14px"><strong>${escapeHtml(snap.platform.toUpperCase())} — Mock Snapshot</strong></div>`);
-  rows.push(`<div style="margin-top:8px;color:var(--muted);font-size:13px">`);
-  rows.push(`<div>Target: <strong>${escapeHtml(snap.target||'(none)')}</strong></div>`);
-  if(snap.masked) rows.push(`<div>Masked: <strong>${escapeHtml(snap.masked)}</strong></div>`);
-  if(snap.token) rows.push(`<div>Token (mock): <span class="tag">${escapeHtml(snap.token)}</span></div>`);
-  if(snap.password) rows.push(`<div>Password (mock): <strong>${escapeHtml(snap.password)}</strong></div>`);
-  if(snap.analytics) rows.push(`<div>Analytics (mock): followers ${snap.analytics.followers}, likes ${snap.analytics.likes}</div>`);
-  if(snap.notes && snap.notes.length) rows.push(`<div style="margin-top:6px">Notes: <ul>${snap.notes.map(n=>`<li class="small">${escapeHtml(n)}</li>`).join('')}</ul></div>`);
-  rows.push(`</div>`);
-  reportBody.innerHTML = rows.join('');
-}
-
-/* ----------------- Helpers ----------------- */
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-/* ----------------- UI Actions ----------------- */
-runBtn.addEventListener('click', ()=> {
-  const platform = platformSelect.value;
-  if(!platform){ alert('Please select a platform.'); return; }
-  runFlow(platform);
-});
-resetBtn.addEventListener('click', clearAll);
-copyBtn.addEventListener('click', ()=> {
-  const txt = consoleEl.textContent;
-  navigator.clipboard?.writeText(txt).then(()=> alert('Console copied (mock text).'), ()=> alert('Copy failed.'));
-});
-
-/* initialize */
-clearAll();
-appendLog('/* Welcome — this simulator is mock-only. Provide consent to run. */',{typed:false});
-
-/* Expose some helper functions to the global scope for console tweaks */
-window.appendLog = appendLog;
-window.setProgress = setProgress;
-window.clearAll = clearAll;
-</script>
+  </script>
 </body>
 </html>
