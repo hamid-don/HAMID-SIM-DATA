@@ -1,300 +1,257 @@
-<!-- Save as: multi-service-simulator-auto-logs.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Recon Simulator — Auto Fake Logs (Local Only)</title>
-<style>
-  :root{
-    --bg:#01060a; --panel:#04121a; --accent:#39ff94; --muted:#7aa7b8; --card:#041017;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;background:radial-gradient(ellipse at 20% 0%, #021018 0%, var(--bg) 60%);color:#dffdf0;padding:18px}
-  .container{max-width:1000px;margin:0 auto}
-  .card{background:linear-gradient(180deg, rgba(57,255,148,0.02), rgba(255,255,255,0.002));border-radius:12px;padding:18px;border:1px solid rgba(57,255,148,0.06);box-shadow:0 20px 40px rgba(0,0,0,0.7)}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-  h1{margin:0;font-size:18px;letter-spacing:0.4px}
-  .muted{color:var(--muted);font-size:13px}
-  .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
-  input[type=text], input[type=tel] {flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;font-family:var(--mono);font-size:13px}
-  .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:800;background:var(--accent);color:#021017;font-family:var(--mono)}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:700}
-  .panel{display:flex;gap:12px}
-  .left{flex:1}
-  .console{background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));border-radius:10px;padding:14px;height:420px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.45;color:#8ef6c9;box-shadow:inset 0 0 40px rgba(57,255,148,0.02)}
-  .result{width:360px;flex-shrink:0;background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.002));border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.02)}
-  .chip{display:inline-block;padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);font-size:13px;color:var(--muted)}
-  .progress{height:12px;background:rgba(255,255,255,0.02);border-radius:10px;overflow:hidden;margin-top:10px}
-  .bar{height:100%;width:0%;background:linear-gradient(90deg,#aaffc9,#39ff94);box-shadow:0 6px 18px rgba(57,255,148,0.06)}
-  .modal{position:fixed;inset:0;background:linear-gradient(rgba(1,6,10,0.85), rgba(1,6,10,0.85));display:flex;align-items:center;justify-content:center;z-index:9999}
-  .modalCard{width:600px;background:linear-gradient(180deg,#02151a,#041b20);padding:18px;border-radius:12px;border:1px solid rgba(57,255,148,0.06)}
-  .modalCard h2{margin:0 0 8px 0;color:var(--accent);font-family:var(--mono)}
-  .small{font-size:12px;color:var(--muted)}
-</style>
+  <meta charset="UTF-8">
+  <title>Social Media Hack Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+    }
+
+    /* Header */
+    #headerBar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background: #111;
+      border-bottom: 2px solid #0f0;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    #createdBy {
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00ff00, 0 0 25px #00ff00;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00ff00; }
+      to { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+    }
+
+    /* Input Section */
+    #inputSection {
+      text-align: center;
+      padding: 15px;
+      background: #000;
+    }
+
+    select, input {
+      padding: 10px;
+      margin: 5px;
+      font-size: 14px;
+      border: 1px solid #0f0;
+      background: #111;
+      color: #0f0;
+      outline: none;
+      width: 70%;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-top: 10px;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ff00;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #00cc00;
+      box-shadow: 0 0 20px #00ff00;
+    }
+
+    /* Console */
+    #console {
+      height: calc(100vh - 200px);
+      padding: 12px;
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.4;
+      border-top: 1px solid #0f0;
+      background: #000;
+      scroll-behavior: smooth;
+    }
+
+    .blink { animation: blink 1s infinite; font-weight: bold; }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .error { color: red; font-weight: bold; }
+    .warn { color: yellow; }
+    .success { color: #00ffcc; font-weight: bold; }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="card">
-    <header>
-      <div>
-        <h1>Recon Simulator — Auto Fake Logs (Local Only)</h1>
-        <div class="muted">Type a target to start realistic mock logs — NO NETWORK CALLS</div>
-      </div>
-      <div class="chip" id="modeChip">LOCAL MOCK</div>
-    </header>
-
-    <div class="controls">
-      <input id="target" type="text" placeholder="Target handle / name (typing starts fake logs)" />
-      <input id="waNumber" type="tel" placeholder="WhatsApp number (mock only)" style="max-width:240px"/>
-      <button id="reset" class="btn ghost">Stop / Reset</button>
-      <label style="margin-left:auto" class="muted"><input id="sound" type="checkbox" checked /> Sound</label>
-    </div>
-
-    <div class="panel">
-      <div class="left">
-        <div class="console" id="console">/* Console ready — explicit consent required. */</div>
-        <div class="progress" aria-hidden="true"><div id="bar" class="bar"></div></div>
-      </div>
-
-      <div class="result" id="result">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>Live Preview</strong>
-          <div class="chip" id="selService">—</div>
-        </div>
-        <div id="reportBody" style="margin-top:10px;color:var(--muted);font-size:13px">
-          Start typing a target to see live mock logs.
-        </div>
-        <div style="margin-top:10px" class="small">All outputs are generated locally and are masked. For ethical demos only.</div>
-      </div>
-    </div>
-
-    <footer class="small">Open the page, type <strong>I CONSENT</strong> in the consent box to enable. Simulator is mock-only.</footer>
+  <!-- Header -->
+  <div id="headerBar">
+    <div id="createdBy">SOCIAL MEDIA HACK SIMULATOR - HAMID</div>
   </div>
-</div>
-
-<!-- Consent modal -->
-<div id="consent" class="modal" role="dialog" aria-modal="true">
-  <div class="modalCard" role="document" aria-labelledby="consentTitle">
-    <h2 id="consentTitle">Explicit Consent Required</h2>
-    <p class="small">This is a local-only simulator intended for classroom demos, movies, or harmless pranks with explicit consent. Type <strong>I CONSENT</strong> to enable the simulator. No network requests will be made.</p>
-    <div style="margin-top:10px">
-      <input id="consentInput" type="text" placeholder="Type I CONSENT to enable" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:inherit;font-family:ui-monospace,monospace"/>
-    </div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-      <button id="openBtn" class="btn" disabled>Open Simulator</button>
-      <button id="closeBtn" class="btn ghost">Close</button>
-    </div>
-    <div style="margin-top:8px" class="small"><span style="color:#ff7b7b">Warning:</span> Do not use to harass or collect other people's private info.</div>
+  
+  <!-- Input -->
+  <div id="inputSection">
+    <select id="platform" onchange="showFields()">
+      <option value="">-- Select Platform --</option>
+      <option value="whatsapp">WhatsApp</option>
+      <option value="facebook">Facebook</option>
+      <option value="instagram">Instagram</option>
+      <option value="tiktok">TikTok</option>
+      <option value="snapchat">Snapchat</option>
+      <option value="twitter">Twitter (X)</option>
+    </select>
+    
+    <div id="dynamicFields"></div>
+    <button onclick="startHack()">Start Attack</button>
   </div>
-</div>
 
-<script>
-/* Auto-log simulator — starts streaming fake logs when target is typed.
-   SAFETY: local-only; no fetch/XHR/Beacon. Consent typed required.
-*/
+  <!-- Console -->
+  <div id="console"></div>
 
-const consoleEl = document.getElementById('console');
-const bar = document.getElementById('bar');
-const targetInput = document.getElementById('target');
-const waInput = document.getElementById('waNumber');
-const resetBtn = document.getElementById('reset');
-const selServiceEl = document.getElementById('selService');
-const reportBody = document.getElementById('reportBody');
-const soundToggle = document.getElementById('sound');
+  <script>
+    const consoleBox = document.getElementById("console");
 
-let running = false;
-let logInterval = null;
-let audioCtx = null;
-let progress = 0;
-let currentTarget = '';
-let consentGiven = false;
+    function addLog(text, type="info", blink=false) {
+      const line = document.createElement("div");
+      line.classList.add(type);
+      if (blink) line.classList.add("blink");
 
-/* Consent modal */
-const consent = document.getElementById('consent');
-const consentInput = document.getElementById('consentInput');
-const openBtn = document.getElementById('openBtn');
-const closeBtn = document.getElementById('closeBtn');
-
-consentInput.addEventListener('input', ()=> {
-  openBtn.disabled = consentInput.value.trim().toLowerCase() !== 'i consent';
-});
-openBtn.addEventListener('click', ()=> {
-  consent.style.display = 'none';
-  consentGiven = true;
-  appendConsole('/* Consent provided. Simulator unlocked. Start typing target to stream mock logs. */');
-});
-closeBtn.addEventListener('click', ()=> {
-  consent.style.display = 'none';
-  appendConsole('/* Simulator closed without consent. */');
-});
-
-/* sound beep */
-function beep(freq=420, t=0.03, vol=0.02){
-  if(!soundToggle.checked) return;
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type='sine'; o.frequency.value = freq; g.gain.value = vol;
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start(); setTimeout(()=>{ try{ o.stop(); }catch(e){} }, t*1000);
-  }catch(e){}
-}
-
-/* Console helpers */
-function appendConsole(text, opts = {}) {
-  // if opts.timestamp true, prefix timestamp
-  const prefix = opts.timestamp ? `[${new Date().toLocaleTimeString()}] ` : '';
-  consoleEl.textContent += (consoleEl.textContent ? '\n' : '') + prefix + text;
-  // auto scroll to bottom smoothly
-  consoleEl.scrollTo({ top: consoleEl.scrollHeight, behavior: 'smooth' });
-}
-
-/* Fake generators */
-function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
-function fakeIP(){ return `${randInt(10,230)}.${randInt(0,255)}.${randInt(0,255)}.${randInt(0,255)}`; }
-function fakePass(){ const words=['matrix','orbit','shadow','nebula','quantum','tiger']; return words[randInt(0,words.length-1)]+randInt(10,99); }
-function maskPhone(p){
-  if(!p) return '(none)';
-  const digits = p.replace(/[^0-9+]/g,'');
-  if(digits.length<6) return '***masked***';
-  const start = digits.slice(0,3);
-  const end = digits.slice(-2);
-  return start + '••••' + end;
-}
-function fakeLogLineForTarget(t){
-  const verbs = ['Probing','Enumerating','Scanning','Reading','Decrypting','Validating','Fetching','Analyzing','Indexing','Correlating'];
-  const nouns = ['public metadata','session shards','token caches','cookie stores','social graph','federated index','cache replica','api gateway','sms gateway','media store'];
-  const v = verbs[randInt(0,verbs.length-1)];
-  const n = nouns[randInt(0,nouns.length-1)];
-  // insert target occasionally
-  const formats = [
-    `${v} ${n}...`,
-    `${v} ${n} for ${t}...`,
-    `${v} ${n} from region PK...`,
-    `${v} ${n} • matched 3 entries • scoring ${randInt(10,99)}%`,
-    `${v} ${n} • signature [${randHex(8)}] • validating...`
-  ];
-  return formats[randInt(0,formats.length-1)];
-}
-function randHex(len){ const chars='abcdef0123456789'; let s=''; for(let i=0;i<len;i++) s+=chars[randInt(0,chars.length-1)]; return s; }
-
-/* Start streaming fake logs for a target */
-function startAutoLogs(target){
-  if(!consentGiven){
-    appendConsole('/* Consent not given — simulator locked. Type I CONSENT to enable. */');
-    return;
-  }
-  stopAutoLogs(); // ensure previous stopped
-  running = true;
-  currentTarget = target;
-  progress = 5;
-  consoleEl.textContent = '';
-  appendConsole(`/* Auto-log stream started for target: ${escapeHtml(target)} (mock-only) */`, {timestamp:true});
-  selServiceEl.textContent = 'WhatsApp / Social';
-  reportBody.innerHTML = 'Streaming mock logs...';
-
-  // initial staged messages
-  appendConsole(`[${new Date().toLocaleTimeString()}] Resolving public handles for ${target}...`);
-  appendConsole(`[${new Date().toLocaleTimeString()}] Fingerprinting local mock environment...`);
-  bar.style.width = '6%';
-  beep(420,0.02,0.015);
-
-  // interval producing logs at random intervals (simulate real flow)
-  logInterval = setInterval(()=> {
-    if(!running) return;
-    // produce 1-3 lines per tick
-    const lines = randInt(1,3);
-    for(let i=0;i<lines;i++){
-      const line = fakeLogLineForTarget(target);
-      appendConsole(`[${new Date().toLocaleTimeString()}] ${line}`);
+      let i = 0;
+      function typeWriter() {
+        if (i < text.length) {
+          line.textContent += text.charAt(i);
+          i++;
+          consoleBox.scrollTop = consoleBox.scrollHeight;
+          setTimeout(typeWriter, 30);
+        }
+      }
+      typeWriter();
+      consoleBox.appendChild(line);
     }
-    // occasionally emit "discovery" events and bump progress
-    if(Math.random() < 0.18){
-      const discovery = Math.random() < 0.5 ? `Found public email (mock): ${fakeEmailFromTarget(target)}` : `Matched leaked-password pattern (mock) • score ${randInt(40,88)}%`;
-      appendConsole(`[${new Date().toLocaleTimeString()}] ${discovery}`);
+
+    function randomCode() {
+      return Math.floor(100000 + Math.random() * 900000);
     }
-    // update progress bar smoothly up to 95%
-    progress = Math.min(95, progress + randInt(1,6));
-    bar.style.width = progress + '%';
-    beep(360 + Math.random()*200, 0.02, 0.012);
-    // update side preview occasionally
-    if(Math.random() < 0.2){
-      reportBody.innerHTML = `
-        <div style="font-size:14px"><strong>Live mock snapshot — ${escapeHtml(target)}</strong></div>
-        <div style="margin-top:8px;color:var(--muted);font-size:13px">
-          <div>Likely password (mock): <strong>${escapeHtml(fakePass())}</strong></div>
-          <div>Last IP (mock): <strong>${fakeIP()}</strong></div>
-          <div>WhatsApp (masked): <strong>${maskPhone(waInput.value)}</strong></div>
-        </div>
-      `;
+
+    function showFields() {
+      const platform = document.getElementById("platform").value;
+      const fieldBox = document.getElementById("dynamicFields");
+      fieldBox.innerHTML = "";
+
+      if (platform === "whatsapp") {
+        fieldBox.innerHTML = '<input type="text" id="target" placeholder="Enter WhatsApp Number">';
+      } 
+      else if (platform === "facebook" || platform === "instagram" || platform === "twitter") {
+        fieldBox.innerHTML = '<input type="text" id="target" placeholder="Enter Username or Email">';
+      }
+      else if (platform === "tiktok" || platform === "snapchat") {
+        fieldBox.innerHTML = '<input type="text" id="target" placeholder="Enter Username">';
+      }
     }
-  }, randInt(350,900));
-}
 
-/* helper stop */
-function stopAutoLogs(){
-  if(logInterval) { clearInterval(logInterval); logInterval = null; }
-  running = false;
-  progress = 0;
-  bar.style.width = '0%';
-  selServiceEl.textContent = '—';
-  appendConsole('/* Auto-log stream stopped. */', {timestamp:true});
-}
+    function startHack() {
+      const platform = document.getElementById("platform").value;
+      const target = document.getElementById("target")?.value.trim();
+      consoleBox.innerHTML = "";
 
-/* small helpers */
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-function fakeEmailFromTarget(t){ return (t.replace(/[^a-z0-9]/gi,'')||'user') + randInt(1,99) + '@mockmail.local'; }
+      if (!platform || !target) {
+        alert("Please select a platform and enter target details.");
+        return;
+      }
 
-/* Debounce typing: start logs after user stops typing for 600ms */
-let debounceTimer = null;
-targetInput.addEventListener('input', ()=>{
-  const val = targetInput.value.trim();
-  // if cleared, stop
-  if(!val){ stopAutoLogs(); consoleEl.textContent = '/* Target field cleared — no active stream. */'; reportBody.innerHTML='Start typing a target to see live mock logs.'; return; }
-  // require consent
-  if(!consentGiven){
-    appendConsole('/* Consent required — type I CONSENT to enable simulator. */');
-    return;
-  }
-  // debounce
-  if(debounceTimer) clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(()=> {
-    // start auto logs for current value
-    startAutoLogs(val);
-  }, 600);
-});
+      addLog(`[+] Initializing hack on ${platform.toUpperCase()}...`);
+      setTimeout(() => runLogs(platform, target), 1500);
+    }
 
-/* reset button stops logs */
-resetBtn.addEventListener('click', ()=> {
-  targetInput.value = '';
-  waInput.value = '';
-  stopAutoLogs();
-  consoleEl.textContent = '/* Stopped. Clear target to halt — consent remains. */';
-  reportBody.innerHTML = 'Stopped.';
-});
+    function runLogs(platform, target) {
+      const logsMap = {
+        whatsapp: [
+          "Connecting to WhatsApp global servers...",
+          "Authenticating number: " + target,
+          "Bypassing end-to-end encryption...",
+          "Extracting chat backups...",
+          "Launching brute-force attack on 6-digit PIN..."
+        ],
+        facebook: [
+          "Connecting to Facebook data center...",
+          "Fetching account details for: " + target,
+          "Bypassing 2FA security...",
+          "Extracting friends list & private messages...",
+          "Injecting session hijack payload..."
+        ],
+        instagram: [
+          "Connecting to Instagram secure API...",
+          "Fetching profile: " + target,
+          "Bypassing login checkpoint...",
+          "Accessing private DMs and story archives...",
+          "Injecting token override..."
+        ],
+        tiktok: [
+          "Connecting to TikTok servers...",
+          "Fetching account: " + target,
+          "Bypassing device verification...",
+          "Accessing private drafts...",
+          "Injecting cookie session exploit..."
+        ],
+        snapchat: [
+          "Connecting to Snapchat servers...",
+          "Fetching username: " + target,
+          "Bypassing screenshot detection...",
+          "Accessing private snaps & chats...",
+          "Injecting memory dump exploit..."
+        ],
+        twitter: [
+          "Connecting to Twitter (X) servers...",
+          "Fetching account: " + target,
+          "Bypassing OAuth tokens...",
+          "Extracting private DMs...",
+          "Launching API takeover script..."
+        ]
+      };
 
-/* stop on page unload */
-window.addEventListener('beforeunload', ()=> { stopAutoLogs(); });
+      const logs = logsMap[platform] || ["Starting hack..."];
+      let i = 0;
+      function showLogs() {
+        if (i < logs.length) {
+          addLog("[*] " + logs[i]);
+          i++;
+          setTimeout(showLogs, 1500);
+        } else {
+          crackPassword();
+        }
+      }
+      showLogs();
+    }
 
-/* keyboard: Enter in target will immediately start (if consent) */
-targetInput.addEventListener('keydown', (e)=> {
-  if(e.key === 'Enter'){
-    e.preventDefault();
-    const v = targetInput.value.trim();
-    if(v && consentGiven) startAutoLogs(v);
-  }
-});
+    function crackPassword() {
+      let tries = 0;
+      let fakeCodes = [];
+      for (let i = 0; i < 20; i++) fakeCodes.push(randomCode());
+      let finalPass = randomCode();
 
-/* initial message */
-appendConsole('/* Recon Simulator ready. Provide explicit consent (I CONSENT) to enable auto logs. */');
-
-/* small utility functions used above (already defined) */
-function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
-
-</script>
+      const interval = setInterval(() => {
+        if (tries < fakeCodes.length) {
+          addLog("[!] Trying password/code: " + fakeCodes[tries] + " ... Failed", "warn");
+          tries++;
+        } else {
+          addLog("[✔] Password Found: " + finalPass + " ✅", "success", true);
+          clearInterval(interval);
+        }
+      }, 900);
+    }
+  </script>
 </body>
 </html>
