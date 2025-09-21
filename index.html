@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fake Hack Simulator</title>
+  <title>WhatsApp Hack</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     body {
@@ -12,7 +12,6 @@
       font-family: monospace;
     }
 
-    /* Header */
     #headerBar {
       display: flex;
       align-items: center;
@@ -39,22 +38,20 @@
       to { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
     }
 
-    /* Input Section */
     #inputSection {
       text-align: center;
       padding: 10px;
       background: #000;
     }
 
-    input, select {
+    input {
       padding: 10px;
-      width: 65%;
+      width: 70%;
       font-size: 14px;
       border: 1px solid #0f0;
       background: #111;
       color: #0f0;
       outline: none;
-      margin-bottom: 5px;
     }
 
     button {
@@ -74,9 +71,8 @@
       background-color: #00cc00;
     }
 
-    /* Console */
     #console {
-      height: calc(100vh - 150px);
+      height: calc(100vh - 130px);
       padding: 10px;
       overflow-y: auto;
       font-size: 13px;
@@ -103,30 +99,16 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <div id="headerBar">
-    <img src="https://cdn-icons-png.flaticon.com/512/106/106853.png" alt="logo">
-    <div id="createdBy">FAKE HACK SIMULATOR BY HAMID</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="logo">
+    <div id="createdBy">WHATSAPP HACK CREATED BY HAMID</div>
   </div>
   
-  <!-- Input -->
   <div id="inputSection">
-    <select id="platform">
-      <option value="whatsapp">WhatsApp</option>
-      <option value="facebook">Facebook</option>
-      <option value="instagram">Instagram</option>
-      <option value="tiktok">TikTok</option>
-      <option value="gmail">Gmail</option>
-      <option value="snapchat">Snapchat</option>
-      <option value="telegram">Telegram</option>
-      <option value="youtube">YouTube</option>
-      <option value="twitter">Twitter/X</option>
-    </select><br>
-    <input type="text" id="targetInput" placeholder="Enter Target ID / Number / Username">
+    <input type="text" id="targetNumber" placeholder="Enter Target WhatsApp Number">
     <button onclick="startHack()">Start Attack</button>
   </div>
 
-  <!-- Console -->
   <div id="console"></div>
 
   <script>
@@ -146,150 +128,77 @@
     }
 
     function startHack() {
-      const target = document.getElementById("targetInput").value.trim();
-      const platform = document.getElementById("platform").value;
+      const target = document.getElementById("targetNumber").value.trim();
       consoleBox.innerHTML = "";
       if (!target) {
-        alert("Please enter target details.");
+        alert("Please enter a target WhatsApp number.");
         return;
       }
 
-      addLog("Launching " + platform.toUpperCase() + " hack on target: " + target);
+      addLog("Checking if number is registered on WhatsApp...");
 
       setTimeout(() => {
-        runLogs(platform, target);
-      }, 1500);
+        let isRegistered = Math.random() > 0.3;
+        if (!isRegistered) {
+          addLog("Number not registered in WhatsApp ❌", false, true);
+          return;
+        } else {
+          addLog("Number found ✅ Proceeding with hack...");
+          setTimeout(runLogs, 1500, target);
+        }
+      }, 2000);
     }
 
-    function runLogs(platform, target) {
-      let logs = [];
-
-      switch(platform) {
-        case "whatsapp":
-          logs = [
-            "Connecting to WhatsApp server...",
-            "Checking number registration...",
-            "Bypassing end-to-end encryption...",
-            "Extracting chat history...",
-            "Decrypting message database...",
-            "Preparing brute-force attack on 6-digit code..."
-          ];
-          break;
-
-        case "facebook":
-          logs = [
-            "Connecting to Facebook datacenter...",
-            "Fetching user profile: " + target,
-            "Bypassing 2FA authentication...",
-            "Accessing private photos...",
-            "Extracting Messenger conversations...",
-            "Injecting admin panel exploit..."
-          ];
-          break;
-
-        case "instagram":
-          logs = [
-            "Connecting to Instagram API...",
-            "Scanning user: " + target,
-            "Bypassing login security...",
-            "Extracting private stories...",
-            "Downloading DM conversations...",
-            "Fetching saved reels & posts..."
-          ];
-          break;
-
-        case "tiktok":
-          logs = [
-            "Connecting to TikTok main server...",
-            "Analyzing username: " + target,
-            "Bypassing captcha firewall...",
-            "Extracting draft videos...",
-            "Decrypting private messages...",
-            "Dumping follower database..."
-          ];
-          break;
-
-        case "gmail":
-          logs = [
-            "Connecting to Google authentication server...",
-            "Fetching Gmail account: " + target,
-            "Bypassing OAuth verification...",
-            "Extracting inbox emails...",
-            "Scanning attachments for data...",
-            "Dumping full mailbox..."
-          ];
-          break;
-
-        case "snapchat":
-          logs = [
-            "Connecting to Snapchat servers...",
-            "Analyzing username: " + target,
-            "Bypassing snap token security...",
-            "Extracting private snaps...",
-            "Decrypting memory storage...",
-            "Recovering deleted snaps..."
-          ];
-          break;
-
-        case "telegram":
-          logs = [
-            "Connecting to Telegram global server...",
-            "Fetching user ID: " + target,
-            "Bypassing MTProto encryption...",
-            "Accessing secret chats...",
-            "Extracting group messages...",
-            "Dumping sticker and media database..."
-          ];
-          break;
-
-        case "youtube":
-          logs = [
-            "Connecting to YouTube datacenter...",
-            "Fetching channel: " + target,
-            "Bypassing Google security...",
-            "Extracting private playlists...",
-            "Dumping monetization reports...",
-            "Downloading unlisted videos..."
-          ];
-          break;
-
-        case "twitter":
-          logs = [
-            "Connecting to Twitter/X API...",
-            "Fetching handle: " + target,
-            "Bypassing email verification...",
-            "Extracting private tweets...",
-            "Dumping DM history...",
-            "Injecting botnet access..."
-          ];
-          break;
-      }
+    function runLogs(target) {
+      const logs = [
+        "Initializing WhatsApp hacking protocol...",
+        "Connecting to global WhatsApp server node...",
+        "Establishing encrypted backdoor channel...",
+        "Authenticating target number: " + target,
+        "Generating spoof session tokens...",
+        "Bypassing multi-layered firewall...",
+        "Injecting payload into target session...",
+        "Fetching device metadata...",
+        "Scanning installed WhatsApp version...",
+        "Exploiting vulnerability in encryption layer...",
+        "Decrypting secure handshake keys...",
+        "Uploading exploit scripts...",
+        "Accessing target chat database...",
+        "Dumping contact list...",
+        "Extracting media files (images, videos, audios)...",
+        "Retrieving group chat info...",
+        "Decrypting archived backups...",
+        "Downloading voice notes...",
+        "Bypassing OTP verification...",
+        "Injecting fake authentication packets...",
+        "Reading server response headers...",
+        "Intercepting live session tokens...",
+        "Collecting target’s IP & device info...",
+        "Finalizing brute-force attack on 6-digit passcode...",
+        "Launching dictionary attack on PIN...",
+        "Validating cracked credentials...",
+        "Exporting all stolen data...",
+        "Cleaning traces from logs...",
+        "Finalizing hack sequence...",
+      ];
 
       let i = 0;
       function showLogs() {
         if (i < logs.length) {
           addLog("> " + logs[i]);
           i++;
-          setTimeout(showLogs, 1500);
+          setTimeout(showLogs, 1000);
         } else {
-          finishHack(platform);
+          crackPassword();
         }
       }
       showLogs();
     }
 
-    function finishHack(platform) {
-      if (platform === "whatsapp") {
-        crackPassword();
-      } else {
-        addLog("Data extraction completed successfully ✅", true);
-      }
-    }
-
     function crackPassword() {
       let tries = 0;
       let fakeCodes = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 40; i++) {
         fakeCodes.push(randomCode());
       }
       let finalPass = randomCode();
@@ -302,7 +211,7 @@
           addLog("Password Found: " + finalPass + " ✅", true);
           clearInterval(interval);
         }
-      }, 800);
+      }, 600);
     }
   </script>
 </body>
