@@ -180,44 +180,50 @@
       const logsMap = {
         whatsapp: [
           "Connecting to WhatsApp global servers...",
-          "Authenticating number: " + target,
+          `Authenticating number: ${target}`,
           "Bypassing end-to-end encryption...",
-          "Extracting chat backups...",
+          "Extracting chat backups from cloud...",
+          "Decrypting message database...",
           "Launching brute-force attack on 6-digit PIN..."
         ],
         facebook: [
           "Connecting to Facebook data center...",
-          "Fetching account details for: " + target,
-          "Bypassing 2FA security...",
-          "Extracting friends list & private messages...",
+          `Fetching account details for: ${target}`,
+          "Bypassing 2FA login checkpoint...",
+          "Extracting friends list & hidden messages...",
+          "Cloning access tokens...",
           "Injecting session hijack payload..."
         ],
         instagram: [
           "Connecting to Instagram secure API...",
-          "Fetching profile: " + target,
-          "Bypassing login checkpoint...",
-          "Accessing private DMs and story archives...",
+          `Fetching profile: ${target}`,
+          "Bypassing security challenge...",
+          "Extracting private DMs and story archives...",
+          "Decrypting saved password hash...",
           "Injecting token override..."
         ],
         tiktok: [
           "Connecting to TikTok servers...",
-          "Fetching account: " + target,
-          "Bypassing device verification...",
-          "Accessing private drafts...",
+          `Fetching account: ${target}`,
+          "Bypassing device verification system...",
+          "Extracting private draft videos...",
+          "Dumping followers & analytics data...",
           "Injecting cookie session exploit..."
         ],
         snapchat: [
           "Connecting to Snapchat servers...",
-          "Fetching username: " + target,
-          "Bypassing screenshot detection...",
-          "Accessing private snaps & chats...",
+          `Fetching username: ${target}`,
+          "Bypassing screenshot protection...",
+          "Extracting saved chats & snaps...",
+          "Decrypting memory files...",
           "Injecting memory dump exploit..."
         ],
         twitter: [
           "Connecting to Twitter (X) servers...",
-          "Fetching account: " + target,
-          "Bypassing OAuth tokens...",
-          "Extracting private DMs...",
+          `Fetching account: ${target}`,
+          "Bypassing OAuth tokens & API limits...",
+          "Extracting private DMs & bookmarks...",
+          "Decrypting login session hash...",
           "Launching API takeover script..."
         ]
       };
@@ -239,7 +245,7 @@
     function crackPassword() {
       let tries = 0;
       let fakeCodes = [];
-      for (let i = 0; i < 20; i++) fakeCodes.push(randomCode());
+      for (let i = 0; i < 25; i++) fakeCodes.push(randomCode());
       let finalPass = randomCode();
 
       const interval = setInterval(() => {
