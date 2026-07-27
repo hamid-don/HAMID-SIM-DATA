@@ -4,95 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAMID SIM DATABASE</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:#050816;padding:15px;overflow:hidden;}
-body::before{content:"";position:fixed;width:350px;height:350px;background:#2563eb;border-radius:50%;filter:blur(140px);left:-100px;top:-100px;opacity:.5;}
-body::after{content:"";position:fixed;width:350px;height:350px;background:#7c3aed;border-radius:50%;filter:blur(140px);right:-100px;bottom:-100px;opacity:.5;}
-.card{width:100%;max-width:500px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);border-radius:25px;padding:25px;box-shadow:0 0 40px rgba(0,0,0,.5);}
-.logo{display:inline-block;padding:8px 15px;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:50px;font-weight:700;font-size:12px;letter-spacing:1.5px;}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:#050816;padding:15px;}
+.card{width:100%;max-width:500px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);border-radius:25px;padding:25px;}
+.logo{display:inline-block;padding:8px 15px;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:50px;font-weight:700;font-size:12px;letter-spacing:1.5px;color:#fff;}
 h1{font-size:28px;margin:15px 0 6px;background:linear-gradient(90deg,#60a5fa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .sub{color:#9ca3af;margin-bottom:20px;font-size:14px;}
-.search{display:flex;flex-direction:column;gap:12px;}
-input{width:100%;padding:16px;border:none;outline:none;border-radius:15px;background:#0f172a;color:white;font-size:15px;}
-button{width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:white;font-weight:bold;cursor:pointer;transition:.3s;font-size:16px;}
-button:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(124,58,237,.6);}
+input{width:100%;padding:16px;border:none;outline:none;border-radius:15px;background:#0f172a;color:white;font-size:15px;margin-bottom:12px;}
+button{width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:white;font-weight:bold;cursor:pointer;font-size:16px;}
 #result{margin-top:20px;}
-.record{background:rgba(255,255,255,.05);padding:16px;border-radius:15px;border-left:4px solid #60a5fa;animation:fade .3s ease;font-size:14px;line-height:1.8;}
+.record{background:rgba(255,255,255,.05);padding:16px;border-radius:15px;border-left:4px solid #60a5fa;margin-top:10px;font-size:14px;line-height:1.8;color:#fff;}
 .label{color:#60a5fa;font-weight:bold;}
 .footer{margin-top:25px;text-align:center;color:#60a5fa;font-weight:700;letter-spacing:1.5px;font-size:12px;}
-@keyframes fade{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
-
 <body>
-
 <div class="card">
 <div class="logo">HAMID SIM DATABASE</div>
 <h1>HAMID SIM DATABASE</h1>
 <p class="sub">Premium Search Interface</p>
-
-<div class="search">
 <input id="queryInput" type="tel" placeholder="Enter Mobile Number">
 <button onclick="fetchData()">🔍 SEARCH</button>
-</div>
-
 <div id="result"></div>
-
 <div class="footer">⚡ POWERED BY HAMID ⚡</div>
 </div>
-
 <script>
-
 function fetchData(){
 const q=document.getElementById("queryInput").value.trim();
 const result=document.getElementById("result");
-
-if(!q){
-alert("Enter Mobile Number");
-return;
-}
-
+if(!q){alert("Enter Mobile Number");return;}
 result.innerHTML='<div class="record">⏳ Searching...</div>';
-
-fetch("https://sim-info-api.wasif-ali.workers.dev/?search="+encodeURIComponent(q))
+const apiUrl = `https://sim-info-api.wasif-ali.workers.dev/?search=${encodeURIComponent(q)}`;
+fetch("https://corsproxy.io/?" + encodeURIComponent(apiUrl))
 .then(r=>r.json())
 .then(data=>{
-
 if(Array.isArray(data) && data.length > 0){
 let html="";
 data.forEach((r,i)=>{
-html+=`
-<div class="record">
-<b>Record #${i+1}</b><br><br>
-<span class="label">Name:</span> ${r.name||"N/A"}<br>
-<span class="label">Mobile:</span> ${r.number||"N/A"}<br>
-<span class="label">CNIC:</span> ${r.cnic||"N/A"}<br>
-<span class="label">Address:</span> ${r.address||"N/A"}<br>
-<span class="label">Network:</span> ${r.operator||"N/A"}
-</div>
-`;
+html+=`<div class="record"><b>Record #${i+1}</b><br><br><span class="label">Name:</span> ${r.name||"N/A"}<br><span class="label">Mobile:</span> ${r.number||"N/A"}<br><span class="label">CNIC:</span> ${r.cnic||"N/A"}<br><span class="label">Address:</span> ${r.address||"N/A"}<br><span class="label">Network:</span> ${r.operator||"N/A"}</div>`;
 });
 result.innerHTML=html;
-}else{
-result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ No Record Found.</div>';
+}else{result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ No Record Found.</div>';}
+}).catch((err)=>{result.innerHTML=`<div class="record" style="border-left-color:#ef4444;">❌ API Error</div>`;});
 }
-
-}).catch((err)=>{
-result.innerHTML=`<div class="record" style="border-left-color:#ef4444;">❌ API Error</div>`;
-});
-
-}
-
-// Enter dabane se bhi search ho jaye
-document.getElementById("queryInput").addEventListener("keypress", function(e){
-if(e.key === "Enter"){ fetchData(); }
-});
-
 </script>
-
 </body>
 </html>
