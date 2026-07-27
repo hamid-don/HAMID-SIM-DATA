@@ -24,7 +24,7 @@ input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,.2);}
 button{padding:18px 32px;border:none;border-radius:16px;background:linear-gradient(135deg,#6366f1,#ec4899);color:white;font-weight:700;cursor:pointer;transition:.3s;font-size:16px;letter-spacing:.5px;}
 button:hover{transform:translateY(-4px);box-shadow:0 15px 40px rgba(236,72,153,.4);}
 #result{margin-top:30px;}
-.record{background:rgba(2,6,23,.6);padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,.08);border-left:4px solid #6366f1;animation:fade .4s ease;line-height:2;}
+.record{background:rgba(2,6,23,.6);padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,.08);border-left:4px solid #6366f1;animation:fade .4s ease;line-height:2;margin-bottom:12px;}
 .record b{color:#c4b5fd;}
 .label{color:#818cf8;font-weight:600;}
 .footer{margin-top:35px;text-align:center;color:#6366f1;font-weight:700;letter-spacing:3px;font-size:12px;}
@@ -76,51 +76,56 @@ alert("Enter Mobile Number");
 return;
 }
 
-// sirf number rakh do - dash space hata do
+// sirf number rakh do
 const cleanNumber = q.replace(/[^0-9]/g,'');
+if(cleanNumber.length < 10){
+alert("Enter Valid Mobile Number");
+return;
+}
 
-result.innerHTML='<div class="record">Searching...</div>';
+result.innerHTML='<div class="record">⏳ Searching...</div>';
 
-fetch("https://sim-info-api.wasif-ali.workers.dev/?search="+encodeURIComponent(cleanNumber))
+const apiUrl = `https://sim-info-api.wasif-ali.workers.dev/?search=${encodeURIComponent(cleanNumber)}`;
+
+// CORS PROXY LAGAYA
+fetch("https://corsproxy.io/?" + encodeURIComponent(apiUrl))
 .then(r=>r.json())
 .then(data=>{
 
-if(data.success && data.records.length){
+// API array return karti hai
+if(Array.isArray(data) && data.length > 0){
 
 let html="";
-
-data.records.forEach((r,i)=>{
-
+data.forEach((r,i)=>{
 html+=`
 <div class="record">
 <b>Record #${i+1}</b><br><br>
-
 <b>Name:</b> ${r.name||"N/A"}<br>
-<b>Mobile:</b> ${r.mobile||"N/A"}<br>
+<b>Mobile:</b> ${r.number||"N/A"}<br>
 <b>CNIC:</b> ${r.cnic||"N/A"}<br>
 <b>Address:</b> ${r.address||"N/A"}<br>
-<b>Network:</b> ${r.network||"N/A"}
-
+<b>Network:</b> ${r.operator||"N/A"}
 </div>
 `;
-
 });
-
 result.innerHTML=html;
 
 }else{
-
-result.innerHTML='<div class="record">No Record Found.</div>';
-
+result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ No Record Found.</div>';
 }
 
 }).catch(()=>{
 
-result.innerHTML='<div class="record">API Error.</div>';
+result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ API Error. Try Again</div>';
 
 });
 
 }
+
+// Enter se bhi search
+document.getElementById("queryInput").addEventListener("keypress", function(e){
+if(e.key === "Enter"){ fetchData(); }
+});
 
 </script>
 
