@@ -4,51 +4,258 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAMID SIM DATABASE</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:#050816;padding:15px;}
-.card{width:100%;max-width:500px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);border-radius:25px;padding:25px;}
-.logo{display:inline-block;padding:8px 15px;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:50px;font-weight:700;font-size:12px;letter-spacing:1.5px;color:#fff;}
-h1{font-size:28px;margin:15px 0 6px;background:linear-gradient(90deg,#60a5fa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.sub{color:#9ca3af;margin-bottom:20px;font-size:14px;}
-input{width:100%;padding:16px;border:none;outline:none;border-radius:15px;background:#0f172a;color:white;font-size:15px;margin-bottom:12px;}
-button{width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:white;font-weight:bold;cursor:pointer;font-size:16px;}
-#result{margin-top:20px;}
-.record{background:rgba(255,255,255,.05);padding:16px;border-radius:15px;border-left:4px solid #60a5fa;margin-top:10px;font-size:14px;line-height:1.8;color:#fff;}
-.label{color:#60a5fa;font-weight:bold;}
-.footer{margin-top:25px;text-align:center;color:#60a5fa;font-weight:700;letter-spacing:1.5px;font-size:12px;}
+:root{
+--bg:#020617;
+--card:rgba(15,23,42,.55);
+--border:rgba(148,163,184,.1);
+--accent1:#38bdf8;
+--accent2:#a855f7;
+--text:#e2e8f0;
+--muted:#94a3b8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif;}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:var(--bg);
+padding:20px;
+overflow:hidden;
+position:relative;
+}
+
+/* Animated Gradient BG */
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle at 20% 20%, rgba(56,189,248,.15) 0%, transparent 40%),
+radial-gradient(circle at 80% 80%, rgba(168,85,247,.15) 0%, transparent 40%);
+animation:bgMove 15s ease infinite alternate;
+}
+@keyframes bgMove{
+0%{transform:rotate(0deg) scale(1);}
+100%{transform:rotate(10deg) scale(1.1);}
+}
+
+.card{
+width:100%;
+max-width:650px;
+background:var(--card);
+border:1px solid var(--border);
+backdrop-filter:blur(25px) saturate(180%);
+border-radius:32px;
+padding:40px 35px;
+box-shadow:0 8px 60px rgba(0,0,0,.6);
+position:relative;
+z-index:2;
+}
+
+.card::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:32px;
+padding:1px;
+background:linear-gradient(135deg,var(--accent1),var(--accent2));
+-webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+pointer-events:none;
+}
+
+.logo{
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:10px 20px;
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+border-radius:50px;
+font-weight:800;
+font-size:12px;
+letter-spacing:2.5px;
+color:#020617;
+text-transform:uppercase;
+}
+
+h1{
+font-size:42px;
+margin:25px 0 10px;
+font-weight:900;
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.sub{
+color:var(--muted);
+margin-bottom:30px;
+font-size:15px;
+font-weight:300;
+}
+
+.search{
+display:flex;
+gap:12px;
+}
+
+input{
+flex:1;
+padding:18px 20px;
+border:1px solid var(--border);
+outline:none;
+border-radius:16px;
+background:rgba(2,6,23,.7);
+color:var(--text);
+font-size:16px;
+transition:.3s;
+}
+input:focus{
+border-color:var(--accent1);
+box-shadow:0 0 20px rgba(56,189,248,.3);
+}
+
+button{
+padding:18px 32px;
+border:none;
+border-radius:16px;
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+color:#020617;
+font-weight:800;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+letter-spacing:.5px;
+}
+button:hover{
+transform:translateY(-3px) scale(1.02);
+box-shadow:0 0 30px rgba(168,85,247,.5);
+}
+
+#result{
+margin-top:30px;
+}
+
+.record{
+background:rgba(2,6,23,.5);
+padding:22px;
+border-radius:20px;
+border-left:4px solid var(--accent1);
+margin-top:12px;
+animation:slide .4s ease;
+backdrop-filter:blur(10px);
+}
+@keyframes slide{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.label{
+color:var(--accent1);
+font-weight:700;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+.footer{
+margin-top:35px;
+text-align:center;
+color:var(--muted);
+font-weight:600;
+letter-spacing:2px;
+font-size:12px;
+}
+
+@media(max-width:650px){
+.search{flex-direction:column;}
+button{width:100%;}
+h1{font-size:30px;}
+.card{padding:30px 25px;}
+}
 </style>
 </head>
+
 <body>
+
 <div class="card">
-<div class="logo">HAMID SIM DATABASE</div>
-<h1>HAMID SIM DATABASE</h1>
-<p class="sub">Premium Search Interface</p>
-<input id="queryInput" type="tel" placeholder="Enter Mobile Number">
-<button onclick="fetchData()">🔍 SEARCH</button>
-<div id="result"></div>
-<div class="footer">⚡ POWERED BY HAMID ⚡</div>
+
+<div class="logo">⚡ HAMID DATABASE</div>
+
+<h1>SIM DATABASE</h1>
+
+<p class="sub">Premium Real-time Search Interface</p>
+
+<div class="search">
+<input id="queryInput" type="tel" placeholder="03XX-XXXXXXX">
+<button onclick="fetchData()">SEARCH</button>
 </div>
+
+<div id="result"></div>
+
+<div class="footer">POWERED BY HAMID © 2026</div>
+
+</div>
+
 <script>
+
 function fetchData(){
 const q=document.getElementById("queryInput").value.trim();
 const result=document.getElementById("result");
-if(!q){alert("Enter Mobile Number");return;}
-result.innerHTML='<div class="record">⏳ Searching...</div>';
+
+if(!q){
+alert("Enter Mobile Number");
+return;
+}
+
+result.innerHTML='<div class="record"><span class="label">STATUS</span><br>⏳ Searching Database...</div>';
+
 const apiUrl = `https://sim-info-api.wasif-ali.workers.dev/?search=${encodeURIComponent(q)}`;
+
+// CORS PROXY for data
 fetch("https://corsproxy.io/?" + encodeURIComponent(apiUrl))
 .then(r=>r.json())
 .then(data=>{
+
 if(Array.isArray(data) && data.length > 0){
 let html="";
 data.forEach((r,i)=>{
-html+=`<div class="record"><b>Record #${i+1}</b><br><br><span class="label">Name:</span> ${r.name||"N/A"}<br><span class="label">Mobile:</span> ${r.number||"N/A"}<br><span class="label">CNIC:</span> ${r.cnic||"N/A"}<br><span class="label">Address:</span> ${r.address||"N/A"}<br><span class="label">Network:</span> ${r.operator||"N/A"}</div>`;
+html+=`
+<div class="record">
+<span class="label">Record #${i+1}</span><br><br>
+<span class="label">Name</span><br>${r.name||"N/A"}<br><br>
+<span class="label">Mobile</span><br>${r.number||"N/A"}<br><br>
+<span class="label">CNIC</span><br>${r.cnic||"N/A"}<br><br>
+<span class="label">Address</span><br>${r.address||"N/A"}<br><br>
+<span class="label">Network</span><br>${r.operator||"N/A"}
+</div>
+`;
 });
 result.innerHTML=html;
-}else{result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ No Record Found.</div>';}
-}).catch((err)=>{result.innerHTML=`<div class="record" style="border-left-color:#ef4444;">❌ API Error</div>`;});
+}else{
+result.innerHTML='<div class="record" style="border-left-color:#ef4444;"><span class="label">ERROR</span><br>❌ No Record Found</div>';
 }
+
+}).catch((err)=>{
+result.innerHTML=`<div class="record" style="border-left-color:#ef4444;"><span class="label">ERROR</span><br>❌ API Connection Failed</div>`;
+});
+
+}
+
+// Enter key support
+document.getElementById("queryInput").addEventListener("keypress", function(e){
+if(e.key === "Enter"){ fetchData(); }
+});
+
 </script>
+
 </body>
 </html>
