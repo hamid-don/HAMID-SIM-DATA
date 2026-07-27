@@ -23,10 +23,10 @@ input{flex:1;min-width:220px;padding:18px 22px;border:1px solid rgba(255,255,255
 input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,.2);}
 button{padding:18px 32px;border:none;border-radius:16px;background:linear-gradient(135deg,#6366f1,#ec4899);color:white;font-weight:700;cursor:pointer;transition:.3s;font-size:16px;letter-spacing:.5px;}
 button:hover{transform:translateY(-4px);box-shadow:0 15px 40px rgba(236,72,153,.4);}
+button:active{transform:scale(.97);}
 #result{margin-top:30px;}
 .record{background:rgba(2,6,23,.6);padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,.08);border-left:4px solid #6366f1;animation:fade .4s ease;line-height:2;margin-bottom:12px;}
 .record b{color:#c4b5fd;}
-.label{color:#818cf8;font-weight:600;}
 .footer{margin-top:35px;text-align:center;color:#6366f1;font-weight:700;letter-spacing:3px;font-size:12px;}
 @keyframes fade{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:650px){.search{flex-direction:column;}button{width:100%;}h1{font-size:28px;}.card{padding:30px 25px;}}
@@ -52,9 +52,7 @@ inputmode="numeric"
 placeholder="03XX-XXXXXXX"
 maxlength="11">
 
-<button onclick="fetchData()">
-🔍 SEARCH
-</button>
+<button id="searchBtn">🔍 SEARCH</button>
 
 </div>
 
@@ -66,35 +64,64 @@ maxlength="11">
 
 <script>
 
-function fetchData(){
+const btn = document.getElementById("searchBtn");
+const input = document.getElementById("queryInput");
+const result = document.getElementById("result");
 
-const q=document.getElementById("queryInput").value.trim();
-const result=document.getElementById("result");
+// Button pe click event
+btn.addEventListener("click", fetchData);
+
+// Enter pe bhi
+input.addEventListener("keypress", function(e){
+if(e.key === "Enter"){ fetchData(); }
+});
+
+async function fetchData(){
+const q = input.value.trim();
 
 if(!q){
 alert("Enter Mobile Number");
 return;
 }
 
-// sirf number rakh do
 const cleanNumber = q.replace(/[^0-9]/g,'');
 if(cleanNumber.length < 10){
-alert("Enter Valid Mobile Number");
+alert("Enter Valid 11 Digit Number");
 return;
 }
 
-result.innerHTML='<div class="record">⏳ Searching...</div>';
+btn.disabled = true;
+btn.innerText = "SEARCHING...";
+result.innerHTML='<div class="record">⏳ Searching Database...</div>';
+
+// 3 proxy try karega agar 1 fail ho
+const proxies = [
+"https://corsproxy.io/?",
+"https://api.allorigins.win/raw?url=",
+"https://proxy.cors.sh/"
+];
 
 const apiUrl = `https://sim-info-api.wasif-ali.workers.dev/?search=${encodeURIComponent(cleanNumber)}`;
 
-// CORS PROXY LAGAYA
-fetch("https://corsproxy.io/?" + encodeURIComponent(apiUrl))
-.then(r=>r.json())
-.then(data=>{
+let data = null;
+let lastError = null;
 
-// API array return karti hai
-if(Array.isArray(data) && data.length > 0){
+for(let proxy of proxies){
+try{
+const res = await fetch(proxy + encodeURIComponent(apiUrl));
+if(res.ok){
+data = await res.json();
+break;
+}
+}catch(err){
+lastError = err;
+}
+}
 
+btn.disabled = false;
+btn.innerText = "🔍 SEARCH";
+
+if(data && Array.isArray(data) && data.length > 0){
 let html="";
 data.forEach((r,i)=>{
 html+=`
@@ -109,24 +136,12 @@ html+=`
 `;
 });
 result.innerHTML=html;
-
 }else{
-result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ No Record Found.</div>';
+result.innerHTML=`<div class="record" style="border-left-color:#ef4444;">❌ No Record Found or API Down<br><small>Try again in 5 sec</small></div>`;
+console.log("Last Error:", lastError);
 }
 
-}).catch(()=>{
-
-result.innerHTML='<div class="record" style="border-left-color:#ef4444;">❌ API Error. Try Again</div>';
-
-});
-
 }
-
-// Enter se bhi search
-document.getElementById("queryInput").addEventListener("keypress", function(e){
-if(e.key === "Enter"){ fetchData(); }
-});
-
 </script>
 
 </body>
