@@ -64,84 +64,59 @@ maxlength="11">
 
 <script>
 
-const btn = document.getElementById("searchBtn");
-const input = document.getElementById("queryInput");
-const result = document.getElementById("result");
+function fetchData(){
 
-// Button pe click event
-btn.addEventListener("click", fetchData);
-
-// Enter pe bhi
-input.addEventListener("keypress", function(e){
-if(e.key === "Enter"){ fetchData(); }
-});
-
-async function fetchData(){
-const q = input.value.trim();
+const q=document.getElementById("queryInput").value.trim();
+const result=document.getElementById("result");
 
 if(!q){
 alert("Enter Mobile Number");
 return;
 }
 
-const cleanNumber = q.replace(/[^0-9]/g,'');
-if(cleanNumber.length < 10){
-alert("Enter Valid 11 Digit Number");
-return;
-}
+result.innerHTML='<div class="record">Searching...</div>';
 
-btn.disabled = true;
-btn.innerText = "SEARCHING...";
-result.innerHTML='<div class="record">⏳ Searching Database...</div>';
+fetch("https://sim-info-api.wasif-ali.workers.dev/?search="+encodeURIComponent(q))
+.then(r=>r.json())
+.then(data=>{
 
-// 3 proxy try karega agar 1 fail ho
-const proxies = [
-"https://corsproxy.io/?",
-"https://api.allorigins.win/raw?url=",
-"https://proxy.cors.sh/"
-];
+if(data.success && data.records.length){
 
-const apiUrl = `https://sim-info-api.wasif-ali.workers.dev/?search=${encodeURIComponent(cleanNumber)}`;
-
-let data = null;
-let lastError = null;
-
-for(let proxy of proxies){
-try{
-const res = await fetch(proxy + encodeURIComponent(apiUrl));
-if(res.ok){
-data = await res.json();
-break;
-}
-}catch(err){
-lastError = err;
-}
-}
-
-btn.disabled = false;
-btn.innerText = "🔍 SEARCH";
-
-if(data && Array.isArray(data) && data.length > 0){
 let html="";
-data.forEach((r,i)=>{
+
+data.records.forEach((r,i)=>{
+
 html+=`
 <div class="record">
 <b>Record #${i+1}</b><br><br>
+
 <b>Name:</b> ${r.name||"N/A"}<br>
-<b>Mobile:</b> ${r.number||"N/A"}<br>
+<b>Mobile:</b> ${r.mobile||"N/A"}<br>
 <b>CNIC:</b> ${r.cnic||"N/A"}<br>
 <b>Address:</b> ${r.address||"N/A"}<br>
-<b>Network:</b> ${r.operator||"N/A"}
+<b>Network:</b> ${r.network||"N/A"}
+
 </div>
 `;
+
 });
+
 result.innerHTML=html;
+
 }else{
-result.innerHTML=`<div class="record" style="border-left-color:#ef4444;">❌ No Record Found or API Down<br><small>Try again in 5 sec</small></div>`;
-console.log("Last Error:", lastError);
-}
+
+result.innerHTML='<div class="record">No Record Found.</div>';
 
 }
+
+}).catch(()=>{
+
+result.innerHTML='<div class="record">API Error.</div>';
+
+});
+
+}
+
 </script>
 
 </body>
