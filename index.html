@@ -28,22 +28,22 @@ body{
     width:100%;
     max-width:800px;
     background:#111827;
-    border-radius:20px;
     padding:30px;
+    border-radius:20px;
     box-shadow:0 0 30px rgba(0,0,0,.5);
 }
 
 .badge{
     display:inline-block;
-    padding:8px 15px;
     background:#2563eb;
+    padding:8px 15px;
     border-radius:50px;
     font-weight:bold;
 }
 
 h1{
-    margin:20px 0;
     text-align:center;
+    margin:20px 0 10px;
 }
 
 .sub{
@@ -55,8 +55,8 @@ h1{
 input{
     width:100%;
     padding:16px;
-    border:none;
-    outline:none;
+    border:0;
+    outline:0;
     border-radius:12px;
     background:#1f2937;
     color:#fff;
@@ -67,18 +67,17 @@ button{
     width:100%;
     padding:16px;
     margin-top:15px;
-    border:none;
+    border:0;
     border-radius:12px;
     background:#2563eb;
     color:#fff;
     font-size:17px;
-    cursor:pointer;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:disabled{
     opacity:.6;
-    cursor:not-allowed;
 }
 
 #result{
@@ -91,30 +90,29 @@ button:disabled{
     border-radius:12px;
     margin-top:10px;
     line-height:1.7;
-    overflow:hidden;
 }
 
-.raw{
-    margin-top:15px;
-    background:#020617;
-    padding:15px;
-    border-radius:12px;
-    overflow:auto;
-}
-
-pre{
-    white-space:pre-wrap;
-    word-break:break-word;
-    color:#d1d5db;
-    font-size:13px;
+.success{
+    border-left:4px solid #22c55e;
 }
 
 .error{
     border-left:4px solid #ef4444;
 }
 
-.success{
-    border-left:4px solid #22c55e;
+.raw{
+    background:#020617;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    overflow:auto;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    font-size:13px;
+    color:#d1d5db;
 }
 
 .footer{
@@ -130,22 +128,29 @@ pre{
 
 <div class="card">
 
-    <span class="badge">HAMID API TESTER</span>
+    <span class="badge">
+        HAMID API TESTER
+    </span>
 
-    <h1>API RESPONSE TESTER</h1>
+    <h1>
+        API RESPONSE TEST
+    </h1>
 
     <p class="sub">
-        Test your authorized JSON API
+        JSON API connection test
     </p>
 
     <input
         id="queryInput"
         type="text"
-        placeholder="Enter search value"
-        autocomplete="off"
+        placeholder="Enter User ID e.g. 1"
+        value="1"
     >
 
-    <button id="searchBtn" onclick="fetchData()">
+    <button
+        id="searchBtn"
+        onclick="fetchData()"
+    >
         SEARCH
     </button>
 
@@ -160,20 +165,14 @@ pre{
 <script>
 
 /*
-==================================================
-API CONFIG
-==================================================
+========================================
+TEST API
+========================================
 
-IMPORTANT:
+Ye public demo API hai.
 
-Yahan apni AUTHORIZED API ka HTTPS URL lagao.
-
-Example:
-
-const API_URL =
-"https://your-domain.com/api/search.php";
-
-==================================================
+Baad mein apni AUTHORIZED API
+ka HTTPS endpoint yahan laga sakte ho.
 */
 
 const API_URL =
@@ -182,8 +181,10 @@ const API_URL =
 
 async function fetchData(){
 
-    const input =
-        document.getElementById("queryInput");
+    const query =
+        document.getElementById("queryInput")
+        .value
+        .trim();
 
     const result =
         document.getElementById("result");
@@ -191,13 +192,12 @@ async function fetchData(){
     const button =
         document.getElementById("searchBtn");
 
-    const q = input.value.trim();
 
-    if(!q){
+    if(!query){
 
         result.innerHTML = `
             <div class="record error">
-                Please enter a search value.
+                Please enter a value.
             </div>
         `;
 
@@ -205,14 +205,9 @@ async function fetchData(){
     }
 
 
-    /*
-    ==============================================
-    LOADING
-    ==============================================
-    */
-
     button.disabled = true;
-    button.innerText = "SEARCHING...";
+    button.innerText = "LOADING...";
+
 
     result.innerHTML = `
         <div class="record">
@@ -224,19 +219,19 @@ async function fetchData(){
     try{
 
         /*
-        ==========================================
-        REQUEST
-        ==========================================
+        ====================================
+        API REQUEST
+        ====================================
         */
 
         const url =
             API_URL +
-            "?search=" +
-            encodeURIComponent(q);
+            "/" +
+            encodeURIComponent(query);
 
 
         const response =
-            await fetch(url,{
+            await fetch(url, {
 
                 method:"GET",
 
@@ -248,9 +243,9 @@ async function fetchData(){
 
 
         /*
-        ==========================================
-        HTTP STATUS CHECK
-        ==========================================
+        ====================================
+        HTTP STATUS
+        ====================================
         */
 
         if(!response.ok){
@@ -258,7 +253,7 @@ async function fetchData(){
             throw new Error(
                 "HTTP " +
                 response.status +
-                " - " +
+                " " +
                 response.statusText
             );
 
@@ -266,43 +261,13 @@ async function fetchData(){
 
 
         /*
-        ==========================================
-        READ RESPONSE
-        ==========================================
+        ====================================
+        JSON
+        ====================================
         */
 
-        const text =
-            await response.text();
-
-
-        if(!text){
-
-            throw new Error(
-                "API returned an empty response."
-            );
-
-        }
-
-
-        /*
-        ==========================================
-        JSON PARSE
-        ==========================================
-        */
-
-        let data;
-
-        try{
-
-            data = JSON.parse(text);
-
-        }catch(jsonError){
-
-            throw new Error(
-                "API did not return valid JSON."
-            );
-
-        }
+        const data =
+            await response.json();
 
 
         console.log(
@@ -312,117 +277,79 @@ async function fetchData(){
 
 
         /*
-        ==========================================
-        RECORDS
-        ==========================================
+        ====================================
+        DISPLAY RESPONSE
+        ====================================
         */
 
-        if(
-            data.success === true &&
-            Array.isArray(data.records) &&
-            data.records.length > 0
-        ){
+        let html = `
+            <div class="record success">
 
-            let html = "";
+                <b>API CONNECTED ✓</b>
 
+                <br><br>
 
-            data.records.forEach(
-                (record,index)=>{
+                <b>ID:</b>
+                ${escapeHTML(data.id)}
 
-                    html += `
+                <br>
 
-                    <div class="record success">
+                <b>Name:</b>
+                ${escapeHTML(data.name)}
 
-                        <b>
-                            Record #${index + 1}
-                        </b>
+                <br>
 
-                        <br><br>
+                <b>Username:</b>
+                ${escapeHTML(data.username)}
 
-                        ${createFields(record)}
+                <br>
 
-                    </div>
+                <b>Email:</b>
+                ${escapeHTML(data.email)}
 
-                    `;
+                <br>
 
-                }
-            );
+                <b>Phone:</b>
+                ${escapeHTML(data.phone)}
 
+                <br>
 
-            /*
-            ======================================
-            RAW JSON
-            ======================================
-            */
+                <b>Website:</b>
+                ${escapeHTML(data.website)}
 
-            html += `
-
-                <div class="raw">
-
-                    <b>RAW API RESPONSE</b>
-
-                    <br><br>
-
-                    <pre>${escapeHTML(
-                        JSON.stringify(
-                            data,
-                            null,
-                            2
-                        )
-                    )}</pre>
-
-                </div>
-
-            `;
+            </div>
+        `;
 
 
-            result.innerHTML = html;
+        /*
+        ====================================
+        RAW JSON
+        ====================================
+        */
+
+        html += `
+            <div class="raw">
+
+                <b>RAW JSON RESPONSE</b>
+
+                <br><br>
+
+                <pre>${escapeHTML(
+                    JSON.stringify(
+                        data,
+                        null,
+                        2
+                    )
+                )}</pre>
+
+            </div>
+        `;
 
 
-        }else{
-
-            /*
-            ======================================
-            NO RECORD
-            ======================================
-            */
-
-            result.innerHTML = `
-
-                <div class="record">
-
-                    No records found.
-
-                </div>
-
-                <div class="raw">
-
-                    <b>RAW API RESPONSE</b>
-
-                    <br><br>
-
-                    <pre>${escapeHTML(
-                        JSON.stringify(
-                            data,
-                            null,
-                            2
-                        )
-                    )}</pre>
-
-                </div>
-
-            `;
-
-        }
+        result.innerHTML = html;
 
 
     }catch(error){
-
-        /*
-        ==========================================
-        ERROR
-        ==========================================
-        */
 
         console.error(
             "API ERROR:",
@@ -431,7 +358,6 @@ async function fetchData(){
 
 
         result.innerHTML = `
-
             <div class="record error">
 
                 <b>API ERROR</b>
@@ -445,30 +371,15 @@ async function fetchData(){
                 <br><br>
 
                 <small>
-
-                    Check:
-                    <br>
-                    • API URL
-                    <br>
-                    • HTTPS
-                    <br>
-                    • CORS
-                    <br>
-                    • Server availability
-                    <br>
-                    • JSON response
-
+                    Check browser console for details.
                 </small>
 
             </div>
-
         `;
-
 
     }finally{
 
         button.disabled = false;
-
         button.innerText = "SEARCH";
 
     }
@@ -477,62 +388,14 @@ async function fetchData(){
 
 
 /*
-==================================================
-DISPLAY JSON OBJECT FIELDS
-==================================================
-*/
-
-function createFields(record){
-
-    let html = "";
-
-    Object.keys(record).forEach(key=>{
-
-        let value = record[key];
-
-
-        if(
-            typeof value === "object" &&
-            value !== null
-        ){
-
-            value =
-                JSON.stringify(
-                    value
-                );
-
-        }
-
-
-        html += `
-
-            <b>
-                ${escapeHTML(key)}:
-            </b>
-
-            ${escapeHTML(value)}
-
-            <br>
-
-        `;
-
-    });
-
-
-    return html;
-
-}
-
-
-/*
-==================================================
+========================================
 HTML ESCAPE
-==================================================
+========================================
 */
 
 function escapeHTML(value){
 
-    return String(value)
+    return String(value ?? "")
 
         .replaceAll(
             "&",
@@ -563,27 +426,25 @@ function escapeHTML(value){
 
 
 /*
-==================================================
-ENTER KEY SEARCH
-==================================================
+========================================
+ENTER KEY
+========================================
 */
 
 document
-    .getElementById("queryInput")
-    .addEventListener(
-        "keydown",
-        function(event){
+.getElementById("queryInput")
+.addEventListener(
+    "keydown",
+    function(event){
 
-            if(
-                event.key === "Enter"
-            ){
+        if(event.key === "Enter"){
 
-                fetchData();
-
-            }
+            fetchData();
 
         }
-    );
+
+    }
+);
 
 </script>
 
