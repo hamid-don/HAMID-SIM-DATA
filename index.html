@@ -3,448 +3,306 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HAMID API TESTER</title>
+<title>API Tester</title>
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-    background:#0b1120;
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+  min-height:100vh;
+  background:#070b12;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  padding:20px;
 }
 
-.card{
-    width:100%;
-    max-width:800px;
-    background:#111827;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 0 30px rgba(0,0,0,.5);
+.app{
+  max-width:800px;
+  margin:auto;
 }
 
-.badge{
-    display:inline-block;
-    background:#2563eb;
-    padding:8px 15px;
-    border-radius:50px;
-    font-weight:bold;
+.header{
+  text-align:center;
+  padding:25px 0;
+}
+
+.icon{
+  width:64px;
+  height:64px;
+  margin:auto;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  background:#141b2b;
+  border:1px solid #29344b;
+  font-size:28px;
 }
 
 h1{
-    text-align:center;
-    margin:20px 0 10px;
+  margin-top:15px;
+  font-size:28px;
 }
 
 .sub{
-    text-align:center;
-    color:#9ca3af;
-    margin-bottom:25px;
+  color:#8791a5;
+  margin-top:7px;
+}
+
+.panel{
+  background:#101621;
+  border:1px solid #252f43;
+  border-radius:18px;
+  padding:18px;
+}
+
+.search{
+  display:flex;
+  gap:10px;
 }
 
 input{
-    width:100%;
-    padding:16px;
-    border:0;
-    outline:0;
-    border-radius:12px;
-    background:#1f2937;
-    color:#fff;
-    font-size:16px;
+  flex:1;
+  min-width:0;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #2a354b;
+  background:#080d15;
+  color:#fff;
+  outline:none;
+  font-size:16px;
+}
+
+input:focus{
+  border-color:#6577ff;
 }
 
 button{
-    width:100%;
-    padding:16px;
-    margin-top:15px;
-    border:0;
-    border-radius:12px;
-    background:#2563eb;
-    color:#fff;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
+  padding:0 22px;
+  border:0;
+  border-radius:12px;
+  background:#596cff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-button:disabled{
-    opacity:.6;
+button:active{
+  transform:scale(.97);
 }
 
-#result{
-    margin-top:20px;
+.status{
+  margin-top:15px;
+  padding:13px;
+  border-radius:12px;
+  background:#0c121d;
+  color:#aeb8ca;
+  display:none;
 }
 
-.record{
-    background:#1f2937;
-    padding:15px;
-    border-radius:12px;
-    margin-top:10px;
-    line-height:1.7;
-}
-
-.success{
-    border-left:4px solid #22c55e;
-}
-
-.error{
-    border-left:4px solid #ef4444;
-}
-
-.raw{
-    background:#020617;
-    padding:15px;
-    border-radius:12px;
-    margin-top:15px;
-    overflow:auto;
+.title{
+  margin:22px 0 10px;
+  color:#aab4c7;
+  font-size:14px;
 }
 
 pre{
-    white-space:pre-wrap;
-    word-break:break-word;
-    font-size:13px;
-    color:#d1d5db;
+  white-space:pre-wrap;
+  word-break:break-word;
+  overflow:auto;
+  min-height:220px;
+  max-height:500px;
+  padding:18px;
+  border-radius:14px;
+  background:#080c13;
+  border:1px solid #252f43;
+  color:#b9c6df;
+  font-size:14px;
+  line-height:1.6;
 }
 
 .footer{
-    text-align:center;
-    margin-top:25px;
-    color:#60a5fa;
-    font-weight:bold;
+  text-align:center;
+  color:#5e687b;
+  margin-top:20px;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  body{
+    padding:12px;
+  }
+
+  .search{
+    flex-direction:column;
+  }
+
+  button{
+    height:50px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="app">
 
-    <span class="badge">
-        HAMID API TESTER
-    </span>
-
-    <h1>
-        API RESPONSE TEST
-    </h1>
-
-    <p class="sub">
-        JSON API connection test
-    </p>
-
-    <input
-        id="queryInput"
-        type="text"
-        placeholder="Enter User ID e.g. 1"
-        value="1"
-    >
-
-    <button
-        id="searchBtn"
-        onclick="fetchData()"
-    >
-        SEARCH
-    </button>
-
-    <div id="result"></div>
-
-    <div class="footer">
-        POWERED BY HAMID
+  <div class="header">
+    <div class="icon">⚡</div>
+    <h1>API Tester</h1>
+    <div class="sub">
+      Third-party JSON API testing dashboard
     </div>
+  </div>
+
+  <div class="panel">
+
+    <div class="search">
+      <input
+        id="search"
+        type="text"
+        value="03007958868"
+        placeholder="Enter test value"
+      >
+
+      <button onclick="runAPI()">
+        TEST API
+      </button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="title">
+      API RESPONSE
+    </div>
+
+    <pre id="output">Waiting for request...</pre>
+
+  </div>
+
+  <div class="footer">
+    API Tester • Demo
+  </div>
 
 </div>
 
 <script>
 
-/*
-========================================
-TEST API
-========================================
-
-Ye public demo API hai.
-
-Baad mein apni AUTHORIZED API
-ka HTTPS endpoint yahan laga sakte ho.
-*/
-
-const API_URL =
-"http://wasifali.biz.id/public_apis/sim-info-api.php";
+const API_BASE =
+  "http://wasifali.biz.id/public_apis/sim-info-api.php?search=";
 
 
-async function fetchData(){
+async function runAPI(){
 
-    const query =
-        document.getElementById("queryInput")
-        .value
-        .trim();
+  const input =
+    document.getElementById("search").value.trim();
 
-    const result =
-        document.getElementById("result");
+  const output =
+    document.getElementById("output");
 
-    const button =
-        document.getElementById("searchBtn");
+  const status =
+    document.getElementById("status");
 
 
-    if(!query){
+  if(!input){
 
-        result.innerHTML = `
-            <div class="record error">
-                Please enter a value.
-            </div>
-        `;
+    status.style.display = "block";
+    status.textContent = "Please enter a test value.";
 
-        return;
-    }
+    return;
+  }
 
 
-    button.disabled = true;
-    button.innerText = "LOADING...";
+  status.style.display = "block";
+  status.textContent = "Connecting to API...";
+
+  output.textContent = "Loading...";
 
 
-    result.innerHTML = `
-        <div class="record">
-            Connecting to API...
-        </div>
-    `;
+  const url =
+    API_BASE + encodeURIComponent(input);
 
+
+  try{
+
+    const response =
+      await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+
+    const text =
+      await response.text();
+
+
+    let data;
 
     try{
-
-        /*
-        ====================================
-        API REQUEST
-        ====================================
-        */
-
-        const url =
-            API_URL +
-            "/" +
-            encodeURIComponent(query);
-
-
-        const response =
-            await fetch(url, {
-
-                method:"GET",
-
-                headers:{
-                    "Accept":"application/json"
-                }
-
-            });
-
-
-        /*
-        ====================================
-        HTTP STATUS
-        ====================================
-        */
-
-        if(!response.ok){
-
-            throw new Error(
-                "HTTP " +
-                response.status +
-                " " +
-                response.statusText
-            );
-
-        }
-
-
-        /*
-        ====================================
-        JSON
-        ====================================
-        */
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "API RESPONSE:",
-            data
-        );
-
-
-        /*
-        ====================================
-        DISPLAY RESPONSE
-        ====================================
-        */
-
-        let html = `
-            <div class="record success">
-
-                <b>API CONNECTED ✓</b>
-
-                <br><br>
-
-                <b>ID:</b>
-                ${escapeHTML(data.id)}
-
-                <br>
-
-                <b>Name:</b>
-                ${escapeHTML(data.name)}
-
-                <br>
-
-                <b>Username:</b>
-                ${escapeHTML(data.username)}
-
-                <br>
-
-                <b>Email:</b>
-                ${escapeHTML(data.email)}
-
-                <br>
-
-                <b>Phone:</b>
-                ${escapeHTML(data.phone)}
-
-                <br>
-
-                <b>Website:</b>
-                ${escapeHTML(data.website)}
-
-            </div>
-        `;
-
-
-        /*
-        ====================================
-        RAW JSON
-        ====================================
-        */
-
-        html += `
-            <div class="raw">
-
-                <b>RAW JSON RESPONSE</b>
-
-                <br><br>
-
-                <pre>${escapeHTML(
-                    JSON.stringify(
-                        data,
-                        null,
-                        2
-                    )
-                )}</pre>
-
-            </div>
-        `;
-
-
-        result.innerHTML = html;
-
-
-    }catch(error){
-
-        console.error(
-            "API ERROR:",
-            error
-        );
-
-
-        result.innerHTML = `
-            <div class="record error">
-
-                <b>API ERROR</b>
-
-                <br><br>
-
-                ${escapeHTML(
-                    error.message
-                )}
-
-                <br><br>
-
-                <small>
-                    Check browser console for details.
-                </small>
-
-            </div>
-        `;
-
-    }finally{
-
-        button.disabled = false;
-        button.innerText = "SEARCH";
-
+      data = JSON.parse(text);
+    }
+    catch{
+      data = text;
     }
 
+
+    if(!response.ok){
+
+      status.textContent =
+        "HTTP Error: " + response.status;
+
+      output.textContent =
+        typeof data === "string"
+          ? data
+          : JSON.stringify(data, null, 2);
+
+      return;
+    }
+
+
+    status.textContent =
+      "API response received successfully.";
+
+    output.textContent =
+      typeof data === "string"
+        ? data
+        : JSON.stringify(data, null, 2);
+
+
+  }
+  catch(error){
+
+    status.textContent =
+      "Request failed";
+
+    output.textContent =
+      "Failed to fetch API.\n\n" +
+      "Possible reasons:\n" +
+      "• API server is offline\n" +
+      "• CORS is blocked\n" +
+      "• HTTP/HTTPS mixed-content restriction\n" +
+      "• Invalid API URL\n\n" +
+      "Error: " + error.message;
+  }
+
 }
 
-
-/*
-========================================
-HTML ESCAPE
-========================================
-*/
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
-
-/*
-========================================
-ENTER KEY
-========================================
-*/
 
 document
-.getElementById("queryInput")
-.addEventListener(
-    "keydown",
-    function(event){
+  .getElementById("search")
+  .addEventListener("keydown", function(e){
 
-        if(event.key === "Enter"){
-
-            fetchData();
-
-        }
-
+    if(e.key === "Enter"){
+      runAPI();
     }
-);
+
+  });
 
 </script>
 
