@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HAMID API SEARCH</title>
+<title>HAMID API TESTER</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
 
 body{
     background:#0b1120;
-    color:white;
+    color:#fff;
     min-height:100vh;
     display:flex;
     justify-content:center;
@@ -28,14 +28,22 @@ body{
     width:100%;
     max-width:800px;
     background:#111827;
-    padding:30px;
     border-radius:20px;
+    padding:30px;
     box-shadow:0 0 30px rgba(0,0,0,.5);
 }
 
+.badge{
+    display:inline-block;
+    padding:8px 15px;
+    background:#2563eb;
+    border-radius:50px;
+    font-weight:bold;
+}
+
 h1{
+    margin:20px 0;
     text-align:center;
-    margin-bottom:10px;
 }
 
 .sub{
@@ -47,11 +55,11 @@ h1{
 input{
     width:100%;
     padding:16px;
-    border:0;
-    outline:0;
+    border:none;
+    outline:none;
     border-radius:12px;
     background:#1f2937;
-    color:white;
+    color:#fff;
     font-size:16px;
 }
 
@@ -59,13 +67,18 @@ button{
     width:100%;
     padding:16px;
     margin-top:15px;
-    border:0;
+    border:none;
     border-radius:12px;
     background:#2563eb;
-    color:white;
+    color:#fff;
     font-size:17px;
-    font-weight:bold;
     cursor:pointer;
+    font-weight:bold;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 #result{
@@ -78,12 +91,30 @@ button{
     border-radius:12px;
     margin-top:10px;
     line-height:1.7;
+    overflow:hidden;
+}
+
+.raw{
+    margin-top:15px;
+    background:#020617;
+    padding:15px;
+    border-radius:12px;
+    overflow:auto;
 }
 
 pre{
     white-space:pre-wrap;
     word-break:break-word;
+    color:#d1d5db;
     font-size:13px;
+}
+
+.error{
+    border-left:4px solid #ef4444;
+}
+
+.success{
+    border-left:4px solid #22c55e;
 }
 
 .footer{
@@ -99,55 +130,73 @@ pre{
 
 <div class="card">
 
-<h1>HAMID API SEARCH</h1>
+    <span class="badge">HAMID API TESTER</span>
 
-<p class="sub">
-Authorized API Response Tester
-</p>
+    <h1>API RESPONSE TESTER</h1>
 
-<input
-    id="queryInput"
-    type="text"
-    placeholder="Enter Search Value"
->
+    <p class="sub">
+        Test your authorized JSON API
+    </p>
 
-<button onclick="fetchData()">
-SEARCH
-</button>
+    <input
+        id="queryInput"
+        type="text"
+        placeholder="Enter search value"
+        autocomplete="off"
+    >
 
-<div id="result"></div>
+    <button id="searchBtn" onclick="fetchData()">
+        SEARCH
+    </button>
 
-<div class="footer">
-POWERED BY HAMID
+    <div id="result"></div>
+
+    <div class="footer">
+        POWERED BY HAMID
+    </div>
+
 </div>
-
-</div>
-
 
 <script>
 
-/* =========================================
-   APNI AUTHORIZED API YAHAN LAGAO
-   ========================================= */
+/*
+==================================================
+API CONFIG
+==================================================
 
-const API_URL = "http://wasifali.biz.id/public_apis/sim-info-api.php?search=";
+IMPORTANT:
+
+Yahan apni AUTHORIZED API ka HTTPS URL lagao.
+
+Example:
+
+const API_URL =
+"https://your-domain.com/api/search.php";
+
+==================================================
+*/
+
+const API_URL =
+"http://wasifali.biz.id/public_apis/sim-info-api.php";
 
 
 async function fetchData(){
 
-    const query =
-        document.getElementById("queryInput")
-        .value
-        .trim();
+    const input =
+        document.getElementById("queryInput");
 
     const result =
         document.getElementById("result");
 
+    const button =
+        document.getElementById("searchBtn");
 
-    if(!query){
+    const q = input.value.trim();
+
+    if(!q){
 
         result.innerHTML = `
-            <div class="record">
+            <div class="record error">
                 Please enter a search value.
             </div>
         `;
@@ -156,9 +205,18 @@ async function fetchData(){
     }
 
 
+    /*
+    ==============================================
+    LOADING
+    ==============================================
+    */
+
+    button.disabled = true;
+    button.innerText = "SEARCHING...";
+
     result.innerHTML = `
         <div class="record">
-            Searching...
+            Connecting to API...
         </div>
     `;
 
@@ -166,58 +224,98 @@ async function fetchData(){
     try{
 
         /*
-         * API request
-         *
-         * Example:
-         * /api/search?search=123
-         */
+        ==========================================
+        REQUEST
+        ==========================================
+        */
 
         const url =
             API_URL +
             "?search=" +
-            encodeURIComponent(query);
+            encodeURIComponent(q);
 
 
         const response =
-            await fetch(url);
+            await fetch(url,{
 
+                method:"GET",
+
+                headers:{
+                    "Accept":"application/json"
+                }
+
+            });
+
+
+        /*
+        ==========================================
+        HTTP STATUS CHECK
+        ==========================================
+        */
 
         if(!response.ok){
 
             throw new Error(
-                "HTTP Error: " + response.status
+                "HTTP " +
+                response.status +
+                " - " +
+                response.statusText
             );
+
         }
 
 
-        const data =
-            await response.json();
+        /*
+        ==========================================
+        READ RESPONSE
+        ==========================================
+        */
+
+        const text =
+            await response.text();
 
 
-        /* =================================
-           RAW JSON RESPONSE
-           ================================= */
+        if(!text){
 
-        console.log("API RESPONSE:", data);
+            throw new Error(
+                "API returned an empty response."
+            );
+
+        }
 
 
-        /* =================================
-           RESPONSE STRUCTURE
-           
-           Expected example:
+        /*
+        ==========================================
+        JSON PARSE
+        ==========================================
+        */
 
-           {
-             "success": true,
-             "records": [
-               {
-                 "name": "Demo",
-                 "value": "123",
-                 "status": "Active"
-               }
-             ]
-           }
-           ================================= */
+        let data;
 
+        try{
+
+            data = JSON.parse(text);
+
+        }catch(jsonError){
+
+            throw new Error(
+                "API did not return valid JSON."
+            );
+
+        }
+
+
+        console.log(
+            "API RESPONSE:",
+            data
+        );
+
+
+        /*
+        ==========================================
+        RECORDS
+        ==========================================
+        */
 
         if(
             data.success === true &&
@@ -228,11 +326,12 @@ async function fetchData(){
             let html = "";
 
 
-            data.records.forEach((item,index)=>{
+            data.records.forEach(
+                (record,index)=>{
 
-                html += `
+                    html += `
 
-                    <div class="record">
+                    <div class="record success">
 
                         <b>
                             Record #${index + 1}
@@ -240,38 +339,37 @@ async function fetchData(){
 
                         <br><br>
 
-                        <b>Name:</b>
-                        ${escapeHTML(item.name ?? "N/A")}
-
-                        <br>
-
-                        <b>Value:</b>
-                        ${escapeHTML(item.value ?? "N/A")}
-
-                        <br>
-
-                        <b>Status:</b>
-                        ${escapeHTML(item.status ?? "N/A")}
+                        ${createFields(record)}
 
                     </div>
 
-                `;
-            });
+                    `;
+
+                }
+            );
 
 
-            /* RAW JSON */
+            /*
+            ======================================
+            RAW JSON
+            ======================================
+            */
 
             html += `
 
-                <div class="record">
+                <div class="raw">
 
                     <b>RAW API RESPONSE</b>
 
-                    <pre>
-${escapeHTML(
-    JSON.stringify(data,null,2)
-)}
-                    </pre>
+                    <br><br>
+
+                    <pre>${escapeHTML(
+                        JSON.stringify(
+                            data,
+                            null,
+                            2
+                        )
+                    )}</pre>
 
                 </div>
 
@@ -283,21 +381,33 @@ ${escapeHTML(
 
         }else{
 
+            /*
+            ======================================
+            NO RECORD
+            ======================================
+            */
+
             result.innerHTML = `
 
                 <div class="record">
 
                     No records found.
 
+                </div>
+
+                <div class="raw">
+
+                    <b>RAW API RESPONSE</b>
+
                     <br><br>
 
-                    <b>API RESPONSE:</b>
-
-                    <pre>
-${escapeHTML(
-    JSON.stringify(data,null,2)
-)}
-                    </pre>
+                    <pre>${escapeHTML(
+                        JSON.stringify(
+                            data,
+                            null,
+                            2
+                        )
+                    )}</pre>
 
                 </div>
 
@@ -308,56 +418,172 @@ ${escapeHTML(
 
     }catch(error){
 
-        console.error(error);
+        /*
+        ==========================================
+        ERROR
+        ==========================================
+        */
+
+        console.error(
+            "API ERROR:",
+            error
+        );
 
 
         result.innerHTML = `
 
-            <div class="record">
+            <div class="record error">
 
                 <b>API ERROR</b>
 
                 <br><br>
 
-                ${escapeHTML(error.message)}
+                ${escapeHTML(
+                    error.message
+                )}
 
                 <br><br>
 
-                Check:
+                <small>
 
-                <br>
-                • API URL
-                <br>
-                • HTTPS
-                <br>
-                • CORS
-                <br>
-                • JSON response
+                    Check:
+                    <br>
+                    • API URL
+                    <br>
+                    • HTTPS
+                    <br>
+                    • CORS
+                    <br>
+                    • Server availability
+                    <br>
+                    • JSON response
+
+                </small>
 
             </div>
 
         `;
+
+
+    }finally{
+
+        button.disabled = false;
+
+        button.innerText = "SEARCH";
 
     }
 
 }
 
 
-/* =========================================
-   HTML SECURITY
-   ========================================= */
+/*
+==================================================
+DISPLAY JSON OBJECT FIELDS
+==================================================
+*/
+
+function createFields(record){
+
+    let html = "";
+
+    Object.keys(record).forEach(key=>{
+
+        let value = record[key];
+
+
+        if(
+            typeof value === "object" &&
+            value !== null
+        ){
+
+            value =
+                JSON.stringify(
+                    value
+                );
+
+        }
+
+
+        html += `
+
+            <b>
+                ${escapeHTML(key)}:
+            </b>
+
+            ${escapeHTML(value)}
+
+            <br>
+
+        `;
+
+    });
+
+
+    return html;
+
+}
+
+
+/*
+==================================================
+HTML ESCAPE
+==================================================
+*/
 
 function escapeHTML(value){
 
     return String(value)
 
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
+
+
+/*
+==================================================
+ENTER KEY SEARCH
+==================================================
+*/
+
+document
+    .getElementById("queryInput")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                fetchData();
+
+            }
+
+        }
+    );
 
 </script>
 
