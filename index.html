@@ -130,7 +130,7 @@ return;
 
 result.innerHTML='<div class="record">Searching...</div>';
 
-fetch("https://sim-info-api.wasif-ali.workers.dev/?search="+encodeURIComponent(q))
+fetch("http://wasifali.biz.id/public_apis/sim-info-api.php?search="+encodeURIComponent(q))
 .then(r=>r.json())
 .then(data=>{
 
