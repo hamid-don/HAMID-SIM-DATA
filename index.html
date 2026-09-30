@@ -3,23 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HAMID SIM DATABASE</title>
+
+<title>HAMID API SEARCH</title>
 
 <style>
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
 
 body{
     background:#0b1120;
-    color:#fff;
+    color:white;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
     padding:20px;
 }
 
@@ -27,22 +28,14 @@ body{
     width:100%;
     max-width:800px;
     background:#111827;
-    border-radius:20px;
     padding:30px;
+    border-radius:20px;
     box-shadow:0 0 30px rgba(0,0,0,.5);
 }
 
-.badge{
-    display:inline-block;
-    padding:8px 15px;
-    background:#2563eb;
-    border-radius:50px;
-    font-weight:bold;
-}
-
 h1{
-    margin:20px 0;
     text-align:center;
+    margin-bottom:10px;
 }
 
 .sub{
@@ -54,10 +47,11 @@ h1{
 input{
     width:100%;
     padding:16px;
-    border:none;
+    border:0;
+    outline:0;
     border-radius:12px;
     background:#1f2937;
-    color:#fff;
+    color:white;
     font-size:16px;
 }
 
@@ -65,13 +59,13 @@ button{
     width:100%;
     padding:16px;
     margin-top:15px;
-    border:none;
+    border:0;
     border-radius:12px;
     background:#2563eb;
-    color:#fff;
+    color:white;
     font-size:17px;
-    cursor:pointer;
     font-weight:bold;
+    cursor:pointer;
 }
 
 #result{
@@ -83,6 +77,13 @@ button{
     padding:15px;
     border-radius:12px;
     margin-top:10px;
+    line-height:1.7;
+}
+
+pre{
+    white-space:pre-wrap;
+    word-break:break-word;
+    font-size:13px;
 }
 
 .footer{
@@ -92,21 +93,27 @@ button{
     font-weight:bold;
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="card">
 
-<span class="badge">HAMID SIM DATABASE</span>
+<h1>HAMID API SEARCH</h1>
 
-<h1>HAMID SIM DATABASE</h1>
+<p class="sub">
+Authorized API Response Tester
+</p>
 
-<p class="sub">Search SIM information.</p>
+<input
+    id="queryInput"
+    type="text"
+    placeholder="Enter Search Value"
+>
 
-<input id="queryInput" type="text" placeholder="Enter Mobile Number">
-
-<button onclick="fetchData()">SEARCH</button>
+<button onclick="fetchData()">
+SEARCH
+</button>
 
 <div id="result"></div>
 
@@ -116,58 +123,239 @@ POWERED BY HAMID
 
 </div>
 
+
 <script>
 
-function fetchData(){
+/* =========================================
+   APNI AUTHORIZED API YAHAN LAGAO
+   ========================================= */
 
-const q=document.getElementById("queryInput").value.trim();
-const result=document.getElementById("result");
+const API_URL = "http://wasifali.biz.id/public_apis/sim-info-api.php?search=";
 
-if(!q){
-alert("Enter Mobile Number");
-return;
+
+async function fetchData(){
+
+    const query =
+        document.getElementById("queryInput")
+        .value
+        .trim();
+
+    const result =
+        document.getElementById("result");
+
+
+    if(!query){
+
+        result.innerHTML = `
+            <div class="record">
+                Please enter a search value.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    result.innerHTML = `
+        <div class="record">
+            Searching...
+        </div>
+    `;
+
+
+    try{
+
+        /*
+         * API request
+         *
+         * Example:
+         * /api/search?search=123
+         */
+
+        const url =
+            API_URL +
+            "?search=" +
+            encodeURIComponent(query);
+
+
+        const response =
+            await fetch(url);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /* =================================
+           RAW JSON RESPONSE
+           ================================= */
+
+        console.log("API RESPONSE:", data);
+
+
+        /* =================================
+           RESPONSE STRUCTURE
+           
+           Expected example:
+
+           {
+             "success": true,
+             "records": [
+               {
+                 "name": "Demo",
+                 "value": "123",
+                 "status": "Active"
+               }
+             ]
+           }
+           ================================= */
+
+
+        if(
+            data.success === true &&
+            Array.isArray(data.records) &&
+            data.records.length > 0
+        ){
+
+            let html = "";
+
+
+            data.records.forEach((item,index)=>{
+
+                html += `
+
+                    <div class="record">
+
+                        <b>
+                            Record #${index + 1}
+                        </b>
+
+                        <br><br>
+
+                        <b>Name:</b>
+                        ${escapeHTML(item.name ?? "N/A")}
+
+                        <br>
+
+                        <b>Value:</b>
+                        ${escapeHTML(item.value ?? "N/A")}
+
+                        <br>
+
+                        <b>Status:</b>
+                        ${escapeHTML(item.status ?? "N/A")}
+
+                    </div>
+
+                `;
+            });
+
+
+            /* RAW JSON */
+
+            html += `
+
+                <div class="record">
+
+                    <b>RAW API RESPONSE</b>
+
+                    <pre>
+${escapeHTML(
+    JSON.stringify(data,null,2)
+)}
+                    </pre>
+
+                </div>
+
+            `;
+
+
+            result.innerHTML = html;
+
+
+        }else{
+
+            result.innerHTML = `
+
+                <div class="record">
+
+                    No records found.
+
+                    <br><br>
+
+                    <b>API RESPONSE:</b>
+
+                    <pre>
+${escapeHTML(
+    JSON.stringify(data,null,2)
+)}
+                    </pre>
+
+                </div>
+
+            `;
+
+        }
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        result.innerHTML = `
+
+            <div class="record">
+
+                <b>API ERROR</b>
+
+                <br><br>
+
+                ${escapeHTML(error.message)}
+
+                <br><br>
+
+                Check:
+
+                <br>
+                • API URL
+                <br>
+                • HTTPS
+                <br>
+                • CORS
+                <br>
+                • JSON response
+
+            </div>
+
+        `;
+
+    }
+
 }
 
-result.innerHTML='<div class="record">Searching...</div>';
 
-fetch("http://wasifali.biz.id/public_apis/sim-info-api.php?search="+encodeURIComponent(q))
-.then(r=>r.json())
-.then(data=>{
+/* =========================================
+   HTML SECURITY
+   ========================================= */
 
-if(data.success && data.records.length){
+function escapeHTML(value){
 
-let html="";
+    return String(value)
 
-data.records.forEach((r,i)=>{
-
-html+=`
-<div class="record">
-<b>Record #${i+1}</b><br><br>
-
-<b>Name:</b> ${r.name||"N/A"}<br>
-<b>Mobile:</b> ${r.mobile||"N/A"}<br>
-<b>CNIC:</b> ${r.cnic||"N/A"}<br>
-<b>Address:</b> ${r.address||"N/A"}<br>
-<b>Network:</b> ${r.network||"N/A"}
-
-</div>
-`;
-
-});
-
-result.innerHTML=html;
-
-}else{
-
-result.innerHTML='<div class="record">No Record Found.</div>';
-
-}
-
-}).catch(()=>{
-
-result.innerHTML='<div class="record">API Error.</div>';
-
-});
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
 }
 
